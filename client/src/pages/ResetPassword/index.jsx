@@ -21,6 +21,7 @@ import { selectLocale } from '@containers/App/selectors';
 import { setLocale } from '@containers/App/actions';
 
 import { createStructuredSelector } from 'reselect';
+import encryptPayload from '@utils/encryptPayload';
 import { resetRequest } from './actions';
 import { selectResetError } from './selectors';
 
@@ -59,7 +60,10 @@ const ResetPassword = ({ locale }) => {
   }, [isLoggedIn, navigate]);
 
   const onSubmit = (data) => {
-    dispatch(resetRequest(token, data));
+    const newPassword = encryptPayload(data?.newPassword);
+    const confirmPassword = encryptPayload(data?.confirmPassword);
+
+    dispatch(resetRequest(token, { newPassword, confirmPassword }));
   };
 
   const handleClick = (event) => {

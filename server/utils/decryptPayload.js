@@ -1,23 +1,31 @@
-const CryptoJS = require('crypto-js')
+/* eslint-disable quotes */
+/* eslint-disable comma-dangle */
+/* eslint-disable semi */
+const CryptoJS = require("crypto-js");
 
-const decryptObjectPayload = token => {
+const decryptObjectPayload = (dataObject) => {
   try {
-    const bytes = CryptoJS.AES.decrypt(token, process.env.TOKEN_PAYLOAD)
-    return JSON.parse(bytes.toString(CryptoJS.enc.Utf8))
+    const decryptedData = {};
+    for (const key in dataObject) {
+      const bytes = CryptoJS.AES.decrypt(dataObject[key], process.env.TOKEN_PAYLOAD);
+      decryptedData[key] = bytes.toString(CryptoJS.enc.Utf8);
+    }
+    return decryptedData;
   } catch (error) {
-    return null
+    console.error(error);
+    return null;
   }
-}
-const decryptTextPayload = token => {
+};
+const decryptTextPayload = (token) => {
   try {
-    const bytes = CryptoJS.AES.decrypt(token, process.env.TOKEN_PAYLOAD)
-    return bytes.toString(CryptoJS.enc.Utf8)
+    const bytes = CryptoJS.AES.decrypt(token, process.env.TOKEN_PAYLOAD);
+    return bytes.toString(CryptoJS.enc.Utf8);
   } catch (error) {
-    return null
+    return null;
   }
-}
+};
 
 module.exports = {
   decryptObjectPayload,
-  decryptTextPayload
-}
+  decryptTextPayload,
+};

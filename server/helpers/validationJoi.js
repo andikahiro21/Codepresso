@@ -82,8 +82,29 @@ const validateBodyForgot = (reqBody) => {
   return null;
 };
 
+const validateBodyReset = (reqBody) => {
+  const schema = Joi.object({
+    newPassword: Joi.string().min(6).required(),
+    confirmPassword: Joi.string().valid(Joi.ref("newPassword")).required().messages({
+      "string.empty": "confirmPassword is required.",
+      "any.only": "confirmPassword must be the same as newPassword",
+      "any.required": "confirmPassword is required.",
+    }),
+  });
+  const { error } = schema.validate(reqBody, {
+    abortEarly: false,
+  });
+
+  if (error) {
+    return error.details.map((err) => err.message).join(", ");
+  }
+
+  return null;
+};
+
 module.exports = {
   validateBodyRegister,
   validateBodyLogin,
   validateBodyForgot,
+  validateBodyReset,
 };

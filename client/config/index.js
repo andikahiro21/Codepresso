@@ -9,6 +9,9 @@ const config = {
   api: {
     host: env.API_HOST,
   },
+  auth: {
+    tokenPayload: env.TOKEN_PAYLOAD,
+  },
 };
 
 export default config;
