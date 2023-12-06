@@ -1,0 +1,13 @@
+@mixin directionY {
+  display: flex;
+  flex-direction: column;
+}
+
+@mixin directionX {
+  display: flex;
+  flex-direction: row;
+}
+
+@mixin boxShadow {
+  box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.14);
+}

@@ -1,0 +1,54 @@
+@import '@styles/base';
+
+.service {
+  height: fit-content;
+  padding-top: 3rem;
+  @include apply-at-xl-size {
+    height: 85.5vh;
+  }
+  .titleCont {
+    padding-left: 2rem;
+    @include apply-at-xl-size {
+      padding-left: 6rem;
+    }
+    .title {
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+  }
+  .cardContainer {
+    @include directionY;
+    padding-top: 4rem;
+    gap: 3rem;
+    width: 100%;
+    align-items: center;
+    padding-bottom: 2rem;
+    @include apply-at-xl-size {
+      @include directionX;
+      gap: 3rem;
+      padding-bottom: 0rem;
+      justify-content: center;
+    }
+    .card {
+      @include directionY;
+      @include boxShadow;
+      align-items: center;
+      width: 18rem;
+      height: 13rem;
+      border-radius: 1rem;
+      background-color: $color-white;
+      justify-content: center;
+      gap: 0.5rem;
+      .name {
+        font-size: 1.2rem;
+        font-weight: 600;
+      }
+      .desc {
+        text-align: center;
+        width: 90%;
+        font-size: 0.8rem;
+        color: $color-dark-grey;
+      }
+    }
+  }
+}

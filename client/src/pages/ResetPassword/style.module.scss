@@ -1,0 +1,217 @@
+@import '@styles/base';
+
+.resetContainer {
+  @include directionX;
+  height: 100vh;
+  width: 100%;
+  .error {
+    font-size: 15px;
+    color: $color-light-red;
+  }
+  .errorReset {
+    font-size: 20px;
+    color: $color-white;
+    width: 75%;
+    display: flex;
+    justify-content: center;
+    background-color: $color-dark-red;
+  }
+  .left {
+    @include directionY;
+    width: 50%;
+    background-image: url('../../static/images/login-left.png'), url('../../static/images/backgroundLogin.png');
+    background-repeat: no-repeat, repeat;
+    align-items: center;
+    padding-top: 6rem;
+    text-align: center;
+    display: none;
+    @include apply-at-xl-size {
+      display: block;
+      width: 50%;
+    }
+    .title {
+      color: $color-white;
+      font-size: 2rem;
+      font-weight: 600;
+    }
+    .desc {
+      @include directionX;
+      justify-content: center;
+      color: $color-white;
+      width: 100%;
+      .descText {
+        width: 70%;
+      }
+    }
+  }
+  .card {
+    @include directionY;
+    height: 100%;
+    align-items: center;
+    width: 100%;
+    @include apply-at-xl-size {
+      width: 50%;
+    }
+
+    .header {
+      @include directionX;
+      padding-top: 3rem;
+      width: 100%;
+      justify-content: space-between;
+      .btnBackCont {
+        padding-left: 3rem;
+        cursor: pointer;
+        @include apply-at-xl-size {
+          padding-left: 8.5rem;
+        }
+      }
+      .langCont {
+        padding-right: 2rem;
+        @include apply-at-xl-size {
+          padding-right: 6rem;
+        }
+        .toggle {
+          @include directionX;
+          align-items: center;
+          cursor: pointer;
+          .avatar {
+            width: 1.2rem;
+            height: 1.2rem;
+            box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+            margin-right: 0.5rem;
+          }
+
+          .lang {
+            font-weight: 700;
+            font-size: 1rem;
+            text-transform: uppercase;
+          }
+
+          .arrow {
+            font-size: 1rem;
+          }
+        }
+      }
+    }
+
+    .title {
+      padding-top: 50px;
+      font-size: 32px;
+      font-weight: 600;
+      letter-spacing: 2px;
+
+      @include apply-at-xl-size {
+        padding-top: 1rem;
+      }
+    }
+    .desc {
+      font-size: 1rem;
+      font-weight: 400;
+      color: $color-dark-grey;
+    }
+    .form {
+      padding-top: 30px;
+      width: 80%;
+      @include apply-at-xl-size {
+        padding-left: 10rem;
+      }
+      form {
+        .email {
+          @include directionY;
+          label {
+            font-weight: 600;
+            font-size: 24px;
+          }
+          input {
+            width: 98%;
+            height: 40px;
+            border-radius: 5px;
+            border: 0.5px solid $color-dark-blue;
+            outline: none;
+            padding-left: 3%;
+            @include apply-at-xl-size {
+              width: 70%;
+            }
+          }
+
+          input:focus {
+            border: 2px solid $color-dark-blue;
+          }
+        }
+        .password {
+          @include directionY;
+          padding-top: 20px;
+          label {
+            font-weight: 600;
+            font-size: 24px;
+          }
+          input {
+            width: 98%;
+            height: 40px;
+            border-radius: 5px;
+            border: 0.5px solid $color-dark-blue;
+            outline: none;
+            padding-left: 3%;
+            @include apply-at-xl-size {
+              width: 70%;
+            }
+          }
+          input:focus {
+            border: 2px solid $color-dark-blue;
+          }
+        }
+        .forgotPassword {
+          @include directionX;
+          justify-content: end;
+          padding-top: 20px;
+          @include apply-at-xl-size {
+            padding-right: 27%;
+          }
+          a {
+            text-decoration: none;
+            color: $color-black;
+            font-size: 14px;
+          }
+        }
+        .loginButtonContainer {
+          padding-top: 20px;
+          button {
+            width: 100%;
+            height: 45px;
+            border-radius: 10px;
+            border: none;
+            outline: none;
+            background-color: $color-green;
+            color: $color-white;
+            cursor: pointer;
+            @include apply-at-xl-size {
+              width: 73%;
+            }
+          }
+          button:hover {
+            filter: brightness(120%);
+          }
+        }
+        .registerCont {
+          @include directionX;
+          font-size: 0.8rem;
+          justify-content: center;
+          width: 100%;
+          padding-top: 1rem;
+          gap: 0.2rem;
+          @include apply-at-xl-size {
+            width: 75%;
+          }
+          .registerTitle {
+            color: $color-dark-grey;
+          }
+          a {
+            text-decoration: none;
+            color: $color-dark-blue;
+            font-weight: 600;
+          }
+        }
+      }
+    }
+  }
+}

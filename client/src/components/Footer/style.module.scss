@@ -1,0 +1,50 @@
+@import '@styles/base';
+
+.footer {
+  @include directionY;
+  background-image: url('../../static/images/bg-about.png');
+  height: fit-content;
+  align-items: center;
+  padding-top: 2rem;
+  .company {
+    @include directionX;
+    align-items: center;
+
+    .logo {
+      width: 1.5rem;
+      height: 2rem;
+      margin-right: 0.5rem;
+      padding: 0;
+    }
+    .title {
+      font-weight: 800;
+      color: $color-white;
+      font-size: 2rem;
+    }
+  }
+  .navFooter {
+    color: $color-white;
+    .mission {
+      @include directionY;
+      align-items: center;
+      text-align: center;
+      padding-top: 1.5rem;
+      .title {
+        display: none;
+      }
+      .desc {
+        width: 70%;
+        color: $color-light-grey;
+      }
+      .socCont {
+        @include directionX;
+        gap: 0.8rem;
+        margin-top: 1.5rem;
+      }
+      .copyright {
+        margin-top: 0.8rem;
+        margin-bottom: 2rem;
+      }
+    }
+  }
+}

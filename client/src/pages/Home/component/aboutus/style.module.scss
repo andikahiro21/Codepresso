@@ -1,0 +1,70 @@
+@import '@styles/base';
+
+.aboutUs {
+  background-image: url('../../../../static/images/bg-about.png');
+  height: fit-content;
+  color: $color-white;
+  @include apply-at-xl-size {
+    height: 85.5vh;
+  }
+  .title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    padding-left: 2rem;
+    padding-top: 3rem;
+    @include apply-at-xl-size {
+      padding-left: 4rem;
+    }
+  }
+  .description {
+    @include directionY;
+    padding-top: 4rem;
+    padding-left: 2rem;
+    @include apply-at-xl-size {
+      @include directionX;
+      padding-left: 4rem;
+    }
+    .left {
+      width: 100%;
+      @include apply-at-xl-size {
+        width: 50%;
+      }
+      .moto {
+        font-size: 1.5rem;
+        font-weight: 800;
+      }
+      .desc {
+        margin-top: 1rem;
+        font-size: 1rem;
+        width: 97%;
+        @include apply-at-xl-size {
+          width: 65%;
+        }
+      }
+      button {
+        padding: 0.5rem 1.5rem 0.5rem 1.5rem;
+        border-radius: 0.5rem;
+        border: none;
+        margin-top: 2rem;
+        cursor: pointer;
+        @include apply-at-xl-size {
+          margin-top: 3rem;
+        }
+      }
+      button:hover {
+        filter: brightness(90%);
+      }
+    }
+    .right {
+      padding-top: 3rem;
+      margin-bottom: 3rem;
+      @include apply-at-xl-size {
+        padding-top: 0rem;
+        margin-bottom: 0rem;
+      }
+      img {
+        width: 90%;
+      }
+    }
+  }
+}

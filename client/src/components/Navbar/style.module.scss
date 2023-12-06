@@ -1,0 +1,147 @@
+@import '@styles/base';
+
+.popUpCard {
+  @include directionX;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100vh;
+  transform: translate(-50%, -50%);
+  z-index: 100;
+  background-color: $color-white-fade;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  .closeButton {
+    position: absolute;
+    top: 10%;
+    right: 10%;
+  }
+  ul {
+    font-size: 2rem;
+    a {
+      text-decoration: none;
+      color: $color-dark-blue;
+      li {
+        font-weight: 400;
+        margin-top: 1rem;
+      }
+    }
+  }
+}
+
+.headerWrapper {
+  position: sticky;
+  z-index: 999;
+  top: 0;
+  .contentWrapper {
+    @include directionX;
+    color: var(--color-text);
+    padding: 1.5rem 1.5rem 1.5rem 1rem;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 1rem;
+    background-image: url('../../static/images/bg-image.png');
+    background-size: contain;
+    @include apply-at-md-size {
+      padding: 1.5rem 3rem 1.5rem 3rem;
+    }
+    .logoImage {
+      @include directionX;
+      cursor: pointer;
+      align-items: center;
+
+      .logo {
+        width: 1.5rem;
+        height: 2rem;
+        margin-right: 0.5rem;
+        padding: 0;
+      }
+      .title {
+        font-weight: 800;
+      }
+    }
+
+    .menuList {
+      display: none;
+      @include apply-at-xl-size {
+        display: block;
+      }
+      ul {
+        @include directionX;
+        list-style: none;
+        gap: 2rem;
+        font-size: 1.1rem;
+        font-weight: 500;
+        a {
+          text-decoration: none;
+          color: $color-dark-blue;
+        }
+      }
+    }
+
+    .toolbar {
+      @include directionX;
+      gap: 1rem;
+      .btnLogin {
+        padding: 0.5rem 1rem 0.5rem 1rem;
+        border-radius: 0.5rem;
+        border: none;
+        background-color: $color-dark-green;
+        color: $color-white;
+        display: none;
+        cursor: pointer;
+        @include apply-at-xl-size {
+          display: block;
+        }
+      }
+      .btnLogin:hover {
+        filter: brightness(110%);
+      }
+      .hamburgerMenu {
+        display: inline;
+        @include apply-at-xl-size {
+          display: none;
+        }
+      }
+      .toggle {
+        @include directionX;
+        align-items: center;
+        cursor: pointer;
+
+        .avatar {
+          width: 1.2rem;
+          height: 1.2rem;
+          box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+          margin-right: 0.5rem;
+        }
+
+        .lang {
+          font-family: Poppins, Arial, Helvetica, sans-serif;
+          font-weight: 700;
+          font-size: 1rem;
+          text-transform: uppercase;
+        }
+
+        .arrow {
+          font-size: 1rem;
+        }
+      }
+    }
+  }
+}
+
+.menu {
+  @include directionX;
+  align-items: center;
+
+  .menuAvatar {
+    width: 1rem;
+    height: 1rem;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    margin-right: 0.5rem;
+  }
+}
