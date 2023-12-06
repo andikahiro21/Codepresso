@@ -1,3 +1,5 @@
+/* eslint-disable semi */
+/* eslint-disable quotes */
 const express = require("express");
 const { login, register, forgotPassword, resetPassword } = require("../controllers/authController");
 const router = express.Router();

@@ -102,9 +102,25 @@ const validateBodyReset = (reqBody) => {
   return null;
 };
 
+const validateBodyCategory = (reqBody) => {
+  const schema = Joi.object({
+    name: Joi.string().required(),
+  });
+  const { error } = schema.validate(reqBody, {
+    abortEarly: false,
+  });
+
+  if (error) {
+    return error.details.map((err) => err.message).join(", ");
+  }
+
+  return null;
+};
+
 module.exports = {
   validateBodyRegister,
   validateBodyLogin,
   validateBodyForgot,
   validateBodyReset,
+  validateBodyCategory,
 };

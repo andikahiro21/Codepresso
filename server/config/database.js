@@ -1,3 +1,6 @@
+/* eslint-disable semi */
+/* eslint-disable comma-dangle */
+/* eslint-disable quotes */
 require("dotenv").config();
 const { DB_USERNAME, DB_PASSWORD, DB_NAME, DB_HOST, DB_DIALECT } = process.env;
 module.exports = {
