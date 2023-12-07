@@ -5,22 +5,41 @@ const { handleServerError, handleClientError } = require("../helpers/handleError
 const handleResponseSuccess = require("../helpers/responseSuccess");
 const { validateBodyCategory } = require("../helpers/validationJoi");
 const { CategoriesMenu, Menus, Purchases } = require("../models");
+const Redis = require("ioredis");
+const redisClient = new Redis();
 
 exports.getCategory = async (req, res) => {
   try {
-    const response = await CategoriesMenu.findAll();
-    return handleResponseSuccess(res, 200, "success", response);
+    let categories = await redisClient.get("categories");
+
+    if (!categories) {
+      const response = await CategoriesMenu.findAll();
+      await redisClient.set("categories", JSON.stringify(response));
+      categories = response;
+    } else {
+      categories = JSON.parse(categories);
+    }
+
+    return handleResponseSuccess(res, 200, "success", categories);
   } catch (error) {
     return handleServerError(res);
   }
 };
-
 exports.getCategoryMenu = async (req, res) => {
   try {
-    const response = await CategoriesMenu.findAll({
-      include: [{ model: Menus, as: "category_menu" }],
-    });
-    return handleResponseSuccess(res, 200, "success", response);
+    let categoryMenus = await redisClient.get("categoryMenus");
+
+    if (!categoryMenus) {
+      const response = await CategoriesMenu.findAll({
+        include: [{ model: Menus, as: "category_menu" }],
+      });
+      await redisClient.set("categoryMenus", JSON.stringify(response));
+      categoryMenus = response;
+    } else {
+      categoryMenus = JSON.parse(categoryMenus);
+    }
+
+    return handleResponseSuccess(res, 200, "success", categoryMenus);
   } catch (error) {
     return handleServerError(res);
   }
@@ -42,6 +61,9 @@ exports.createCategory = async (req, res) => {
     }
 
     const newCategory = await CategoriesMenu.create(newData);
+
+    await redisClient.del("categories");
+    await redisClient.del("categoryMenus");
 
     return handleResponseSuccess(res, 201, "Category Created", newCategory);
   } catch (error) {
@@ -65,6 +87,10 @@ exports.editCategory = async (req, res) => {
       return handleClientError(res, 404, `Category Not Found`);
     }
     await CategoriesMenu.update(newData, { where: { id } });
+
+    await redisClient.del("categories");
+    await redisClient.del("categoryMenus");
+
     return handleResponseSuccess(res, 200, "Category Edited");
   } catch (error) {
     return handleServerError(res);
@@ -94,6 +120,9 @@ exports.deleteCategory = async (req, res) => {
     }
 
     await CategoriesMenu.destroy({ where: { id } });
+
+    await redisClient.del("categories");
+    await redisClient.del("categoryMenus");
 
     return handleResponseSuccess(res, 200, "Category Deleted", selectedCategory);
   } catch (error) {

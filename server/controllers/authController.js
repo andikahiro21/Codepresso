@@ -2,7 +2,7 @@
 /* eslint-disable semi */
 /* eslint-disable quotes */
 const { handleClientError, handleServerError } = require("../helpers/handleError");
-const { User } = require("../models");
+const { Users } = require("../models");
 const { hashPassword, comparePassword } = require("../utils/bcryptPassword");
 const { generateToken, generateTokenReset } = require("../utils/generateToken");
 const sendForgotPasswordEmail = require("../utils/nodemailer");
@@ -10,6 +10,9 @@ const jwt = require("jsonwebtoken");
 const zlib = require("zlib");
 const { validateBodyLogin, validateBodyRegister, validateBodyForgot, validateBodyReset } = require("../helpers/validationJoi");
 const { decryptTextPayload, decryptObjectPayload } = require("../utils/decryptPayload");
+const Redis = require("ioredis");
+const handleResponseSuccess = require("../helpers/responseSuccess");
+const redisClient = new Redis();
 
 exports.login = async (req, res) => {
   try {
@@ -26,21 +29,38 @@ exports.login = async (req, res) => {
     if (validate) {
       return handleClientError(res, 400, validate);
     }
-    const user = await User.findOne({ where: { email: emailDec } });
+
+    const user = await Users.findOne({
+      where: { email: emailDec },
+      attributes: { exclude: ["password"] },
+    });
     if (!user) {
       return handleClientError(res, 404, "User Not Found");
     }
+    const loginAttemptsKey = `loginAttempts:${emailDec}`;
+    const loginAttempts = (await redisClient.get(loginAttemptsKey)) || 0;
 
+    if (parseInt(loginAttempts) >= 3) {
+      return handleClientError(res, 400, "Account locked. Try again in 5 minutes.");
+    }
     const login = await comparePassword(passwordDec, emailDec);
     if (!login) {
+      await redisClient.incr(loginAttemptsKey);
+
+      if (parseInt(loginAttempts) + 1 >= 3) {
+        await redisClient.expire(loginAttemptsKey, 300);
+      }
+
       return handleClientError(res, 400, "Incorrect Password");
     }
-    user.password = undefined;
+
+    await redisClient.del(loginAttemptsKey);
 
     const token = generateToken(user);
 
     res.status(200).json({ data: token, message: "Success" });
   } catch (error) {
+    console.log(error);
     return handleServerError(res);
   }
 };
@@ -53,7 +73,7 @@ exports.register = async (req, res) => {
     if (validate) {
       return handleClientError(res, 400, validate);
     }
-    const existingUser = await User.findOne({ where: { email: decData.email } });
+    const existingUser = await Users.findOne({ where: { email: decData.email } });
     if (existingUser) {
       return handleClientError(res, 400, `User with email ${decData.email} already exist...`);
     }
@@ -61,15 +81,17 @@ exports.register = async (req, res) => {
     const hashingPassword = hashPassword(decData.password);
     decData.password = hashingPassword;
     decData.role = 2;
-    await User.create({
-      fullName: decData.fullName,
+
+    await Users.create({
+      full_name: decData.fullName,
       email: decData.email,
       password: decData.password,
-      phoneNumber: decData.phoneNumber,
+      phone_number: decData.phoneNumber,
       role: decData.role,
+      image: process.env.AVATAR_URL_DEFAULT,
     });
 
-    res.status(201).json({ message: "User Created..." });
+    return handleResponseSuccess(res, 201, "User Created");
   } catch (error) {
     return handleServerError(res);
   }
@@ -84,7 +106,7 @@ exports.forgotPassword = async (req, res) => {
       return handleClientError(res, 400, validate);
     }
 
-    const user = await User.findOne({ where: { email }, attributes: { exclude: ["password"] } });
+    const user = await Users.findOne({ where: { email }, attributes: { exclude: ["password"] } });
     if (!user) {
       return handleClientError(res, 404, "User Not Found");
     }
@@ -122,7 +144,7 @@ exports.resetPassword = async (req, res) => {
 
     const hashingPassword = hashPassword(decData.newPassword);
 
-    await User.update({ password: hashingPassword }, { where: { email: decoded.data.email } });
+    await Users.update({ password: hashingPassword }, { where: { email: decoded.data.email } });
 
     res.status(200).json({ message: "Success" });
   } catch (error) {
