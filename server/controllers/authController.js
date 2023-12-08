@@ -60,7 +60,6 @@ exports.login = async (req, res) => {
 
     res.status(200).json({ data: token, message: "Success" });
   } catch (error) {
-    console.log(error);
     return handleServerError(res);
   }
 };

@@ -47,10 +47,18 @@ module.exports = (sequelize, DataTypes) => {
       note: DataTypes.STRING,
       status: DataTypes.STRING,
       date: DataTypes.DATE,
-      lat_start: DataTypes.FLOAT,
-      long_start: DataTypes.FLOAT,
-      lat_end: DataTypes.FLOAT,
-      long_end: DataTypes.FLOAT,
+      lat_start: {
+        type: DataTypes.DECIMAL(10, 8),
+      },
+      long_start: {
+        type: DataTypes.DECIMAL(11, 8),
+      },
+      lat_end: {
+        type: DataTypes.DECIMAL(10, 8),
+      },
+      long_end: {
+        type: DataTypes.DECIMAL(11, 8),
+      },
     },
     {
       sequelize,

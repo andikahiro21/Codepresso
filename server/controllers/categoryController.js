@@ -109,7 +109,7 @@ exports.deleteCategory = async (req, res) => {
     const menus = await Menus.findAll({ where: { category_id: id } });
 
     for (const menu of menus) {
-      const purchase = await Purchases.findAll({ where: { menuID: menu.id } });
+      const purchase = await Purchases.findAll({ where: { menu_id: menu.id } });
       if (purchase) {
         return handleClientError(res, 400, `Unable to delete the category due to its association with existing pruchase data.`);
       }

@@ -1,13 +1,21 @@
+/* eslint-disable semi */
+/* eslint-disable comma-dangle */
+/* eslint-disable quotes */
 const jwt = require("jsonwebtoken");
 const zlib = require("zlib");
 
 const generateToken = (data) => {
-  return jwt.sign(
+  const token = jwt.sign(
     {
       data,
     },
-    process.env.JWT_SECRET
+    process.env.JWT_SECRET,
+    {
+      expiresIn: "6h",
+    }
   );
+
+  return token;
 };
 
 const generateCompressedToken = (jwtToken) => {

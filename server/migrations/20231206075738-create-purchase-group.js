@@ -40,16 +40,16 @@ module.exports = {
         type: Sequelize.DATE,
       },
       lat_start: {
-        type: Sequelize.FLOAT,
+        type: Sequelize.DECIMAL(10, 8),
       },
       long_start: {
-        type: Sequelize.FLOAT,
+        type: Sequelize.DECIMAL(11, 8),
       },
       lat_end: {
-        type: Sequelize.FLOAT,
+        type: Sequelize.DECIMAL(10, 8),
       },
       long_end: {
-        type: Sequelize.FLOAT,
+        type: Sequelize.DECIMAL(11, 8),
       },
       createdAt: {
         allowNull: false,

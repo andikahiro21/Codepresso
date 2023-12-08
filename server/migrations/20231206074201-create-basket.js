@@ -23,6 +23,34 @@ module.exports = {
           key: "id",
         },
       },
+      sugar_id: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: "sugars",
+          key: "id",
+        },
+      },
+      size_id: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: "sizes",
+          key: "id",
+        },
+      },
+      bean_id: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: "beans",
+          key: "id",
+        },
+      },
+      milk_id: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: "milk",
+          key: "id",
+        },
+      },
       qty: {
         type: Sequelize.INTEGER,
       },

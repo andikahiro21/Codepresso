@@ -12,7 +12,6 @@ const decryptObjectPayload = (dataObject) => {
     }
     return decryptedData;
   } catch (error) {
-    console.error(error);
     return null;
   }
 };

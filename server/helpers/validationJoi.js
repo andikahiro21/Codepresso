@@ -117,10 +117,112 @@ const validateBodyCategory = (reqBody) => {
   return null;
 };
 
+const validateBodyAddons = (reqBody) => {
+  const schema = Joi.object({
+    menu_id: Joi.number().integer().positive().required(),
+    sizes: Joi.array().items(
+      Joi.object({
+        name: Joi.string(),
+        price: Joi.number(),
+      })
+    ),
+    beans: Joi.array().items(
+      Joi.object({
+        name: Joi.string(),
+        price: Joi.number(),
+      })
+    ),
+    milk: Joi.array().items(
+      Joi.object({
+        name: Joi.string(),
+        price: Joi.number(),
+      })
+    ),
+    sugars: Joi.array().items(
+      Joi.object({
+        name: Joi.string(),
+        price: Joi.number(),
+      })
+    ),
+  });
+
+  const { error } = schema.validate(reqBody, {
+    abortEarly: false,
+  });
+
+  if (error) {
+    return error.details.map((err) => err.message).join(", ");
+  }
+
+  return null;
+};
+
+const validateBodyAddress = (reqBody) => {
+  const schema = Joi.object({
+    address_name: Joi.string().required(),
+    lat: Joi.number().required(),
+    long: Joi.number().required(),
+  });
+  const { error } = schema.validate(reqBody, {
+    abortEarly: false,
+  });
+
+  if (error) {
+    return error.details.map((err) => err.message).join(", ");
+  }
+
+  return null;
+};
+
+const validateBodyBasket = (reqBody) => {
+  const schema = Joi.object({
+    menu_id: Joi.number().integer().positive().required(),
+    sugar_id: Joi.number().integer().positive(),
+    size_id: Joi.number().integer().positive(),
+    bean_id: Joi.number().integer().positive(),
+    milk_id: Joi.number().integer().positive(),
+    qty: Joi.number().integer().positive().required(),
+  });
+  const { error } = schema.validate(reqBody, {
+    abortEarly: false,
+  });
+
+  if (error) {
+    return error.details.map((err) => err.message).join(", ");
+  }
+
+  return null;
+};
+
+const validateBodyMenu = (reqBody) => {
+  const schema = Joi.object({
+    name: Joi.string().required(),
+    category_id: Joi.number().integer().required(),
+    description: Joi.string().allow(""),
+    type: Joi.string().required(),
+    image: Joi.any().valid("image/jpeg", "image/png", "image/gif"),
+    price: Joi.number().integer().required(),
+    qty: Joi.number().integer().min(0).required(),
+  });
+  const { error } = schema.validate(reqBody, {
+    abortEarly: false,
+  });
+
+  if (error) {
+    return error.details.map((err) => err.message).join(", ");
+  }
+
+  return null;
+};
+
 module.exports = {
   validateBodyRegister,
   validateBodyLogin,
   validateBodyForgot,
   validateBodyReset,
   validateBodyCategory,
+  validateBodyMenu,
+  validateBodyAddress,
+  validateBodyBasket,
+  validateBodyAddons,
 };

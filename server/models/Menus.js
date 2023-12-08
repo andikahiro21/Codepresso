@@ -31,6 +31,26 @@ module.exports = (sequelize, DataTypes) => {
           name: "menu_id",
         },
       });
+      Menus.hasMany(models.Sugars, {
+        as: "sugar_level",
+        foreignKey: {
+          name: "menu_id",
+        },
+      });
+      Menus.hasMany(models.Sizes, {
+        as: "size",
+        foreignKey: "menu_id",
+      });
+
+      Menus.hasMany(models.Milk, {
+        as: "milk",
+        foreignKey: "menu_id",
+      });
+
+      Menus.hasMany(models.Beans, {
+        as: "bean",
+        foreignKey: "menu_id",
+      });
     }
   }
   Menus.init(

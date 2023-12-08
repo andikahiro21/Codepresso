@@ -25,6 +25,26 @@ module.exports = (sequelize, DataTypes) => {
           name: "menu_id",
         },
       });
+      Baskets.belongsTo(models.Sugars, {
+        foreignKey: {
+          name: "sugar_id",
+        },
+      });
+      Baskets.belongsTo(models.Sizes, {
+        foreignKey: {
+          name: "size_id",
+        },
+      });
+      Baskets.belongsTo(models.Beans, {
+        foreignKey: {
+          name: "bean_id",
+        },
+      });
+      Baskets.belongsTo(models.Milk, {
+        foreignKey: {
+          name: "milk_id",
+        },
+      });
     }
   }
   Baskets.init(

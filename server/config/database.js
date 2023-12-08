@@ -10,6 +10,7 @@ module.exports = {
     database: DB_NAME,
     host: DB_HOST,
     dialect: DB_DIALECT,
+    timezone: "Asia/Jakarta",
   },
   test: {
     username: "root",
