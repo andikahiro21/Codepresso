@@ -5,7 +5,7 @@ const { handleServerError, handleClientError } = require("../helpers/handleError
 const { calculateTotalPrice } = require("../helpers/operation");
 const handleResponseSuccess = require("../helpers/responseSuccess");
 const { validateBodyBasket } = require("../helpers/validationJoi");
-const { CategoriesMenu, Menus, Purchases, Baskets, Sizes, Milk, Beans, Sugars } = require("../models");
+const { Menus, Baskets, Sizes, Milk, Beans, Sugars } = require("../models");
 const Redis = require("ioredis");
 const redisClient = new Redis();
 
@@ -24,7 +24,6 @@ exports.getBasket = async (req, res) => {
 
     return handleResponseSuccess(res, 200, "success", basket);
   } catch (error) {
-    console.log(error);
     return handleServerError(res);
   }
 };
@@ -112,6 +111,32 @@ exports.updateBasket = async (req, res) => {
     await redisClient.del("basket");
 
     return handleResponseSuccess(res, 200, "Basket Updated", existingBasket);
+  } catch (error) {
+    return handleServerError(res);
+  }
+};
+
+exports.deleteBasket = async (req, res) => {
+  try {
+    const basketId = req.params.id;
+    const authData = req.user;
+
+    const existingBasket = await Baskets.findByPk(basketId);
+    if (!existingBasket) {
+      return handleClientError(res, 404, `Basket with ID ${basketId} not found`);
+    }
+
+    if (existingBasket.user_id !== authData.id) {
+      return handleClientError(res, 403, "Unauthorized. You can only delete your own baskets.");
+    }
+
+    await Baskets.destroy({
+      where: { id: basketId },
+    });
+
+    await redisClient.del("basket");
+
+    return handleResponseSuccess(res, 200, "Basket Deleted", existingBasket);
   } catch (error) {
     return handleServerError(res);
   }

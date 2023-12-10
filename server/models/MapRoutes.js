@@ -5,7 +5,7 @@
 "use strict";
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
-  class Address extends Model {
+  class MapRoutes extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -13,33 +13,25 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Address.belongsTo(models.Users, {
-        as: "user_address",
+      MapRoutes.belongsTo(models.PurchaseGroups, {
+        as: "purchaseGroup_routes",
         foreignKey: {
-          name: "user_id",
+          name: "purchase_group_id",
         },
       });
     }
   }
-  Address.init(
+  MapRoutes.init(
     {
-      user_id: DataTypes.INTEGER,
-      address_name: DataTypes.STRING,
-      lat: {
-        type: DataTypes.DECIMAL(10, 8),
-      },
-      long: {
-        type: DataTypes.DECIMAL(11, 8),
-      },
-      active: {
-        type: DataTypes.BOOLEAN,
-      },
+      purchase_group_id: DataTypes.INTEGER,
+      lat: DataTypes.JSON,
+      long: DataTypes.JSON,
     },
     {
       sequelize,
-      modelName: "Address",
-      tableName: "address",
+      modelName: "MapRoutes",
+      tableName: "map_routes",
     }
   );
-  return Address;
+  return MapRoutes;
 };

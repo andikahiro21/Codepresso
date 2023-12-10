@@ -51,6 +51,10 @@ module.exports = (sequelize, DataTypes) => {
     {
       menu_id: DataTypes.INTEGER,
       user_id: DataTypes.INTEGER,
+      milk_id: DataTypes.INTEGER,
+      sugar_id: DataTypes.INTEGER,
+      size_id: DataTypes.INTEGER,
+      bean_id: DataTypes.INTEGER,
       qty: DataTypes.INTEGER,
       price: DataTypes.INTEGER,
     },

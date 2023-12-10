@@ -27,6 +27,7 @@ exports.getAddress = async (req, res) => {
     return handleServerError(res);
   }
 };
+
 exports.getAddressId = async (req, res) => {
   try {
     const { id } = req.params;
@@ -103,6 +104,41 @@ exports.editAddress = async (req, res) => {
     await redisClient.del("address");
 
     return handleResponseSuccess(res, 200, "Address Edited");
+  } catch (error) {
+    return handleServerError(res);
+  }
+};
+
+exports.setAddressActive = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const authData = req.user;
+
+    const userAddresses = await Address.findAll({
+      where: { user_id: authData.id },
+    });
+
+    if (!userAddresses) {
+      return handleClientError(res, 404, "You have not addresses");
+    }
+
+    await Address.update({ active: false }, { where: { user_id: authData.id } });
+
+    const selectedAddress = await Address.findByPk(id);
+
+    if (!selectedAddress) {
+      return handleClientError(res, 404, "Address Not Found");
+    }
+
+    if (selectedAddress.user_id !== authData.id) {
+      return handleClientError(res, 403, "Unauthorized: You are not the owner of this address");
+    }
+
+    await Address.update({ active: true }, { where: { id } });
+
+    await redisClient.del("address");
+
+    return handleResponseSuccess(res, 200, "Address Active");
   } catch (error) {
     return handleServerError(res);
   }

@@ -31,6 +31,26 @@ module.exports = (sequelize, DataTypes) => {
           name: "purchase_group_id",
         },
       });
+      Purchases.belongsTo(models.Sugars, {
+        foreignKey: {
+          name: "sugar_id",
+        },
+      });
+      Purchases.belongsTo(models.Sizes, {
+        foreignKey: {
+          name: "size_id",
+        },
+      });
+      Purchases.belongsTo(models.Beans, {
+        foreignKey: {
+          name: "bean_id",
+        },
+      });
+      Purchases.belongsTo(models.Milk, {
+        foreignKey: {
+          name: "milk_id",
+        },
+      });
     }
   }
   Purchases.init(
@@ -38,6 +58,10 @@ module.exports = (sequelize, DataTypes) => {
       menu_id: DataTypes.INTEGER,
       user_id: DataTypes.INTEGER,
       purchase_group_id: DataTypes.INTEGER,
+      milk_id: DataTypes.INTEGER,
+      sugar_id: DataTypes.INTEGER,
+      size_id: DataTypes.INTEGER,
+      bean_id: DataTypes.INTEGER,
       qty: DataTypes.INTEGER,
       price: DataTypes.INTEGER,
     },

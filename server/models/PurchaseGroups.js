@@ -19,6 +19,12 @@ module.exports = (sequelize, DataTypes) => {
           name: "purchase_group_id",
         },
       });
+      PurchaseGroups.hasMany(models.MapRoutes, {
+        as: "purchaseGroup_routes",
+        foreignKey: {
+          name: "purchase_group_id",
+        },
+      });
       PurchaseGroups.belongsTo(models.Users, {
         as: "user_receiver",
         foreignKey: {
@@ -59,6 +65,8 @@ module.exports = (sequelize, DataTypes) => {
       long_end: {
         type: DataTypes.DECIMAL(11, 8),
       },
+      delivery_cost: DataTypes.INTEGER,
+      distance: DataTypes.FLOAT,
     },
     {
       sequelize,
