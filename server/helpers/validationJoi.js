@@ -215,6 +215,24 @@ const validateBodyMenu = (reqBody) => {
   return null;
 };
 
+const validateBodyPurchase = (reqBody) => {
+  const schema = Joi.object({
+    lat_start: Joi.number().required(),
+    long_start: Joi.number().required(),
+    distance: Joi.number().precision(6).required(),
+    note: Joi.string().optional(),
+  });
+  const { error } = schema.validate(reqBody, {
+    abortEarly: false,
+  });
+
+  if (error) {
+    return error.details.map((err) => err.message).join(", ");
+  }
+
+  return null;
+};
+
 module.exports = {
   validateBodyRegister,
   validateBodyLogin,
@@ -225,4 +243,5 @@ module.exports = {
   validateBodyAddress,
   validateBodyBasket,
   validateBodyAddons,
+  validateBodyPurchase,
 };

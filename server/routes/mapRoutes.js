@@ -5,11 +5,8 @@ const router = express.Router();
 const upload = require("../middleware/uploadMedia");
 const { isUser } = require("../middleware/authorization");
 const Authenticated = require("../middleware/authentication");
+const { getDistance } = require("../controllers/mapController");
 
-router.get("/purchase");
-router.get("/purchase/:id");
-router.put("/purchase/:id", Authenticated, isUser, upload.array());
-router.post("/purchase", Authenticated, isUser, upload.array());
-router.delete("/purchase/:id", Authenticated, isUser);
+router.post("/map/distance", Authenticated, isUser, upload.array(), getDistance);
 
 module.exports = router;

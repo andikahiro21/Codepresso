@@ -5,11 +5,9 @@ const router = express.Router();
 const upload = require("../middleware/uploadMedia");
 const { isUser } = require("../middleware/authorization");
 const Authenticated = require("../middleware/authentication");
+const { createPayment, notificationMidtrans } = require("../controllers/paymentController");
 
-router.get("/payment");
-router.get("/payment/:id");
-router.post("/payment", Authenticated, isUser, upload.array());
-router.put("/payment/:id", Authenticated, isUser, upload.array());
-router.delete("/payment/:id", Authenticated, isUser);
+router.post("/payment", Authenticated, isUser, upload.array(), createPayment);
+router.post("/payment/notification", Authenticated, isUser, notificationMidtrans);
 
 module.exports = router;

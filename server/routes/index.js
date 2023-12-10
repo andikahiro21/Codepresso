@@ -8,6 +8,9 @@ const menuRoute = require("./menuRoutes");
 const addressRoute = require("./addressRoutes");
 const addOnsRoute = require("./addOnsRoutes");
 const basketRoute = require("./basketRoutes");
+const mapRoute = require("./mapRoutes");
+const paymentRoute = require("./paymentRoutes");
+const purchaseRoute = require("./purchaseRoutes");
 
 const router = Router();
 
@@ -17,5 +20,8 @@ router.use(menuRoute);
 router.use(addressRoute);
 router.use(addOnsRoute);
 router.use(basketRoute);
+router.use(mapRoute);
+router.use(paymentRoute);
+router.use(purchaseRoute);
 
 module.exports = router;
