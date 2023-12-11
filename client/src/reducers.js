@@ -8,6 +8,7 @@ import loginReducer from '@pages/Login/reducer';
 import registerReducer from '@pages/Register/reducer';
 import forgotReducer from '@pages/ForgotPassword/reducer';
 import resetReducer from '@pages/ResetPassword/reducer';
+import productReducer from '@pages/Products/reducer';
 import { mapWithPersistor } from './persistence';
 
 const storedReducers = {
@@ -21,6 +22,7 @@ const temporaryReducers = {
   register: registerReducer,
   forgotPassword: forgotReducer,
   resetPassword: resetReducer,
+  products: productReducer,
 };
 
 const createReducer = () => {

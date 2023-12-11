@@ -65,4 +65,6 @@ export default {
   app_service_workshop: 'Workshop',
   app_service_workshop_desc:
     'Join our coffee workshops to learn the art of brewing and experience the world of coffee like never before',
+
+  app_products_title: 'Our Products',
 };

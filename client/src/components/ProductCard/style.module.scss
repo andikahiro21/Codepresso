@@ -1,0 +1,68 @@
+@import '@styles/base';
+
+.card {
+  max-width: 15rem;
+  background-color: red;
+  .imgContainer {
+    @include directionX;
+    width: 100%;
+    height: 7rem;
+    justify-content: center;
+  }
+
+  .cardContent {
+    text-align: center;
+    padding: 1.5rem 1rem 0 1rem;
+    .title {
+      font-size: 1rem;
+      font-weight: 600;
+    }
+    .desc {
+      display: -webkit-box;
+      max-width: 400px;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-size: 0.65rem;
+      font-weight: 400;
+      color: $color-grey;
+    }
+  }
+  .action {
+    justify-content: space-between;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    .priceContainer {
+      @include directionX;
+      gap: 0.3rem;
+      .currency {
+        @include directionX;
+        font-size: 0.7rem;
+        align-items: end;
+      }
+      .price {
+        font-size: 1.2rem;
+        font-weight: 500;
+      }
+    }
+    button {
+      padding: 0.5rem 0.7rem 0.5rem 0.7rem;
+      border-radius: 0.3rem;
+      border: 1px solid $color-green;
+      background: none;
+      color: $color-dark-green;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    button:hover {
+      border: none;
+      background: $color-dark-green;
+      color: $color-white;
+      font-weight: 600;
+      cursor: pointer;
+    }
+  }
+}

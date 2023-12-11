@@ -4,6 +4,7 @@ import ForgotPassword from '@pages/ForgotPassword';
 import Home from '@pages/Home';
 import Login from '@pages/Login';
 import NotFound from '@pages/NotFound';
+import Products from '@pages/Products';
 import Register from '@pages/Register';
 import ResetPassword from '@pages/ResetPassword';
 
@@ -38,6 +39,13 @@ const routes = [
     name: 'ResetPassword',
     protected: false,
     component: ResetPassword,
+  },
+  {
+    path: '/products',
+    name: 'Products',
+    protected: false,
+    component: Products,
+    layout: MainLayout,
   },
   { path: '*', name: 'Not Found', component: NotFound, layout: MainLayout, protected: false },
 ];

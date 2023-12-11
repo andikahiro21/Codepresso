@@ -1,10 +1,14 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { useDispatch } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { createStructuredSelector } from 'reselect';
 
 import logoNav from '@static/images/logoNav.png';
+import ProfileIcon from '@static/images/profile.svg';
 
 import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';
@@ -16,9 +20,14 @@ import { FaBars } from 'react-icons/fa';
 import { setLocale } from '@containers/App/actions';
 import { MdClose } from 'react-icons/md';
 
+import { FormControl, InputLabel, ListItemIcon, Select } from '@mui/material';
+import { Logout } from '@mui/icons-material';
+import { setLogin, setToken } from '@containers/Client/actions';
+import { selectAddress, selectLogin, selectToken } from '@containers/Client/selectors';
+import { jwtDecode } from 'jwt-decode';
 import classes from './style.module.scss';
 
-const Navbar = ({ title, locale }) => {
+const Navbar = ({ title, locale, login, token, address }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [menuPosition, setMenuPosition] = useState(null);
@@ -41,6 +50,15 @@ const Navbar = ({ title, locale }) => {
     setMenuPosition(null);
   };
 
+  const [anchorEl, setAnchorEl] = useState(null);
+  const opened = Boolean(anchorEl);
+  const handleClickProfile = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleCloseProfile = () => {
+    setAnchorEl(null);
+  };
+
   const handleClickLogin = () => {
     navigate('/login');
   };
@@ -52,9 +70,20 @@ const Navbar = ({ title, locale }) => {
     handleClose();
   };
 
+  const handleLogout = () => {
+    dispatch(setLogin(false));
+    dispatch(setToken(null));
+    window.location.href = '/login';
+  };
+
   const goHome = () => {
     navigate('/');
   };
+
+  let decoded = null;
+  if (token) {
+    decoded = jwtDecode(token);
+  }
 
   return (
     <div className={classes.headerWrapper} data-testid="navbar">
@@ -110,7 +139,7 @@ const Navbar = ({ title, locale }) => {
                 <FormattedMessage id="app_nav_about" />
               </li>
             </a>
-            <a href="#">
+            <a href="/products">
               <li>
                 <FormattedMessage id="app_nav_menu" />
               </li>
@@ -128,9 +157,74 @@ const Navbar = ({ title, locale }) => {
             <div className={classes.lang}>{locale}</div>
             <ExpandMoreIcon />
           </div>
-          <button className={classes.btnLogin} type="button" onClick={handleClickLogin}>
-            <FormattedMessage id="app_nav_login" />
-          </button>
+          {login && decoded ? (
+            <>
+              {/* <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+                <InputLabel id="demo-simple-select-standard-label">Age</InputLabel>
+                <Select
+                  labelId="demo-simple-select-standard-label"
+                  id="demo-simple-select-standard"
+                  value={age}
+                  onChange={handleChange}
+                  label="Age"
+                >
+                  <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>
+                  <MenuItem value={10}>Ten</MenuItem>
+                  <MenuItem value={20}>Twenty</MenuItem>
+                  <MenuItem value={30}>Thirty</MenuItem>
+                </Select>
+              </FormControl> */}
+              <img src={ProfileIcon} className={classes.profileIcon} alt="icon" onClick={handleClickProfile} />
+              <Menu
+                anchorEl={anchorEl}
+                id="account-menu"
+                open={opened}
+                onClose={handleCloseProfile}
+                onClick={handleCloseProfile}
+                PaperProps={{
+                  elevation: 0,
+                  sx: {
+                    overflow: 'visible',
+                    filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+                    mt: 1.5,
+                    '& .MuiAvatar-root': {
+                      width: 32,
+                      height: 32,
+                      ml: -0.5,
+                      mr: 1,
+                    },
+                    '&:before': {
+                      content: '""',
+                      display: 'block',
+                      position: 'absolute',
+                      top: 0,
+                      right: 14,
+                      width: 10,
+                      height: 10,
+                      bgcolor: 'background.paper',
+                      transform: 'translateY(-50%) rotate(45deg)',
+                      zIndex: 0,
+                    },
+                  },
+                }}
+                transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+                anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+              >
+                <MenuItem onClick={handleLogout}>
+                  <ListItemIcon>
+                    <Logout fontSize="small" />
+                  </ListItemIcon>
+                  Logout
+                </MenuItem>
+              </Menu>
+            </>
+          ) : (
+            <button className={classes.btnLogin} type="button" onClick={handleClickLogin}>
+              <FormattedMessage id="app_nav_login" />
+            </button>
+          )}
           <div className={classes.hamburgerMenu}>
             <div onClick={handleOpenHam}>
               <FaBars size="1.3rem" />
@@ -160,9 +254,18 @@ const Navbar = ({ title, locale }) => {
   );
 };
 
+const mapStateToProps = createStructuredSelector({
+  login: selectLogin,
+  token: selectToken,
+  address: selectAddress,
+});
+
 Navbar.propTypes = {
   title: PropTypes.string,
   locale: PropTypes.string.isRequired,
+  login: PropTypes.bool,
+  token: PropTypes.string,
+  address: PropTypes.array,
 };
 
-export default Navbar;
+export default connect(mapStateToProps)(Navbar);

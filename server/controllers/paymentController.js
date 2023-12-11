@@ -8,6 +8,7 @@ const { Payments, PurchaseGroups, Purchases, Baskets, Address, Menus } = require
 const jwt = require("jsonwebtoken");
 const Redis = require("ioredis");
 const { getOpenRouteServiceRoute } = require("../config/openRoutes");
+const handleResponseSuccess = require("../helpers/responseSuccess");
 const redisClient = new Redis();
 
 exports.createPayment = async (req, res) => {
@@ -134,7 +135,6 @@ exports.createPayment = async (req, res) => {
       token: dataToken,
     });
   } catch (error) {
-    console.log(error);
     return handleServerError(res);
   }
 };
@@ -167,9 +167,7 @@ exports.notificationMidtrans = async (req, res) => {
       if (purchaseGroup) {
         await getOpenRouteServiceRoute(purchaseGroup.lat_start, purchaseGroup.long_start, purchaseGroup.lat_end, purchaseGroup.long_end, purchaseGroupId);
 
-        res.status(201).json({
-          message: "Payment Success",
-        });
+        handleResponseSuccess(res, 201, "Payment Success");
       } else {
         return handleClientError(res, 400, "Purchase Group not found");
       }

@@ -67,4 +67,6 @@ export default {
   app_service_workshop: 'Workshop',
   app_service_workshop_desc:
     'Bergabunglah dengan workshop kopi kami untuk belajar seni menyeduh kopi dan merasakan dunia kopi seperti belum pernah sebelumnya.',
+
+  app_products_title: 'Produk Kami',
 };

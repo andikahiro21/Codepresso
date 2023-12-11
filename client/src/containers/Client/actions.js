@@ -1,4 +1,4 @@
-import { LOGOUT_USER, SET_LOGIN, SET_TOKEN } from '@containers/Client/constants';
+import { LOGOUT_USER, SET_LOGIN, SET_TOKEN, GET_ADDRESS, SET_ADDRESS } from '@containers/Client/constants';
 
 export const setLogin = (login) => ({
   type: SET_LOGIN,
@@ -10,8 +10,15 @@ export const setToken = (token) => ({
   token,
 });
 
-export const logoutUser = () => {
-  return {
-    type: LOGOUT_USER,
-  };
-};
+export const logoutUser = () => ({
+  type: LOGOUT_USER,
+});
+
+export const getAddress = () => ({
+  type: GET_ADDRESS,
+});
+
+export const setAddress = (address) => ({
+  type: SET_ADDRESS,
+  payload: address,
+});

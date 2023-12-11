@@ -16,10 +16,7 @@ module.exports = {
           key: "id",
         },
       },
-      lat: {
-        type: Sequelize.JSON,
-      },
-      long: {
+      routes: {
         type: Sequelize.JSON,
       },
       createdAt: {

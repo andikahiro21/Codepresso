@@ -20,4 +20,13 @@ const isUser = async (req, res, next) => {
   }
 };
 
-module.exports = { isAdmin, isUser };
+const isDriver = async (req, res, next) => {
+  const { role } = req.user;
+  if (role !== 3) {
+    return handleClientError(res, 403, "You are not an driver");
+  } else {
+    next();
+  }
+};
+
+module.exports = { isAdmin, isUser, isDriver };

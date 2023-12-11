@@ -3,13 +3,11 @@
 const express = require("express");
 const router = express.Router();
 const upload = require("../middleware/uploadMedia");
-const { isUser } = require("../middleware/authorization");
+const { isAdmin, isDriver } = require("../middleware/authorization");
 const Authenticated = require("../middleware/authentication");
+const { setDelivery, setOrderFinish } = require("../controllers/purchaseController");
 
-router.get("/purchase");
-router.get("/purchase/:id");
-router.put("/purchase/:id", Authenticated, isUser, upload.array());
-router.post("/purchase", Authenticated, isUser, upload.array());
-router.delete("/purchase/:id", Authenticated, isUser);
+router.put("/purchase/set-delivery/:id", Authenticated, isAdmin, upload.array(), setDelivery);
+router.put("/purchase/set-finish/:id", Authenticated, isDriver, upload.array(), setOrderFinish);
 
 module.exports = router;

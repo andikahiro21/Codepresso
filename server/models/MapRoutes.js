@@ -24,8 +24,7 @@ module.exports = (sequelize, DataTypes) => {
   MapRoutes.init(
     {
       purchase_group_id: DataTypes.INTEGER,
-      lat: DataTypes.JSON,
-      long: DataTypes.JSON,
+      routes: DataTypes.JSON,
     },
     {
       sequelize,

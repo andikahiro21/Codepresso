@@ -43,16 +43,14 @@ async function getOpenRouteServiceRoute(latStart, lonStart, latEnd, lonEnd, purc
 
     const decodedGeometry = polyline.decode(route.geometry);
 
+    const routeData = decodedGeometry.map((coord) => [coord[0], coord[1]]);
+
     await MapRoutes.create({
       purchase_group_id: purchaseGroupId,
-      lat: decodedGeometry.map((coord) => coord[0]),
-      long: decodedGeometry.map((coord) => coord[1]),
+      routes: JSON.stringify(routeData), // Simpan sebagai string JSON
     });
 
-    return {
-      lat: decodedGeometry.map((coord) => coord[0]),
-      lon: decodedGeometry.map((coord) => coord[1]),
-    };
+    return routeData;
   } catch (error) {
     console.error("Error getting route from OpenRouteService:", error);
     throw error;
