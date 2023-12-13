@@ -177,12 +177,13 @@ const validateBodyAddress = (reqBody) => {
 const validateBodyBasket = (reqBody) => {
   const schema = Joi.object({
     menu_id: Joi.number().integer().positive().required(),
-    sugar_id: Joi.number().integer().positive(),
-    size_id: Joi.number().integer().positive(),
-    bean_id: Joi.number().integer().positive(),
-    milk_id: Joi.number().integer().positive(),
+    sugar_id: Joi.any().allow(null),
+    size_id: Joi.any().allow(null),
+    bean_id: Joi.any().allow(null),
+    milk_id: Joi.any().allow(null),
     qty: Joi.number().integer().positive().required(),
   });
+
   const { error } = schema.validate(reqBody, {
     abortEarly: false,
   });
@@ -217,8 +218,6 @@ const validateBodyMenu = (reqBody) => {
 
 const validateBodyPurchase = (reqBody) => {
   const schema = Joi.object({
-    lat_start: Joi.number().required(),
-    long_start: Joi.number().required(),
     distance: Joi.number().precision(6).required(),
     note: Joi.string().optional(),
   });

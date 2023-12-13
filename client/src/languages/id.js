@@ -69,4 +69,5 @@ export default {
     'Bergabunglah dengan workshop kopi kami untuk belajar seni menyeduh kopi dan merasakan dunia kopi seperti belum pernah sebelumnya.',
 
   app_products_title: 'Produk Kami',
+  app_nav_active_address: 'Alamat',
 };

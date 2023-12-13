@@ -13,18 +13,16 @@ import CardActions from '@mui/material/CardActions';
 
 import classes from './style.module.scss';
 
-const ProductCard = ({ name, description, price, image, login, token, id }) => {
+const ProductCard = ({ name, description, price, image, login, token, id, handleClick }) => {
   const navigate = useNavigate();
   let decoded = null;
   if (token) {
     decoded = jwtDecode(token);
   }
-  const handleOrder = (data) => {
-    alert(data);
-  };
   const handleLogin = () => {
     navigate('/login');
   };
+
   return (
     <Card className={classes.card}>
       <div className={classes.imgContainer}>
@@ -40,7 +38,7 @@ const ProductCard = ({ name, description, price, image, login, token, id }) => {
           <div className={classes.price}>{price}</div>
         </div>
         {login && decoded ? (
-          <button type="button" onClick={() => handleOrder(id)}>
+          <button type="button" onClick={() => handleClick(id)}>
             Add Order
           </button>
         ) : (

@@ -6,15 +6,25 @@ import { FormattedMessage } from 'react-intl';
 
 import ProductCard from '@components/ProductCard';
 
-import { getAllProducts, getCategories } from './actions';
+import { getAllProducts, getCategories, getSelectedProducts } from './actions';
 
 import classes from './style.module.scss';
 import { selectCategories, selectProducts } from './selectors';
+import PopupOrder from './PopupOrder';
 
 const Products = ({ products, categories }) => {
   const dispatch = useDispatch();
   const [selectedCategory, setSelectedCategory] = useState('All');
+  const [open, setOpen] = useState(false);
 
+  const handleClickOpen = (id) => {
+    setOpen(true);
+    dispatch(getSelectedProducts(id));
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
   useEffect(() => {
     dispatch(getAllProducts());
     dispatch(getCategories());
@@ -28,6 +38,7 @@ const Products = ({ products, categories }) => {
     selectedCategory === 'All' ? products : products.filter((product) => product.category_id === selectedCategory.id);
   return (
     <div className={classes.products}>
+      <PopupOrder open={open} handleClose={handleClose} />
       <div className={classes.title}>
         <FormattedMessage id="app_products_title" />
       </div>
@@ -57,6 +68,7 @@ const Products = ({ products, categories }) => {
             description={product?.description}
             image={product?.image}
             id={product?.id}
+            handleClick={handleClickOpen}
           />
         ))}
       </div>

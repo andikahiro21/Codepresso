@@ -7,6 +7,6 @@ const { isUser } = require("../middleware/authorization");
 const Authenticated = require("../middleware/authentication");
 const { getDistance } = require("../controllers/mapController");
 
-router.post("/map/distance", Authenticated, isUser, upload.array(), getDistance);
+router.get("/map/distance", Authenticated, isUser, upload.array(), getDistance);
 
 module.exports = router;

@@ -9,6 +9,9 @@ const urls = {
   menu: 'menu',
   category: 'category',
   address: 'address',
+  addons: 'add-ons',
+  basket: 'basket',
+  map: 'map',
 };
 
 export const callAPI = async (endpoint, method, header = {}, params = {}, data = {}) => {
@@ -41,9 +44,20 @@ export const resetPassword = (token, data) => callAPI(`/auth/reset-password/${to
 
 // Products
 export const getAllProducts = () => callAPI(`${urls.menu}`, 'GET');
+export const getSelectedProducts = (id) => callAPI(`${urls.addons}/${id}`, 'GET');
 
 // Categories
 export const getCategories = () => callAPI(`${urls.category}`, 'GET');
 
 // Address
 export const getAddress = () => callAPI(`${urls.address}`, 'GET');
+export const setActiveAddress = ({ id }) => callAPI(`${urls.address}/set-active/${id}`, 'PUT');
+
+// Basket
+export const setBasket = (data) => callAPI(`${urls.basket}`, 'POST', {}, {}, data);
+export const getBaskets = () => callAPI(`${urls.basket}`, 'GET');
+export const editBaskets = ({ id, data }) => callAPI(`${urls.basket}/${id}`, 'PUT', {}, {}, data);
+export const deleteBaskets = (id) => callAPI(`${urls.basket}/${id}`, 'DELETE');
+
+// Map
+export const getDistance = () => callAPI(`${urls.map}/distance`, 'GET');

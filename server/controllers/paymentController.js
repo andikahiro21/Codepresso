@@ -8,7 +8,9 @@ const { Payments, PurchaseGroups, Purchases, Baskets, Address, Menus } = require
 const jwt = require("jsonwebtoken");
 const Redis = require("ioredis");
 const { getOpenRouteServiceRoute } = require("../config/openRoutes");
+const path = require("path");
 const handleResponseSuccess = require("../helpers/responseSuccess");
+const loadData = require("../helpers/databaseHelper");
 const redisClient = new Redis();
 
 exports.createPayment = async (req, res) => {
@@ -16,6 +18,11 @@ exports.createPayment = async (req, res) => {
     const snap = req.snap;
     const authData = req.user;
     const newData = req.body;
+    const database = path.join(__dirname, "../database/cafeLoc.json");
+    const response = loadData(database);
+    if (!response) return handleServerError(res);
+    const latStart = response.latStart;
+    const longStart = response.longStart;
 
     const validate = validateBodyPurchase(newData);
     if (validate) {
@@ -58,8 +65,8 @@ exports.createPayment = async (req, res) => {
     }
 
     const dateNow = new Date();
-
-    const deliveryCost = parseInt(newData.distance) * 2000;
+    const roundedDistance = Math.round(parseFloat(newData.distance));
+    const deliveryCost = roundedDistance * 2000;
 
     const newPayment = await Payments.create({
       user_id: authData.id,
@@ -76,8 +83,8 @@ exports.createPayment = async (req, res) => {
       note: newData.note,
       status: "Pending Payment",
       date: dateNow,
-      lat_start: newData.lat_start,
-      long_start: newData.long_start,
+      lat_start: latStart,
+      long_start: longStart,
       lat_end: activeAddress.lat,
       long_end: activeAddress.long,
       delivery_cost: deliveryCost,
@@ -98,11 +105,11 @@ exports.createPayment = async (req, res) => {
       });
     }
 
-    await Baskets.destroy({
-      where: {
-        user_id: authData.id,
-      },
-    });
+    // await Baskets.destroy({
+    //   where: {
+    //     user_id: authData.id,
+    //   },
+    // });
 
     const payload = {
       total: total + deliveryCost,

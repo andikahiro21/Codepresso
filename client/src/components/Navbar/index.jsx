@@ -1,19 +1,19 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
 
 import logoNav from '@static/images/logoNav.png';
-import ProfileIcon from '@static/images/profile.svg';
 
 import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
 import { FaBars } from 'react-icons/fa';
 
@@ -22,8 +22,10 @@ import { MdClose } from 'react-icons/md';
 
 import { FormControl, InputLabel, ListItemIcon, Select } from '@mui/material';
 import { Logout } from '@mui/icons-material';
-import { setLogin, setToken } from '@containers/Client/actions';
+import { getAddress, setActiveAddress, setLogin, setToken } from '@containers/Client/actions';
 import { selectAddress, selectLogin, selectToken } from '@containers/Client/selectors';
+import PopupBaskets from '@components/PopupBaskets';
+import PopupConfirmPayment from '@components/PopupConfirmPayment';
 import { jwtDecode } from 'jwt-decode';
 import classes from './style.module.scss';
 
@@ -32,6 +34,25 @@ const Navbar = ({ title, locale, login, token, address }) => {
   const navigate = useNavigate();
   const [menuPosition, setMenuPosition] = useState(null);
   const [openHam, setOpenHam] = useState(false);
+  const [openBaskets, setOpenBaskets] = useState(false);
+  const [openConfirmPayment, setOpenConfirmPayment] = useState(false);
+
+  const handleClickOpenBaskets = () => {
+    setOpenBaskets(true);
+  };
+
+  const handleCloseBaskets = () => {
+    setOpenBaskets(false);
+  };
+
+  const handleClickOpenPayment = () => {
+    setOpenBaskets(false);
+    setOpenConfirmPayment(true);
+  };
+
+  const handleClosepayment = () => {
+    setOpenConfirmPayment(false);
+  };
 
   const open = Boolean(menuPosition);
 
@@ -76,6 +97,10 @@ const Navbar = ({ title, locale, login, token, address }) => {
     window.location.href = '/login';
   };
 
+  const handleActiveChange = (event) => {
+    const selectedAddressId = event.target.value;
+    dispatch(setActiveAddress(selectedAddressId));
+  };
   const goHome = () => {
     navigate('/');
   };
@@ -85,8 +110,19 @@ const Navbar = ({ title, locale, login, token, address }) => {
     decoded = jwtDecode(token);
   }
 
+  useEffect(() => {
+    if (token) {
+      dispatch(getAddress());
+    }
+  }, [dispatch, token]);
   return (
     <div className={classes.headerWrapper} data-testid="navbar">
+      <PopupBaskets
+        open={openBaskets}
+        handleClose={handleCloseBaskets}
+        handleClickOpenPayment={handleClickOpenPayment}
+      />
+      <PopupConfirmPayment open={openConfirmPayment} handleClose={handleClosepayment} />
       {openHam && (
         <div className={classes.popUpCard}>
           <div className={classes.closeButton} onClick={handleCloseHam}>
@@ -152,31 +188,12 @@ const Navbar = ({ title, locale, login, token, address }) => {
           </ul>
         </div>
         <div className={classes.toolbar}>
-          <div className={classes.toggle} onClick={handleClick}>
-            <Avatar className={classes.avatar} src={locale === 'id' ? '/id.png' : '/en.png'} />
-            <div className={classes.lang}>{locale}</div>
-            <ExpandMoreIcon />
-          </div>
           {login && decoded ? (
             <>
-              {/* <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-                <InputLabel id="demo-simple-select-standard-label">Age</InputLabel>
-                <Select
-                  labelId="demo-simple-select-standard-label"
-                  id="demo-simple-select-standard"
-                  value={age}
-                  onChange={handleChange}
-                  label="Age"
-                >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
-                </Select>
-              </FormControl> */}
-              <img src={ProfileIcon} className={classes.profileIcon} alt="icon" onClick={handleClickProfile} />
+              <div className={classes.cartContainer} onClick={handleClickOpenBaskets}>
+                <ShoppingCartIcon />
+              </div>
+              <img src={decoded.data.image} className={classes.profileIcon} alt="icon" onClick={handleClickProfile} />
               <Menu
                 anchorEl={anchorEl}
                 id="account-menu"
@@ -212,6 +229,26 @@ const Navbar = ({ title, locale, login, token, address }) => {
                 transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
               >
+                <MenuItem>
+                  <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+                    <InputLabel id="active-address-label">
+                      <FormattedMessage id="app_nav_active_address" />
+                    </InputLabel>
+                    <Select
+                      labelId="active-address-label"
+                      id="active-address"
+                      value={address?.find((a) => a.active)?.id || ''}
+                      onChange={handleActiveChange}
+                      label={<FormattedMessage id="app_nav_active_address" />}
+                    >
+                      {address?.map((addr) => (
+                        <MenuItem key={addr.id} value={addr.id}>
+                          {addr.address_name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </MenuItem>
                 <MenuItem onClick={handleLogout}>
                   <ListItemIcon>
                     <Logout fontSize="small" />
@@ -225,6 +262,12 @@ const Navbar = ({ title, locale, login, token, address }) => {
               <FormattedMessage id="app_nav_login" />
             </button>
           )}
+          <div className={classes.toggle} onClick={handleClick}>
+            <Avatar className={classes.avatar} src={locale === 'id' ? '/id.png' : '/en.png'} />
+            <div className={classes.lang}>{locale}</div>
+            <ExpandMoreIcon />
+          </div>
+
           <div className={classes.hamburgerMenu}>
             <div onClick={handleOpenHam}>
               <FaBars size="1.3rem" />

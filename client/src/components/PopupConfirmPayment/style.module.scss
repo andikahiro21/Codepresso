@@ -1,0 +1,70 @@
+@import '@styles/base';
+
+.cardContainer {
+  height: 50vh;
+  padding-bottom: 1rem;
+  padding-top: 1rem;
+  position: relative;
+  .cardTitle {
+    @include directionY;
+    align-items: center;
+    font-size: 1.5rem;
+    font-weight: 600;
+    height: 3.5rem;
+    border-bottom: 1px solid rgba($color-line-grey, 0.2);
+    width: 100%;
+  }
+  .bodyPayment {
+    width: 100%;
+    .productsPayment {
+      @include directionX;
+      justify-content: space-between;
+      padding-left: 2rem;
+      padding-right: 2rem;
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-top: 1rem;
+    }
+  }
+  .checkout {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    border-radius: 0px 0px 16px 16px;
+    box-shadow: 0px -1px 16px 0px rgba(0, 0, 0, 0.05);
+    background-color: $color-white;
+    .header {
+      @include directionX;
+      justify-content: space-between;
+      padding-right: 3%;
+      padding-left: 3%;
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      margin-top: 1rem;
+      .checkoutPriceCont {
+        @include directionX;
+        gap: 0.5rem;
+        .checkoutPrice {
+          @include directionX;
+          gap: 0.3rem;
+        }
+      }
+    }
+    .btnContainer {
+      @include directionX;
+      justify-content: center;
+      margin-bottom: 0.5rem;
+      width: 100%;
+      button {
+        width: 95%;
+        height: 2.5rem;
+        background-color: $color-green;
+        color: $color-white;
+        border: none;
+        border-radius: 0.5rem;
+        cursor: pointer;
+      }
+    }
+  }
+}

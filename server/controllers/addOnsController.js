@@ -12,10 +12,10 @@ exports.getAddOnsSelectedMenu = async (req, res) => {
     const { id } = req.params;
     const response = await Menus.findByPk(id, {
       include: [
-        { model: Sugars, as: "sugar_level", attributes: ["name", "price"] },
-        { model: Sizes, as: "size", attributes: ["name", "price"] },
-        { model: Milk, as: "milk", attributes: ["name", "price"] },
-        { model: Beans, as: "bean", attributes: ["name", "price"] },
+        { model: Sugars, as: "sugar_level", attributes: ["id", "name", "price"] },
+        { model: Sizes, as: "size", attributes: ["id", "name", "price"] },
+        { model: Milk, as: "milk", attributes: ["id", "name", "price"] },
+        { model: Beans, as: "bean", attributes: ["id", "name", "price"] },
       ],
     });
 

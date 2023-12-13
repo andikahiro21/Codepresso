@@ -15,7 +15,10 @@ exports.getAddress = async (req, res) => {
     let address = await redisClient.get("address");
 
     if (!address) {
-      const response = await Address.findAll({ where: { user_id: authData.id } });
+      const response = await Address.findAll({
+        where: { user_id: authData.id },
+        attributes: ["id", "address_name", "active"],
+      });
       await redisClient.set("address", JSON.stringify(response));
       address = response;
     } else {

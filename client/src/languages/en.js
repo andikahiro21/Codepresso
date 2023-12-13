@@ -67,4 +67,5 @@ export default {
     'Join our coffee workshops to learn the art of brewing and experience the world of coffee like never before',
 
   app_products_title: 'Our Products',
+  app_nav_active_address: 'Address',
 };

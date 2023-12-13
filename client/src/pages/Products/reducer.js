@@ -1,9 +1,10 @@
 import { produce } from 'immer';
-import { SET_CATEGORIES, SET_PRODUCTS } from './constants';
+import { SET_CATEGORIES, SET_PRODUCTS, SET_SELECTED_PRODUCTS } from './constants';
 
 export const initialState = {
   products: [],
   categories: [],
+  selectedProducts: [],
 };
 
 const productReducer = (state = initialState, action) =>
@@ -14,6 +15,9 @@ const productReducer = (state = initialState, action) =>
         break;
       case SET_CATEGORIES:
         draft.categories = action.payload;
+        break;
+      case SET_SELECTED_PRODUCTS:
+        draft.selectedProducts = action.payload;
         break;
     }
   });

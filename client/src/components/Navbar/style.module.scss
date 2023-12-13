@@ -35,7 +35,7 @@
 
 .headerWrapper {
   position: sticky;
-  z-index: 999;
+  z-index: 101;
   top: 0;
   .contentWrapper {
     @include directionX;
@@ -86,6 +86,11 @@
     .toolbar {
       @include directionX;
       gap: 1rem;
+      .cartContainer {
+        @include directionX;
+        align-items: center;
+        cursor: pointer;
+      }
       .profileIcon {
         width: 1.7rem;
         cursor: pointer;

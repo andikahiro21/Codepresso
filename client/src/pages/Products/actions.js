@@ -1,7 +1,20 @@
-import { GET_ALL_PRODUCTS, GET_CATEGORIES, SET_CATEGORIES, SET_PRODUCTS } from './constants';
+import {
+  GET_ALL_PRODUCTS,
+  GET_CATEGORIES,
+  GET_SELECTED_PRODUCTS,
+  SET_BASKET,
+  SET_CATEGORIES,
+  SET_PRODUCTS,
+  SET_SELECTED_PRODUCTS,
+} from './constants';
 
 export const getAllProducts = () => ({
   type: GET_ALL_PRODUCTS,
+});
+
+export const getSelectedProducts = (id) => ({
+  type: GET_SELECTED_PRODUCTS,
+  payload: id,
 });
 
 export const setProducts = (products) => ({
@@ -16,4 +29,14 @@ export const getCategories = () => ({
 export const setCategories = (categories) => ({
   type: SET_CATEGORIES,
   payload: categories,
+});
+
+export const setSelectedProducts = (selectedProducts) => ({
+  type: SET_SELECTED_PRODUCTS,
+  payload: selectedProducts,
+});
+
+export const setBasket = (basket) => ({
+  type: SET_BASKET,
+  payload: basket,
 });

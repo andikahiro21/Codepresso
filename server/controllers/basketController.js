@@ -15,7 +15,10 @@ exports.getBasket = async (req, res) => {
     const authData = req.user;
 
     if (!basket) {
-      const response = await Baskets.findAll({ where: { user_id: authData.id } });
+      const response = await Baskets.findAll({
+        where: { user_id: authData.id },
+        include: [{ model: Sugars }, { model: Sizes }, { model: Beans }, { model: Milk }, { model: Menus, as: "menu_basket" }],
+      });
       await redisClient.set("basket", JSON.stringify(response));
       basket = response;
     } else {
@@ -55,15 +58,20 @@ exports.createBasket = async (req, res) => {
     const totalPrice = totalSugarPrice + totalSizePrice + totalBeanPrice + totalMilkPrice + totalMenuPrice;
 
     const newBasket = await Baskets.create({
-      ...newData,
+      menu_id: newData.menu_id,
       user_id: authData.id,
+      sugar_id: newData.sugar_id !== "" ? newData.sugar_id : null,
+      size_id: newData.size_id !== "" ? newData.size_id : null,
+      bean_id: newData.bean_id !== "" ? newData.bean_id : null,
+      milk_id: newData.milk_id !== "" ? newData.milk_id : null,
+      qty: newData.qty,
       price: totalPrice,
     });
 
     await redisClient.del("basket");
 
     return handleResponseSuccess(res, 201, "Basket Created", newBasket);
-  } catch (errors) {
+  } catch (error) {
     return handleServerError(res);
   }
 };
@@ -71,7 +79,7 @@ exports.createBasket = async (req, res) => {
 exports.updateBasket = async (req, res) => {
   try {
     const basketId = req.params.id;
-    const updatedData = req.body;
+    const { qty } = req.body;
     const authData = req.user;
 
     const existingBasket = await Baskets.findByPk(basketId, { include: [{ model: Menus, as: "menu_basket" }] });
@@ -79,32 +87,19 @@ exports.updateBasket = async (req, res) => {
       return handleClientError(res, 404, `Basket with ID ${basketId} not found`);
     }
 
-    updatedData.menu_id = existingBasket.menu_id;
-    const validate = validateBodyBasket(updatedData);
-    if (validate) {
-      return handleClientError(res, 400, validate);
-    }
-
     if (existingBasket.user_id !== authData.id) {
       return handleClientError(res, 403, "Unauthorized. You can only update your own baskets.");
     }
 
-    existingBasket.sugar_id = updatedData.sugar_id || existingBasket.sugar_id;
-    existingBasket.qty = updatedData.qty || existingBasket.qty;
-    existingBasket.bean_id = updatedData.bean_id || existingBasket.bean_id;
-    existingBasket.milk_id = updatedData.milk_id || existingBasket.milk_id;
-    existingBasket.size_id = updatedData.size_id || existingBasket.size_id;
+    if (qty === undefined || qty <= 0) {
+      return handleClientError(res, 400, "Invalid quantity value");
+    }
 
-    const [totalSugarPrice, totalSizePrice, totalBeanPrice, totalMilkPrice] = await Promise.all([
-      calculateTotalPrice(existingBasket, "sugar_id", Sugars),
-      calculateTotalPrice(existingBasket, "size_id", Sizes),
-      calculateTotalPrice(existingBasket, "bean_id", Beans),
-      calculateTotalPrice(existingBasket, "milk_id", Milk),
-    ]);
+    existingBasket.qty = qty;
 
-    const totalMenuPrice = existingBasket.menu_basket.price * existingBasket.qty;
+    const totalMenuPrice = existingBasket.menu_basket.price * qty;
 
-    existingBasket.price = totalSugarPrice + totalSizePrice + totalBeanPrice + totalMilkPrice + totalMenuPrice;
+    existingBasket.price = totalMenuPrice;
 
     await existingBasket.save();
 

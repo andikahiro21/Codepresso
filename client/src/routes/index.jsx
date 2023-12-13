@@ -47,6 +47,7 @@ const routes = [
     component: Products,
     layout: MainLayout,
   },
+
   { path: '*', name: 'Not Found', component: NotFound, layout: MainLayout, protected: false },
 ];
 
