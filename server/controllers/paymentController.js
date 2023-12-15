@@ -135,11 +135,12 @@ exports.createPayment = async (req, res) => {
     const transactionResult = await snap.createTransaction(midtransTransaction);
     const paymentUrl = transactionResult.redirect_url;
     await redisClient.del("basket");
-
     res.status(201).json({
       message: "Request for Payment.",
       paymentUrl,
-      token: dataToken,
+      midtransToken: transactionResult.token,
+      tokenData: dataToken,
+      orderId: midtransTransaction.transaction_details.order_id,
     });
   } catch (error) {
     return handleServerError(res);

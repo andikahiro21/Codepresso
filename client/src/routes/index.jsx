@@ -1,4 +1,5 @@
 import MainLayout from '@layouts/MainLayout';
+import DetailOrder from '@pages/DetailOrder';
 
 import ForgotPassword from '@pages/ForgotPassword';
 import Home from '@pages/Home';
@@ -45,6 +46,13 @@ const routes = [
     name: 'Products',
     protected: false,
     component: Products,
+    layout: MainLayout,
+  },
+  {
+    path: '/detail-order/:id',
+    name: 'DetailOrder',
+    protected: true,
+    component: DetailOrder,
     layout: MainLayout,
   },
 

@@ -1,19 +1,26 @@
 /* eslint-disable arrow-body-style */
 import { useEffect } from 'react';
+import { jwtDecode } from 'jwt-decode';
 import { connect, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Dialog } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { deleteBaskets, editBaskets, getBaskets } from '@containers/Client/actions';
 import { createStructuredSelector } from 'reselect';
-import { selectBaskets } from '@containers/Client/selectors';
+import { selectBaskets, selectLogin, selectToken } from '@containers/Client/selectors';
 import classes from './style.module.scss';
 
-const PopupBaskets = ({ open, handleClose, baskets, handleClickOpenPayment }) => {
+const PopupBaskets = ({ open, handleClose, baskets, handleClickOpenPayment, login, token }) => {
   const dispatch = useDispatch();
+  let decoded = null;
+  if (token) {
+    decoded = jwtDecode(token);
+  }
 
   useEffect(() => {
-    dispatch(getBaskets());
+    if (login && decoded) {
+      dispatch(getBaskets());
+    }
   }, [dispatch]);
 
   const handleQTY = (basketItem, operation) => {
@@ -121,10 +128,14 @@ PopupBaskets.propTypes = {
   handleClose: PropTypes.func,
   handleClickOpenPayment: PropTypes.func,
   baskets: PropTypes.array,
+  login: PropTypes.bool,
+  token: PropTypes.string,
 };
 
 const mapStateToProps = createStructuredSelector({
   baskets: selectBaskets,
+  login: selectLogin,
+  token: selectToken,
 });
 
 export default connect(mapStateToProps)(PopupBaskets);

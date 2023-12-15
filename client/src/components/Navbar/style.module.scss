@@ -95,6 +95,18 @@
         width: 1.7rem;
         cursor: pointer;
       }
+      .selectAddress {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        .adressName {
+          width: 1rem;
+          color: red;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+        }
+      }
       .btnLogin {
         padding: 0.5rem 1rem 0.5rem 1rem;
         border-radius: 0.5rem;

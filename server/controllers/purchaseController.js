@@ -3,7 +3,7 @@
 /* eslint-disable quotes */
 const { handleServerError, handleClientError } = require("../helpers/handleError");
 const handleResponseSuccess = require("../helpers/responseSuccess");
-const { Users, PurchaseGroups } = require("../models");
+const { Users, PurchaseGroups, Menus, Purchases } = require("../models");
 
 exports.setDelivery = async (req, res) => {
   try {
@@ -51,6 +51,51 @@ exports.setDelivery = async (req, res) => {
   }
 };
 
+exports.getSelectedPurchaseGroups = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const authID = req.user.id;
+
+    const selectedPurchase = await PurchaseGroups.findOne({
+      where: { id },
+      include: [
+        {
+          model: Users,
+          as: "user_driver",
+          attributes: ["full_name"],
+        },
+        {
+          model: Purchases, // Assuming there is an association between PurchaseGroups and Purchase
+          as: "purchaseGroup_purchase",
+          include: [
+            {
+              model: Menus,
+              as: "menu_purchase",
+            },
+          ],
+        },
+        {
+          model: Users,
+          as: "user_receiver",
+          attributes: ["full_name"],
+        },
+      ],
+    });
+
+    if (!selectedPurchase) {
+      return handleClientError(res, 404, "Purchase Not Found");
+    }
+
+    if (selectedPurchase.user_id !== authID) {
+      return handleClientError(res, 403, "You are not authorized to view this purchase group");
+    }
+
+    return handleResponseSuccess(res, 200, selectedPurchase);
+  } catch (error) {
+    console.log(error);
+    return handleServerError(res);
+  }
+};
 exports.setOrderFinish = async (req, res) => {
   try {
     const { id } = req.params;

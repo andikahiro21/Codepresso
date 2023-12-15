@@ -11,6 +11,9 @@ import {
   DELETE_BASKETS,
   GET_DISTANCE,
   SET_DISTANCE,
+  DELETE_ADDRESS,
+  INITIATE_PAYMENT,
+  ADD_ADDRESS,
 } from '@containers/Client/constants';
 
 export const setLogin = (login) => ({
@@ -31,9 +34,19 @@ export const getAddress = () => ({
   type: GET_ADDRESS,
 });
 
+export const addAddress = (data) => ({
+  type: ADD_ADDRESS,
+  payload: data,
+});
+
 export const setAddress = (address) => ({
   type: SET_ADDRESS,
   payload: address,
+});
+
+export const deleteAddress = (data) => ({
+  type: DELETE_ADDRESS,
+  payload: data,
 });
 
 export const setActiveAddress = (id) => ({
@@ -67,4 +80,9 @@ export const getDistance = () => ({
 export const setDistance = (distance) => ({
   type: SET_DISTANCE,
   payload: distance,
+});
+
+export const initiatePayment = (data) => ({
+  type: INITIATE_PAYMENT,
+  payload: data,
 });

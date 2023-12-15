@@ -1,0 +1,33 @@
+@import '@styles/base';
+
+.detailOrder {
+  .map {
+    position: relative;
+  }
+  .orderDetail {
+    background-color: $color-white;
+    box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.14);
+    width: 20%;
+    height: 60vh;
+    position: absolute;
+    z-index: 100;
+    right: 1%;
+    margin-top: 2%;
+    border: none;
+    border-radius: 0.5rem;
+    padding-left: 1rem;
+    padding-top: 1rem;
+    .status {
+      width: 90%;
+      .detailTitle {
+        font-size: 1.3rem;
+        font-weight: 600;
+      }
+      .detailStatus {
+        font-size: 1rem;
+        color: $color-dark-green;
+        font-weight: 600;
+      }
+    }
+  }
+}

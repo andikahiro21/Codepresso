@@ -25,7 +25,9 @@ import { Logout } from '@mui/icons-material';
 import { getAddress, setActiveAddress, setLogin, setToken } from '@containers/Client/actions';
 import { selectAddress, selectLogin, selectToken } from '@containers/Client/selectors';
 import PopupBaskets from '@components/PopupBaskets';
+import PopupAddAddress from '@components/PopupAddAddress';
 import PopupConfirmPayment from '@components/PopupConfirmPayment';
+import PopupAddress from '@components/PopupAddress';
 import { jwtDecode } from 'jwt-decode';
 import classes from './style.module.scss';
 
@@ -36,6 +38,8 @@ const Navbar = ({ title, locale, login, token, address }) => {
   const [openHam, setOpenHam] = useState(false);
   const [openBaskets, setOpenBaskets] = useState(false);
   const [openConfirmPayment, setOpenConfirmPayment] = useState(false);
+  const [openAddress, setOpenAddress] = useState(false);
+  const [openAddAddress, setOpenAddAddress] = useState(false);
 
   const handleClickOpenBaskets = () => {
     setOpenBaskets(true);
@@ -46,12 +50,34 @@ const Navbar = ({ title, locale, login, token, address }) => {
   };
 
   const handleClickOpenPayment = () => {
-    setOpenBaskets(false);
-    setOpenConfirmPayment(true);
+    const hasActiveAddress = address.some((addr) => addr.active);
+
+    if (hasActiveAddress) {
+      setOpenBaskets(false);
+      setOpenConfirmPayment(true);
+    } else {
+      alert('Active address not found! Please select or add an active address.');
+    }
   };
 
   const handleClosepayment = () => {
     setOpenConfirmPayment(false);
+  };
+
+  const handleClickOpenAddress = () => {
+    setOpenAddress(true);
+  };
+
+  const handleCloseAddress = () => {
+    setOpenAddress(false);
+  };
+  const handleClickOpenAddAddress = () => {
+    setOpenAddress(false);
+    setOpenAddAddress(true);
+  };
+
+  const handleCloseAddAddress = () => {
+    setOpenAddAddress(false);
   };
 
   const open = Boolean(menuPosition);
@@ -122,6 +148,8 @@ const Navbar = ({ title, locale, login, token, address }) => {
         handleClose={handleCloseBaskets}
         handleClickOpenPayment={handleClickOpenPayment}
       />
+      <PopupAddAddress open={openAddAddress} handleClose={handleCloseAddAddress} />
+      <PopupAddress open={openAddress} handleClose={handleCloseAddress} handleOpenCreate={handleClickOpenAddAddress} />
       <PopupConfirmPayment open={openConfirmPayment} handleClose={handleClosepayment} />
       {openHam && (
         <div className={classes.popUpCard}>
@@ -237,17 +265,21 @@ const Navbar = ({ title, locale, login, token, address }) => {
                     <Select
                       labelId="active-address-label"
                       id="active-address"
-                      value={address?.find((a) => a.active)?.id || ''}
+                      value={address?.find((a) => a?.active)?.id || ''}
                       onChange={handleActiveChange}
+                      className={classes.selectAddress}
                       label={<FormattedMessage id="app_nav_active_address" />}
                     >
                       {address?.map((addr) => (
-                        <MenuItem key={addr.id} value={addr.id}>
+                        <MenuItem className={classes.addressName} key={addr.id} value={addr.id}>
                           {addr.address_name}
                         </MenuItem>
                       ))}
                     </Select>
                   </FormControl>
+                </MenuItem>
+                <MenuItem onClick={handleClickOpenAddress}>
+                  <div className={classes.addressTitle}>Manage Address</div>
                 </MenuItem>
                 <MenuItem onClick={handleLogout}>
                   <ListItemIcon>

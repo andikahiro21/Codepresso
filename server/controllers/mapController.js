@@ -6,7 +6,7 @@ const { handleServerError, handleClientError } = require("../helpers/handleError
 const handleResponseSuccess = require("../helpers/responseSuccess");
 const loadData = require("../helpers/databaseHelper");
 const path = require("path");
-const { Address, Baskets } = require("../models");
+const { Address, Baskets, MapRoutes, PurchaseGroups } = require("../models");
 
 exports.getDistance = async (req, res) => {
   try {
@@ -50,6 +50,33 @@ exports.getDistance = async (req, res) => {
     };
     return handleResponseSuccess(res, 200, "Distance Calculated", data);
   } catch (error) {
+    return handleServerError(res);
+  }
+};
+exports.getRoute = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const authData = req.user;
+
+    const isValidUser = await PurchaseGroups.findOne({
+      where: { id: id, user_id: authData.id },
+    });
+
+    if (!isValidUser) {
+      return handleClientError(res, 403, "You are not authorized to view this route");
+    }
+
+    const route = await MapRoutes.findOne({
+      where: { purchase_group_id: id },
+    });
+
+    if (!route) {
+      return handleClientError(res, 404, "Route not found for the specified purchase_group_id");
+    }
+
+    return handleResponseSuccess(res, 200, "Route Found", route);
+  } catch (error) {
+    console.log(error);
     return handleServerError(res);
   }
 };

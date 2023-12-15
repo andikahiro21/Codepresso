@@ -12,6 +12,10 @@ const config = {
   auth: {
     tokenPayload: env.TOKEN_PAYLOAD,
   },
+  midtrans: {
+    clientKey: env.MIDTRANS_CLIENT_KEY,
+    serverKey: env.MIDTRANS_SERVER_KEY,
+  },
 };
 
 export default config;
