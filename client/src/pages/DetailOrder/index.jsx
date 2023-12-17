@@ -50,31 +50,31 @@ const DetailOrder = ({ historyOrder, mapRoutes, login }) => {
     popupAnchor: [0, -40],
   });
 
-  console.log(historyOrder.message.note);
+  console.log(historyOrder?.message?.note);
   return (
     <div className={classes.detailOrder}>
       <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" />
       <div className={classes.orderDetail}>
         <div className={classes.status}>
           <div className={classes.detailTitle}>Order Status:</div>
-          <div className={classes.detailStatus}>{historyOrder.message.status}</div>
+          <div className={classes.detailStatus}>{historyOrder?.message?.status}</div>
         </div>
         <div className={classes.status}>
           <div className={classes.detailTitle}>Receiver Name:</div>
-          <div className={classes.detailStatus}>{historyOrder.message.user_receiver.full_name}</div>
+          <div className={classes.detailStatus}>{historyOrder?.message?.user_receiver.full_name}</div>
         </div>
         <div className={classes.status}>
           <div className={classes.detailTitle}>Driver Name:</div>
           <div className={classes.detailStatus}>
-            {historyOrder.message.user_driver
-              ? historyOrder.message.user_driver.full_name
+            {historyOrder?.message?.user_driver
+              ? historyOrder?.message?.user_driver?.full_name
               : 'Driver Menunggu Pesanan Untuk Diantar'}
           </div>
         </div>
 
         <div className={classes.status}>
           <div className={classes.detailTitle}>Note:</div>
-          <div className={classes.detailStatus}>{historyOrder.message.note}</div>
+          <div className={classes.detailStatus}>{historyOrder?.message?.note}</div>
         </div>
       </div>
       {isDataLoaded && position && (

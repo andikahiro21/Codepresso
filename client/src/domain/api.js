@@ -73,3 +73,4 @@ export const notificationMidtrans = (token) => callAPI(`${urls.payment}/notifica
 
 // Purchases
 export const getHistoryOrder = (id) => callAPI(`${urls.purchase}/${id}`, 'GET');
+export const getAllOrder = (page) => callAPI(`${urls.purchase}/?page=${page}`, 'GET');

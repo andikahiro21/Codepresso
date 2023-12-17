@@ -8,7 +8,14 @@ const ClientRoutes = () => {
     const routeList = [];
 
     const renderElement = (route) => {
-      const { layout: Layout, component: Component, protected: Protected } = route;
+      const {
+        layout: Layout,
+        component: Component,
+        protected: Protected,
+        adminOnly: IsAdmin,
+        userOnly: IsUser,
+        driverOnly: IsDriver,
+      } = route;
       let element = <Component />;
 
       if (typeof Layout !== 'undefined') {
@@ -19,7 +26,13 @@ const ClientRoutes = () => {
         );
       }
 
-      return Protected ? <Client>{element}</Client> : element;
+      return Protected ? (
+        <Client isAdmin={IsAdmin} isUser={IsUser} isDriver={IsDriver}>
+          {element}
+        </Client>
+      ) : (
+        element
+      );
     };
 
     routes.forEach((route) => {

@@ -5,15 +5,20 @@ import { connect, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Dialog } from '@mui/material';
 import { createStructuredSelector } from 'reselect';
+import { jwtDecode } from 'jwt-decode';
 import { getDistance, initiatePayment } from '@containers/Client/actions';
 import { selectDistance, selectLogin, selectToken } from '@containers/Client/selectors';
 import classes from './style.module.scss';
 
 const PopupConfirmPayment = ({ open, handleClose, distance, login, token }) => {
   const dispatch = useDispatch();
+  let decoded = null;
+  if (token) {
+    decoded = jwtDecode(token);
+  }
 
   useEffect(() => {
-    if (login && token) {
+    if (login && decoded && decoded?.data?.role === 2) {
       dispatch(getDistance());
     }
   }, [dispatch]);

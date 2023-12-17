@@ -46,7 +46,7 @@ export default {
   app_reset_button: 'Kirim',
 
   app_nav_home: 'Beranda',
-  app_nav_about: 'Tentang Kami',
+  app_nav_history: 'Riwayat Pesanan',
   app_nav_menu: 'Order',
   app_nav_service: 'Pelayanan',
   app_nav_login: 'Masuk',

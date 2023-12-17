@@ -1,6 +1,7 @@
 /* eslint-disable comma-dangle */
 /* eslint-disable semi */
 /* eslint-disable quotes */
+const { Op } = require("sequelize");
 const { handleServerError, handleClientError } = require("../helpers/handleError");
 const handleResponseSuccess = require("../helpers/responseSuccess");
 const { Users, PurchaseGroups, Menus, Purchases } = require("../models");
@@ -93,6 +94,70 @@ exports.getSelectedPurchaseGroups = async (req, res) => {
     return handleResponseSuccess(res, 200, selectedPurchase);
   } catch (error) {
     console.log(error);
+    return handleServerError(res);
+  }
+};
+exports.getPurchaseGroups = async (req, res) => {
+  try {
+    const authID = req.user.id;
+
+    const page = req.query.page || 1;
+    const limitPerPage = 10;
+    const offset = (page - 1) * limitPerPage;
+
+    const totalPurchaseGroups = await PurchaseGroups.count({
+      where: {
+        user_id: authID,
+        status: {
+          [Op.ne]: "Pending Payment",
+        },
+      },
+    });
+
+    const selectedPurchase = await PurchaseGroups.findAll({
+      where: {
+        user_id: authID,
+        status: {
+          [Op.ne]: "Pending Payment",
+        },
+      },
+      include: [
+        {
+          model: Users,
+          as: "user_driver",
+          attributes: ["full_name"],
+        },
+        {
+          model: Purchases,
+          as: "purchaseGroup_purchase",
+          include: [
+            {
+              model: Menus,
+              as: "menu_purchase",
+            },
+          ],
+        },
+        {
+          model: Users,
+          as: "user_receiver",
+          attributes: ["full_name"],
+        },
+      ],
+      limit: limitPerPage,
+      offset: offset,
+      order: [["createdAt", "DESC"]],
+    });
+
+    const totalPage = Math.ceil(totalPurchaseGroups / limitPerPage);
+
+    const data = {
+      totalPage,
+      page,
+      selectedPurchase,
+    };
+
+    return handleResponseSuccess(res, 200, "success", data);
+  } catch (error) {
     return handleServerError(res);
   }
 };

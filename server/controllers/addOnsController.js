@@ -4,8 +4,10 @@
 /* eslint-disable quotes */
 const { handleServerError, handleClientError } = require("../helpers/handleError");
 const handleResponseSuccess = require("../helpers/responseSuccess");
+const path = require("path");
 const { validateBodyAddons } = require("../helpers/validationJoi");
 const { Menus, Sugars, Sizes, Milk, Beans } = require("../models");
+const loadData = require("../helpers/databaseHelper");
 
 exports.getAddOnsSelectedMenu = async (req, res) => {
   try {
@@ -28,6 +30,8 @@ exports.getAddOnsSelectedMenu = async (req, res) => {
 exports.createAddOnsForMenu = async (req, res) => {
   try {
     const { menu_id, sizes, beans, milk, sugars } = req.body;
+    const database = path.join(__dirname, "../database/addOns.json");
+    const response = loadData(database);
 
     const validate = validateBodyAddons(req.body);
     if (validate) {

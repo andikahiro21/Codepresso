@@ -18,7 +18,7 @@ const PopupBaskets = ({ open, handleClose, baskets, handleClickOpenPayment, logi
   }
 
   useEffect(() => {
-    if (login && decoded) {
+    if (login && decoded && decoded?.data?.role === 2) {
       dispatch(getBaskets());
     }
   }, [dispatch]);

@@ -46,7 +46,7 @@ export default {
   app_reset_button: 'Send',
 
   app_nav_home: 'Home',
-  app_nav_about: 'About Us',
+  app_nav_history: 'Order History',
   app_nav_menu: 'Order',
   app_nav_service: 'Service',
   app_nav_login: 'Sign in',

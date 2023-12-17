@@ -10,13 +10,13 @@ import loginReducer from '@pages/Login/reducer';
 import registerReducer from '@pages/Register/reducer';
 import forgotReducer from '@pages/ForgotPassword/reducer';
 import resetReducer from '@pages/ResetPassword/reducer';
+import orderHistoryReducer from '@pages/OrderHistory/reducer';
 import productReducer from '@pages/Products/reducer';
 import { mapWithPersistor } from './persistence';
 
 const storedReducers = {
   app: { reducer: appReducer, whitelist: storedAppState },
   client: { reducer: clientReducer, whitelist: storedClientState },
-  routes: { reducer: clientReducer, whitelist: storedClientState },
   purchase: { reducer: purchaseReducer, whitelist: storedPurchaseState },
 };
 
@@ -27,6 +27,7 @@ const temporaryReducers = {
   forgotPassword: forgotReducer,
   resetPassword: resetReducer,
   products: productReducer,
+  orderHistory: orderHistoryReducer,
 };
 
 const createReducer = () => {

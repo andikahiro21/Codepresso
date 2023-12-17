@@ -137,7 +137,7 @@ const Navbar = ({ title, locale, login, token, address }) => {
   }
 
   useEffect(() => {
-    if (token) {
+    if (token && decoded && decoded?.data?.role === 2) {
       dispatch(getAddress());
     }
   }, [dispatch, token]);
@@ -162,19 +162,14 @@ const Navbar = ({ title, locale, login, token, address }) => {
                 <FormattedMessage id="app_nav_home" />
               </li>
             </a>
-            <a href="#" onClick={handleCloseHam}>
+            <a href="/products" onClick={handleCloseHam}>
               <li>
                 <FormattedMessage id="app_nav_menu" />
               </li>
             </a>
-            <a href="#" onClick={handleCloseHam}>
+            <a href="/order-history" onClick={handleCloseHam}>
               <li>
-                <FormattedMessage id="app_nav_about" />
-              </li>
-            </a>
-            <a href="#" onClick={handleCloseHam}>
-              <li>
-                <FormattedMessage id="app_nav_service" />
+                <FormattedMessage id="app_nav_history" />
               </li>
             </a>
             <a href="/login" onClick={handleCloseHam}>
@@ -193,26 +188,25 @@ const Navbar = ({ title, locale, login, token, address }) => {
 
         <div className={classes.menuList}>
           <ul>
-            <a href="#">
+            <a href="/">
               <li>
                 <FormattedMessage id="app_nav_home" />
               </li>
             </a>
-            <a href="#">
-              <li>
-                <FormattedMessage id="app_nav_about" />
-              </li>
-            </a>
-            <a href="/products">
-              <li>
-                <FormattedMessage id="app_nav_menu" />
-              </li>
-            </a>
-            <a href="#">
-              <li>
-                <FormattedMessage id="app_nav_service" />
-              </li>
-            </a>
+            {decoded?.data?.role === 2 && (
+              <>
+                <a href="/order-history">
+                  <li>
+                    <FormattedMessage id="app_nav_history" />
+                  </li>
+                </a>
+                <a href="/products">
+                  <li>
+                    <FormattedMessage id="app_nav_menu" />
+                  </li>
+                </a>
+              </>
+            )}
           </ul>
         </div>
         <div className={classes.toolbar}>
