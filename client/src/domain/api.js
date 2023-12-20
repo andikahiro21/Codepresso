@@ -43,10 +43,17 @@ export const login = (data) => callAPI('/auth/login', 'POST', {}, {}, data);
 export const register = (data) => callAPI('/auth/register', 'POST', {}, {}, data);
 export const forgotPassword = (data) => callAPI('/auth/forgot-password', 'POST', {}, {}, data);
 export const resetPassword = (token, data) => callAPI(`/auth/reset-password/${token}`, 'PUT', {}, {}, data);
+export const registerDriver = (data) =>
+  callAPI(`${urls.auth}/register-driver`, 'POST', { 'Content-Type': 'multipart/form-data' }, {}, data);
 
 // Products
 export const getAllProducts = () => callAPI(`${urls.menu}`, 'GET');
 export const getSelectedProducts = (id) => callAPI(`${urls.addons}/${id}`, 'GET');
+export const createProducts = (data) =>
+  callAPI(`${urls.menu}`, 'POST', { 'Content-Type': 'multipart/form-data' }, {}, data);
+export const deleteProducts = (id) => callAPI(`${urls.menu}/${id}`, 'DELETE');
+export const editMenu = (data, id) =>
+  callAPI(`${urls.menu}/${id}`, 'PUT', { 'Content-Type': 'multipart/form-data' }, {}, data);
 
 // Categories
 export const getCategories = () => callAPI(`${urls.category}`, 'GET');
@@ -74,3 +81,4 @@ export const notificationMidtrans = (token) => callAPI(`${urls.payment}/notifica
 // Purchases
 export const getHistoryOrder = (id) => callAPI(`${urls.purchase}/${id}`, 'GET');
 export const getAllOrder = (page) => callAPI(`${urls.purchase}/?page=${page}`, 'GET');
+export const getAllOrderAdmin = (page) => callAPI(`${urls.purchase}/admin/?page=${page}`, 'GET');

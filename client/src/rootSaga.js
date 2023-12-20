@@ -1,7 +1,11 @@
 import { clientSaga } from '@containers/Client/saga';
+import { registerDriverSaga } from '@pages/CreateDriver/saga';
+import { menuSaga } from '@pages/CreateMenu/saga';
 import { purchaseSaga } from '@pages/DetailOrder/saga';
+import { editMenuSaga } from '@pages/EditMenu/saga';
 import { forgotSaga } from '@pages/ForgotPassword/saga';
 import { loginSaga } from '@pages/Login/saga';
+import { manageOrderSaga } from '@pages/ManageOrder/saga';
 import { orderHistorySaga } from '@pages/OrderHistory/saga';
 import { productSaga } from '@pages/Products/saga';
 import { registerSaga } from '@pages/Register/saga';
@@ -18,5 +22,9 @@ export default function* rootSaga() {
     clientSaga(),
     purchaseSaga(),
     orderHistorySaga(),
+    menuSaga(),
+    editMenuSaga(),
+    registerDriverSaga(),
+    manageOrderSaga(),
   ]);
 }

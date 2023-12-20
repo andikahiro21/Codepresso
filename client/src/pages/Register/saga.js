@@ -7,7 +7,7 @@ import { registerFailure } from './actions';
 function* register(action) {
   yield put(setLoading(true));
   try {
-    const response = yield call(registerApi, action.payload);
+    yield call(registerApi, action.payload);
     window.location.href = '/login';
   } catch (e) {
     yield put(registerFailure(e.response.data.message));

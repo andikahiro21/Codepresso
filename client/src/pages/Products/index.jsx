@@ -7,10 +7,10 @@ import { FormattedMessage } from 'react-intl';
 import ProductCard from '@components/ProductCard';
 
 import { getAllProducts, getCategories, getSelectedProducts } from './actions';
-
-import classes from './style.module.scss';
 import { selectCategories, selectProducts } from './selectors';
 import PopupOrder from './PopupOrder';
+
+import classes from './style.module.scss';
 
 const Products = ({ products, categories }) => {
   const dispatch = useDispatch();

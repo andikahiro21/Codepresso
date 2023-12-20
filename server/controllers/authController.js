@@ -8,10 +8,11 @@ const { generateToken, generateTokenReset } = require("../utils/generateToken");
 const sendForgotPasswordEmail = require("../utils/nodemailer");
 const jwt = require("jsonwebtoken");
 const zlib = require("zlib");
-const { validateBodyLogin, validateBodyRegister, validateBodyForgot, validateBodyReset } = require("../helpers/validationJoi");
+const { validateBodyLogin, validateBodyRegister, validateBodyForgot, validateBodyReset, validateBodyRegisterDriver } = require("../helpers/validationJoi");
 const { decryptTextPayload, decryptObjectPayload } = require("../utils/decryptPayload");
 const Redis = require("ioredis");
 const handleResponseSuccess = require("../helpers/responseSuccess");
+const { uploadToCloudinary, deleteFromCloudinary } = require("../config/cloudinary");
 const redisClient = new Redis();
 
 exports.login = async (req, res) => {
@@ -91,6 +92,54 @@ exports.register = async (req, res) => {
     });
 
     return handleResponseSuccess(res, 201, "User Created");
+  } catch (error) {
+    return handleServerError(res);
+  }
+};
+exports.registerDriver = async (req, res) => {
+  let imageResult;
+  try {
+    const newData = req.body;
+    const decData = decryptObjectPayload(newData);
+    console.log(decData);
+
+    const validate = validateBodyRegisterDriver(decData);
+    if (validate) {
+      return handleClientError(res, 400, validate);
+    }
+    const existingUser = await Users.findOne({ where: { email: decData.email } });
+    if (existingUser) {
+      return handleClientError(res, 400, `User with email ${decData.email} already exist...`);
+    }
+    if (!req.files || !req.files.image) {
+      return handleClientError(res, 400, "Image Required");
+    }
+    let imageUploaded = false;
+
+    try {
+      imageResult = await uploadToCloudinary(req.files.image[0], "image", "images");
+      imageUploaded = true;
+    } catch (uploadError) {
+      if (imageUploaded) {
+        await deleteFromCloudinary(imageResult.public_id);
+      }
+      return handleClientError(res, 500, "Error uploading files to Cloudinary");
+    }
+
+    const hashingPassword = hashPassword(decData.password);
+    decData.password = hashingPassword;
+    decData.role = 3;
+
+    await Users.create({
+      full_name: decData.fullName,
+      email: decData.email,
+      password: decData.password,
+      phone_number: decData.phoneNumber,
+      role: decData.role,
+      image: imageResult.secure_url || process.env.AVATAR_URL_DEFAULT,
+    });
+
+    return handleResponseSuccess(res, 201, "User Created", decData);
   } catch (error) {
     return handleServerError(res);
   }

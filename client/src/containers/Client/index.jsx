@@ -9,7 +9,6 @@ import { selectLogin, selectToken } from '@containers/Client/selectors';
 
 const Client = ({ login, isAdmin, token, isUser, isDriver, children }) => {
   const decode = token ? decryptToken(token) : null;
-
   const navigate = useNavigate();
   useEffect(() => {
     if (!login) {
@@ -18,13 +17,13 @@ const Client = ({ login, isAdmin, token, isUser, isDriver, children }) => {
   }, [login, navigate]);
 
   useEffect(() => {
-    if (login && isAdmin && decode?.role !== 1) {
+    if (login && isAdmin && decode?.data?.role !== 1) {
       navigate('/');
     }
-    if (login && isUser && decode?.role !== 2) {
+    if (login && isUser && decode?.data?.role !== 2) {
       navigate('/');
     }
-    if (login && isDriver && decode?.role !== 3) {
+    if (login && isDriver && decode?.data?.role !== 3) {
       navigate('/');
     }
   }, [isAdmin, isUser, isDriver, login, navigate, decode]);

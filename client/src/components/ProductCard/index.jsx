@@ -2,19 +2,24 @@
 /* eslint-disable arrow-body-style */
 import PropTypes from 'prop-types';
 import { createStructuredSelector } from 'reselect';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import { jwtDecode } from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
+
+import { deleteProducts } from '@pages/Products/actions';
 
 import { selectLogin, selectToken } from '@containers/Client/selectors';
 
 import Card from '@mui/material/Card';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 import CardActions from '@mui/material/CardActions';
 
 import classes from './style.module.scss';
 
 const ProductCard = ({ name, description, price, image, login, token, id, handleClick }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   let decoded = null;
   if (token) {
     decoded = jwtDecode(token);
@@ -22,6 +27,39 @@ const ProductCard = ({ name, description, price, image, login, token, id, handle
   const handleLogin = () => {
     navigate('/login');
   };
+
+  let actionButton = null;
+
+  if (login && decoded?.data?.role === 2) {
+    actionButton = (
+      <button type="button" onClick={() => handleClick(id)}>
+        Add Order
+      </button>
+    );
+  } else if (decoded?.data?.role === 1) {
+    actionButton = (
+      <div className={classes.adminAction}>
+        <EditIcon
+          className={classes.editIcon}
+          onClick={() => {
+            navigate(`/edit-menu/${id}`);
+          }}
+        />
+        <DeleteIcon
+          className={classes.deleteIcon}
+          onClick={() => {
+            dispatch(deleteProducts(id));
+          }}
+        />
+      </div>
+    );
+  } else {
+    actionButton = (
+      <button type="button" onClick={handleLogin}>
+        Add Order
+      </button>
+    );
+  }
 
   return (
     <Card className={classes.card}>
@@ -37,15 +75,7 @@ const ProductCard = ({ name, description, price, image, login, token, id, handle
           <div className={classes.currency}>Rp</div>
           <div className={classes.price}>{price}</div>
         </div>
-        {login && decoded ? (
-          <button type="button" onClick={() => handleClick(id)}>
-            Add Order
-          </button>
-        ) : (
-          <button type="button" onClick={handleLogin}>
-            Add Order
-          </button>
-        )}
+        {actionButton}
       </CardActions>
     </Card>
   );

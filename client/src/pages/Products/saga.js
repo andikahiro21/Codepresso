@@ -1,7 +1,7 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
-import { getAllProducts, getCategories, getSelectedProducts, setBasket } from '@domain/api';
+import { deleteProducts, getAllProducts, getCategories, getSelectedProducts, setBasket } from '@domain/api';
 import { setLoading, showPopup } from '@containers/App/actions';
-import { GET_ALL_PRODUCTS, GET_CATEGORIES, GET_SELECTED_PRODUCTS, SET_BASKET } from './constants';
+import { DELETE_PRODUCTS, GET_ALL_PRODUCTS, GET_CATEGORIES, GET_SELECTED_PRODUCTS, SET_BASKET } from './constants';
 import { setCategories, setProducts, setSelectedProducts } from './actions';
 
 function* doGetAllProducts() {
@@ -52,9 +52,22 @@ function* doAddBasket(action) {
   }
 }
 
+function* doDeleteProducts(action) {
+  yield put(setLoading(true));
+  try {
+    yield call(deleteProducts, action.payload);
+    window.location.reload();
+  } catch (error) {
+    alert(error.response.data.message);
+  } finally {
+    yield put(setLoading(false));
+  }
+}
+
 export function* productSaga() {
   yield takeLatest(GET_ALL_PRODUCTS, doGetAllProducts);
   yield takeLatest(GET_CATEGORIES, doGetCategories);
   yield takeLatest(GET_SELECTED_PRODUCTS, doGetSelectedProducts);
   yield takeLatest(SET_BASKET, doAddBasket);
+  yield takeLatest(DELETE_PRODUCTS, doDeleteProducts);
 }

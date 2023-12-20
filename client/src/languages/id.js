@@ -36,6 +36,9 @@ export default {
   app_register_fullname_err: 'Nama lengkap tidak boleh kosong',
   app_register_phonenumber_err: 'Nomor handphone tidak boleh kosong',
 
+  app_register_driver_title: 'Daftarkan Driver',
+  app_register_driver_desc: 'Mohon isi informasi driver untuk melanjutkan',
+
   app_forgot_title: 'Lupa Kata Sandi',
   app_forgot_email: 'Email',
   app_forgot_button: 'Kirim',
@@ -47,9 +50,28 @@ export default {
 
   app_nav_home: 'Beranda',
   app_nav_history: 'Riwayat Pesanan',
-  app_nav_menu: 'Order',
+  app_nav_create_menu: 'Buat Menu',
+  app_nav_create_driver: 'Daftarkan Driver',
+  app_nav_menu: 'Products',
   app_nav_service: 'Pelayanan',
   app_nav_login: 'Masuk',
+  app_nav_manage_order: 'Manage Order',
+
+  app_create_menu_name: 'Nama Menu',
+  app_create_menu_name_err: 'Nama Menu Tidak Boleh Kosong',
+  app_create_menu_category: 'Kategori',
+  app_create_menu_description: 'Deskripsi',
+  app_create_menu_description_err: 'Deskripsi tidak boleh kosong',
+  app_create_menu_type: 'Tipe',
+  app_create_menu_image: 'Gambar',
+  app_create_menu_image_err: 'Gambar Tidak Boleh Kosong',
+  app_create_menu_price: 'Harga',
+  app_create_menu_price_err: 'Harga Tidak Boleh Kosong',
+  app_create_menu_sizes: 'Sertakan Pilihan Ukuran',
+  app_create_menu_beans: 'Sertakan Pilihan Biji Kopi',
+  app_create_menu_milk: 'Sertakan Pilihan Susu',
+  app_create_menu_sugars: 'Sertakan Pilihan Gula',
+  app_create_menu_button: 'Buat Menu',
 
   app_home_title: 'Menginginkan sentuhan kopi yang luar biasa? Campuran kami sungguh menggugah selera.',
   app_home_desc:

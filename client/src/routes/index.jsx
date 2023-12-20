@@ -1,9 +1,13 @@
 import MainLayout from '@layouts/MainLayout';
+import CreateDriver from '@pages/CreateDriver';
+import CreateMenu from '@pages/CreateMenu';
 import DetailOrder from '@pages/DetailOrder';
+import EditMenu from '@pages/EditMenu';
 
 import ForgotPassword from '@pages/ForgotPassword';
 import Home from '@pages/Home';
 import Login from '@pages/Login';
+import ManageOrder from '@pages/ManageOrder';
 import NotFound from '@pages/NotFound';
 import OrderHistory from '@pages/OrderHistory';
 import Products from '@pages/Products';
@@ -74,7 +78,7 @@ const routes = [
     component: DetailOrder,
     layout: MainLayout,
     adminOnly: false,
-    userOnly: false,
+    userOnly: true,
     driverOnly: false,
   },
   {
@@ -84,6 +88,48 @@ const routes = [
     component: OrderHistory,
     layout: MainLayout,
     adminOnly: false,
+    userOnly: true,
+    driverOnly: false,
+  },
+  {
+    path: '/create-menu',
+    name: 'CreateMenu',
+    protected: true,
+    component: CreateMenu,
+    layout: MainLayout,
+    adminOnly: true,
+    userOnly: false,
+    driverOnly: false,
+  },
+  {
+    path: '/edit-menu/:id',
+    name: 'EditMenu',
+    protected: true,
+    component: EditMenu,
+    layout: MainLayout,
+    adminOnly: true,
+    userOnly: false,
+    driverOnly: false,
+  },
+
+  {
+    path: '/create-driver',
+    name: 'CreateDriver',
+    protected: true,
+    component: CreateDriver,
+    layout: MainLayout,
+    adminOnly: true,
+    userOnly: false,
+    driverOnly: false,
+  },
+
+  {
+    path: '/manage-order',
+    name: 'ManageOrder',
+    protected: true,
+    component: ManageOrder,
+    layout: MainLayout,
+    adminOnly: true,
     userOnly: false,
     driverOnly: false,
   },

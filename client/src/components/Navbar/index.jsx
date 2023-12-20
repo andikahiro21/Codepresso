@@ -193,16 +193,34 @@ const Navbar = ({ title, locale, login, token, address }) => {
                 <FormattedMessage id="app_nav_home" />
               </li>
             </a>
+            <a href="/products">
+              <li>
+                <FormattedMessage id="app_nav_menu" />
+              </li>
+            </a>
+
             {decoded?.data?.role === 2 && (
+              <a href="/order-history">
+                <li>
+                  <FormattedMessage id="app_nav_history" />
+                </li>
+              </a>
+            )}
+            {decoded?.data?.role === 1 && (
               <>
-                <a href="/order-history">
+                <a href="/create-menu">
                   <li>
-                    <FormattedMessage id="app_nav_history" />
+                    <FormattedMessage id="app_nav_create_menu" />
                   </li>
                 </a>
-                <a href="/products">
+                <a href="/create-driver">
                   <li>
-                    <FormattedMessage id="app_nav_menu" />
+                    <FormattedMessage id="app_nav_create_driver" />
+                  </li>
+                </a>
+                <a href="/manage-order">
+                  <li>
+                    <FormattedMessage id="app_nav_manage_order" />
                   </li>
                 </a>
               </>
@@ -212,9 +230,12 @@ const Navbar = ({ title, locale, login, token, address }) => {
         <div className={classes.toolbar}>
           {login && decoded ? (
             <>
-              <div className={classes.cartContainer} onClick={handleClickOpenBaskets}>
-                <ShoppingCartIcon />
-              </div>
+              {login && decoded?.data?.role === 2 && (
+                <div className={classes.cartContainer} onClick={handleClickOpenBaskets}>
+                  <ShoppingCartIcon />
+                </div>
+              )}
+
               <img src={decoded.data.image} className={classes.profileIcon} alt="icon" onClick={handleClickProfile} />
               <Menu
                 anchorEl={anchorEl}
@@ -251,30 +272,34 @@ const Navbar = ({ title, locale, login, token, address }) => {
                 transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
               >
-                <MenuItem>
-                  <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-                    <InputLabel id="active-address-label">
-                      <FormattedMessage id="app_nav_active_address" />
-                    </InputLabel>
-                    <Select
-                      labelId="active-address-label"
-                      id="active-address"
-                      value={address?.find((a) => a?.active)?.id || ''}
-                      onChange={handleActiveChange}
-                      className={classes.selectAddress}
-                      label={<FormattedMessage id="app_nav_active_address" />}
-                    >
-                      {address?.map((addr) => (
-                        <MenuItem className={classes.addressName} key={addr.id} value={addr.id}>
-                          {addr.address_name}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                </MenuItem>
-                <MenuItem onClick={handleClickOpenAddress}>
-                  <div className={classes.addressTitle}>Manage Address</div>
-                </MenuItem>
+                {login && decoded?.data?.role === 2 && (
+                  <>
+                    <MenuItem>
+                      <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+                        <InputLabel id="active-address-label">
+                          <FormattedMessage id="app_nav_active_address" />
+                        </InputLabel>
+                        <Select
+                          labelId="active-address-label"
+                          id="active-address"
+                          value={address?.find((a) => a?.active)?.id || ''}
+                          onChange={handleActiveChange}
+                          className={classes.selectAddress}
+                          label={<FormattedMessage id="app_nav_active_address" />}
+                        >
+                          {address?.map((addr) => (
+                            <MenuItem className={classes.addressName} key={addr.id} value={addr.id}>
+                              {addr.address_name}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </FormControl>
+                    </MenuItem>
+                    <MenuItem onClick={handleClickOpenAddress}>
+                      <div className={classes.addressTitle}>Manage Address</div>
+                    </MenuItem>
+                  </>
+                )}
                 <MenuItem onClick={handleLogout}>
                   <ListItemIcon>
                     <Logout fontSize="small" />

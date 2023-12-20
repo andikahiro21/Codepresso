@@ -188,3 +188,64 @@ exports.setOrderFinish = async (req, res) => {
     return handleServerError(res);
   }
 };
+
+exports.getPurchaseGroupsAdmin = async (req, res) => {
+  try {
+    const page = req.query.page || 1;
+    const limitPerPage = 10;
+    const offset = (page - 1) * limitPerPage;
+
+    const totalPurchaseGroups = await PurchaseGroups.count({
+      where: {
+        status: {
+          [Op.ne]: "Pending Payment",
+        },
+      },
+    });
+
+    const selectedPurchase = await PurchaseGroups.findAll({
+      where: {
+        status: {
+          [Op.ne]: "Pending Payment",
+        },
+      },
+      include: [
+        {
+          model: Users,
+          as: "user_driver",
+          attributes: ["full_name"],
+        },
+        {
+          model: Purchases,
+          as: "purchaseGroup_purchase",
+          include: [
+            {
+              model: Menus,
+              as: "menu_purchase",
+            },
+          ],
+        },
+        {
+          model: Users,
+          as: "user_receiver",
+          attributes: ["full_name"],
+        },
+      ],
+      limit: limitPerPage,
+      offset: offset,
+      order: [["createdAt", "ASC"]],
+    });
+
+    const totalPage = Math.ceil(totalPurchaseGroups / limitPerPage);
+
+    const data = {
+      totalPage,
+      page,
+      selectedPurchase,
+    };
+
+    return handleResponseSuccess(res, 200, "success", data);
+  } catch (error) {
+    return handleServerError(res);
+  }
+};

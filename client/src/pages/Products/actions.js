@@ -1,4 +1,5 @@
 import {
+  DELETE_PRODUCTS,
   GET_ALL_PRODUCTS,
   GET_CATEGORIES,
   GET_SELECTED_PRODUCTS,
@@ -39,4 +40,9 @@ export const setSelectedProducts = (selectedProducts) => ({
 export const setBasket = (basket) => ({
   type: SET_BASKET,
   payload: basket,
+});
+
+export const deleteProducts = (id) => ({
+  type: DELETE_PRODUCTS,
+  payload: id,
 });

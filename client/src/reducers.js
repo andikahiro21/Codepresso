@@ -11,7 +11,12 @@ import registerReducer from '@pages/Register/reducer';
 import forgotReducer from '@pages/ForgotPassword/reducer';
 import resetReducer from '@pages/ResetPassword/reducer';
 import orderHistoryReducer from '@pages/OrderHistory/reducer';
+import registerDriverReducer from '@pages/CreateDriver/reducer';
+import menuReducer from '@pages/CreateMenu/reducer';
+import editMenuReducer from '@pages/EditMenu/reducer';
+import manageOrderReducer from '@pages/ManageOrder/reducer';
 import productReducer from '@pages/Products/reducer';
+
 import { mapWithPersistor } from './persistence';
 
 const storedReducers = {
@@ -28,6 +33,10 @@ const temporaryReducers = {
   resetPassword: resetReducer,
   products: productReducer,
   orderHistory: orderHistoryReducer,
+  menu: menuReducer,
+  editMenu: editMenuReducer,
+  registerDriver: registerDriverReducer,
+  manageOrder: manageOrderReducer,
 };
 
 const createReducer = () => {
