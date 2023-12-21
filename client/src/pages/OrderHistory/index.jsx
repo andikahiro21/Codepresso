@@ -3,6 +3,7 @@ import { connect, useDispatch } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { useEffect, useState } from 'react';
 import Macchiato from '@static/images/macchiato.png';
+import { FormattedMessage } from 'react-intl';
 import { useNavigate } from 'react-router-dom';
 
 import { getHistoryOrder } from '@pages/DetailOrder/actions';
@@ -42,7 +43,9 @@ const OrderHistory = ({ allOrder }) => {
 
   return (
     <div className={classes.orderHistory}>
-      <div className={classes.orderTitle}>Order History</div>
+      <div className={classes.orderTitle}>
+        <FormattedMessage id="app_order_history_title" />
+      </div>
       <div className={classes.orderCont}>
         {allOrder?.data?.selectedPurchase?.map((item) => (
           <div className={classes.order} onClick={() => handleClick(item?.id)} key={item?.id}>

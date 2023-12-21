@@ -52,10 +52,10 @@ export default {
   app_nav_history: 'Riwayat Pesanan',
   app_nav_create_menu: 'Buat Menu',
   app_nav_create_driver: 'Daftarkan Driver',
-  app_nav_menu: 'Products',
+  app_nav_menu: 'Produk',
   app_nav_service: 'Pelayanan',
   app_nav_login: 'Masuk',
-  app_nav_manage_order: 'Manage Order',
+  app_nav_manage_order: 'Kelola Pesanan',
 
   app_create_menu_name: 'Nama Menu',
   app_create_menu_name_err: 'Nama Menu Tidak Boleh Kosong',
@@ -92,4 +92,17 @@ export default {
 
   app_products_title: 'Produk Kami',
   app_nav_active_address: 'Alamat',
+
+  app_order_history_title: 'Riwayat Order',
+
+  app_manage_order_title: 'Kelola Pesanan',
+  app_manage_order_finished: 'Order Selesai',
+  app_manage_order_delivery: 'Sedang Diantar',
+  app_manage_order_button: 'Pilih Driver',
+  app_manage_order_list_button: 'List Order',
+
+  app_list_order_title: 'Daftar Pesanan',
+
+  app_list_popup_driver_title: 'Daftar Driver',
+  app_list_popup_driver_button: 'Pilih Driver',
 };

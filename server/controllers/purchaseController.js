@@ -4,7 +4,7 @@
 const { Op } = require("sequelize");
 const { handleServerError, handleClientError } = require("../helpers/handleError");
 const handleResponseSuccess = require("../helpers/responseSuccess");
-const { Users, PurchaseGroups, Menus, Purchases } = require("../models");
+const { Users, PurchaseGroups, Menus, Purchases, Sugars, Sizes, Beans, Milk } = require("../models");
 
 exports.setDelivery = async (req, res) => {
   try {
@@ -66,7 +66,7 @@ exports.getSelectedPurchaseGroups = async (req, res) => {
           attributes: ["full_name"],
         },
         {
-          model: Purchases, // Assuming there is an association between PurchaseGroups and Purchase
+          model: Purchases,
           as: "purchaseGroup_purchase",
           include: [
             {
@@ -203,7 +203,7 @@ exports.getPurchaseGroupsAdmin = async (req, res) => {
       },
     });
 
-    const selectedPurchase = await PurchaseGroups.findAll({
+    const allPurchaseGroups = await PurchaseGroups.findAll({
       where: {
         status: {
           [Op.ne]: "Pending Payment",
@@ -223,6 +223,10 @@ exports.getPurchaseGroupsAdmin = async (req, res) => {
               model: Menus,
               as: "menu_purchase",
             },
+            { model: Sugars },
+            { model: Sizes },
+            { model: Beans },
+            { model: Milk },
           ],
         },
         {
@@ -231,17 +235,33 @@ exports.getPurchaseGroupsAdmin = async (req, res) => {
           attributes: ["full_name"],
         },
       ],
-      limit: limitPerPage,
-      offset: offset,
       order: [["createdAt", "ASC"]],
     });
+
+    const groupedData = allPurchaseGroups.reduce((acc, purchaseGroup) => {
+      const status = purchaseGroup.status;
+
+      if (!acc[status]) {
+        acc[status] = [];
+      }
+
+      acc[status].push(purchaseGroup);
+
+      return acc;
+    }, {});
+
+    const displayOrder = ["Order Receive", "On-Delivery", "Order Finished"];
+
+    const selectedPurchase = displayOrder.flatMap((status) => groupedData[status] || []);
+
+    const paginatedData = selectedPurchase.slice(offset, offset + limitPerPage);
 
     const totalPage = Math.ceil(totalPurchaseGroups / limitPerPage);
 
     const data = {
       totalPage,
       page,
-      selectedPurchase,
+      selectedPurchase: paginatedData,
     };
 
     return handleResponseSuccess(res, 200, "success", data);

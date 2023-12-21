@@ -1,0 +1,64 @@
+@import '@styles/base';
+
+.cardContainer {
+  height: 70vh;
+  padding-bottom: 1rem;
+  padding-top: 1rem;
+  .cardTitle {
+    @include directionY;
+    align-items: center;
+    font-size: 1.5rem;
+    font-weight: 600;
+    height: 3.5rem;
+    border-bottom: 1px solid rgba($color-line-grey, 0.2);
+    width: 100%;
+  }
+
+  .listOrderContainer {
+    width: 100%;
+    height: fit-content;
+    padding-bottom: 1rem;
+    position: relative;
+    .listOrder {
+      @include directionX;
+      width: 100%;
+      height: 7rem;
+      border-bottom: 1px solid rgba($color-line-grey, 0.2);
+      .imgContainer {
+        @include directionX;
+        align-items: center;
+        height: 100%;
+        width: 20%;
+        .img {
+          @include directionX;
+          justify-content: center;
+          align-items: center;
+          background-color: $color-very-light-grey;
+          height: 85%;
+          width: 85%;
+          border-radius: 1rem;
+          margin-left: 1rem;
+          img {
+            width: 50%;
+          }
+        }
+      }
+      .productDesc {
+        padding-top: 0.3rem;
+        padding-left: 1rem;
+        position: relative;
+        width: 80%;
+        .name {
+          font-size: 1.2rem;
+          font-weight: 600;
+        }
+        .addons {
+          @include directionX;
+          gap: 0.3rem;
+          font-size: 0.8rem;
+          color: $color-dark-grey;
+        }
+      }
+    }
+  }
+}

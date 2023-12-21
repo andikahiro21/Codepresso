@@ -45,6 +45,7 @@ export const forgotPassword = (data) => callAPI('/auth/forgot-password', 'POST',
 export const resetPassword = (token, data) => callAPI(`/auth/reset-password/${token}`, 'PUT', {}, {}, data);
 export const registerDriver = (data) =>
   callAPI(`${urls.auth}/register-driver`, 'POST', { 'Content-Type': 'multipart/form-data' }, {}, data);
+export const driverList = () => callAPI(`${urls.auth}/check-driver`, 'GET');
 
 // Products
 export const getAllProducts = () => callAPI(`${urls.menu}`, 'GET');
@@ -82,3 +83,5 @@ export const notificationMidtrans = (token) => callAPI(`${urls.payment}/notifica
 export const getHistoryOrder = (id) => callAPI(`${urls.purchase}/${id}`, 'GET');
 export const getAllOrder = (page) => callAPI(`${urls.purchase}/?page=${page}`, 'GET');
 export const getAllOrderAdmin = (page) => callAPI(`${urls.purchase}/admin/?page=${page}`, 'GET');
+export const setOrderDelivery = (id, driverID) =>
+  callAPI(`${urls.purchase}/set-delivery/${id}`, 'PUT', {}, {}, { driverID });

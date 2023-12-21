@@ -90,4 +90,17 @@ export default {
 
   app_products_title: 'Our Products',
   app_nav_active_address: 'Address',
+
+  app_order_history_title: 'Order History',
+
+  app_manage_order_title: 'Manage Order',
+  app_manage_order_finished: 'Order Finished',
+  app_manage_order_delivery: 'On-Delivery',
+  app_manage_order_button: 'Choose Driver',
+  app_manage_order_list_button: 'Order List',
+
+  app_list_order_title: 'Order List',
+
+  app_list_popup_driver_title: 'Driver List',
+  app_list_popup_driver_button: 'Select Driver',
 };

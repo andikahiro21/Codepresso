@@ -2,7 +2,7 @@
 /* eslint-disable semi */
 /* eslint-disable quotes */
 const { handleClientError, handleServerError } = require("../helpers/handleError");
-const { Users } = require("../models");
+const { Users, PurchaseGroups } = require("../models");
 const { hashPassword, comparePassword } = require("../utils/bcryptPassword");
 const { generateToken, generateTokenReset } = require("../utils/generateToken");
 const sendForgotPasswordEmail = require("../utils/nodemailer");
@@ -13,6 +13,7 @@ const { decryptTextPayload, decryptObjectPayload } = require("../utils/decryptPa
 const Redis = require("ioredis");
 const handleResponseSuccess = require("../helpers/responseSuccess");
 const { uploadToCloudinary, deleteFromCloudinary } = require("../config/cloudinary");
+const { Op } = require("sequelize");
 const redisClient = new Redis();
 
 exports.login = async (req, res) => {
@@ -199,6 +200,42 @@ exports.resetPassword = async (req, res) => {
     if (error.message === "jwt expired") {
       return handleClientError(res, 400, "Token expired");
     }
+    return handleServerError(res);
+  }
+};
+
+exports.checkDriverDelivery = async (req, res) => {
+  try {
+    const unavailableDrivers = await PurchaseGroups.findAll({
+      attributes: ["driver_id"],
+      where: {
+        status: "On-Delivery",
+      },
+    });
+
+    const unavailableDriverIds = unavailableDrivers.map((driver) => driver.driver_id);
+
+    const availableUsers = await Users.findAll({
+      attributes: { exclude: ["password", "createdAt", "updatedAt"] },
+      where: {
+        id: {
+          [Op.notIn]: unavailableDriverIds,
+        },
+        role: 3, // Jangan lupa tambahkan kondisi role jika diperlukan
+      },
+      raw: true,
+      nest: true,
+    });
+
+    const userData = availableUsers.map((user) => ({
+      id: user.id,
+      name: user.full_name,
+      image: user.image,
+    }));
+
+    return handleResponseSuccess(res, 200, "success", userData);
+  } catch (error) {
+    console.error(error);
     return handleServerError(res);
   }
 };
