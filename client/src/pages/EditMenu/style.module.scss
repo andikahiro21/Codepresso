@@ -169,8 +169,11 @@
       }
 
       .addOnsContainer {
-        @include directionX;
+        @include directionY;
         gap: 2rem;
+        @include apply-at-xl-size {
+          @include directionX;
+        }
         .addOns {
           @include directionX;
           gap: 0.5rem;

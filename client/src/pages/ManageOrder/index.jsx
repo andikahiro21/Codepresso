@@ -71,10 +71,7 @@ const ManageOrder = ({ allOrder }) => {
                 <img src={item?.purchaseGroup_purchase[0]?.menu_purchase?.image} alt="product" />
               </div>
               <div className={classes.statusCont}>
-                <div className={classes.reveiverName}>
-                  {item?.user_receiver?.full_name}
-                  {item.id}
-                </div>
+                <div className={classes.reveiverName}>{item?.user_receiver?.full_name}</div>
                 <div className={classes.note}>{item?.note}</div>
               </div>
             </div>

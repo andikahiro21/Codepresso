@@ -105,4 +105,12 @@ export default {
 
   app_list_popup_driver_title: 'Daftar Driver',
   app_list_popup_driver_button: 'Pilih Driver',
+
+  app_active_order_title: 'Order Berlangsung',
+  app_active_order_track: 'Lokasi',
+  app_active_order_order_finished: 'Selesaikan Order',
+  app_active_order_alert: 'Pastikan Customer Sudah Menerima Order',
+  app_active_order_no_data: 'Belum ada order aktif',
+
+  app_edit_menu_title: 'Sunting Menu',
 };

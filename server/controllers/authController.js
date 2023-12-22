@@ -221,7 +221,7 @@ exports.checkDriverDelivery = async (req, res) => {
         id: {
           [Op.notIn]: unavailableDriverIds,
         },
-        role: 3, // Jangan lupa tambahkan kondisi role jika diperlukan
+        role: 3,
       },
       raw: true,
       nest: true,
@@ -235,7 +235,6 @@ exports.checkDriverDelivery = async (req, res) => {
 
     return handleResponseSuccess(res, 200, "success", userData);
   } catch (error) {
-    console.error(error);
     return handleServerError(res);
   }
 };

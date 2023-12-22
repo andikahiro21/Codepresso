@@ -2,8 +2,12 @@
 
 .products {
   background-image: url('../../static/images/bg-image.png');
-  padding-left: 3rem;
+  padding-left: 2rem;
   padding-top: 1rem;
+
+  @include apply-at-xl-size {
+    padding-left: 3rem;
+  }
 
   .title {
     font-size: 1.5rem;

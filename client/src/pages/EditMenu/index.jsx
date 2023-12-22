@@ -84,10 +84,11 @@ const EditMenu = ({ categories, editError, selectedProduct }) => {
     }
   }, [selectedProduct]);
 
-  console.log(selectedProduct);
   return (
     <div className={classes.createMenu}>
-      <div className={classes.createTitle}>Create Menu </div>
+      <div className={classes.createTitle}>
+        <FormattedMessage id="app_edit_menu_title" />
+      </div>
       <div className={classes.form}>
         <form onSubmit={handleSubmit}>
           {editError && <span className={classes.errorCreate}>{editError}</span>}
@@ -200,7 +201,7 @@ const EditMenu = ({ categories, editError, selectedProduct }) => {
 
           <div className={classes.createMenuButtonContainer}>
             <button type="submit">
-              <FormattedMessage id="app_create_menu_button" />
+              <FormattedMessage id="app_edit_menu_title" />
             </button>
           </div>
         </form>

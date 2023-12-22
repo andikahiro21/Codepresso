@@ -87,7 +87,7 @@ exports.getSelectedPurchaseGroups = async (req, res) => {
       return handleClientError(res, 404, "Purchase Not Found");
     }
 
-    if (selectedPurchase.user_id !== authID) {
+    if (!(selectedPurchase.user_id === authID || selectedPurchase.driver_id === authID)) {
       return handleClientError(res, 403, "You are not authorized to view this purchase group");
     }
 
@@ -97,6 +97,7 @@ exports.getSelectedPurchaseGroups = async (req, res) => {
     return handleServerError(res);
   }
 };
+
 exports.getPurchaseGroups = async (req, res) => {
   try {
     const authID = req.user.id;
@@ -265,6 +266,32 @@ exports.getPurchaseGroupsAdmin = async (req, res) => {
     };
 
     return handleResponseSuccess(res, 200, "success", data);
+  } catch (error) {
+    return handleServerError(res);
+  }
+};
+
+exports.getActivePurchaseGroups = async (req, res) => {
+  try {
+    const authID = req.user.id;
+
+    const selectedPurchase = await PurchaseGroups.findOne({
+      where: { driver_id: authID, status: "On-Delivery" },
+      include: [
+        {
+          model: Users,
+          as: "user_driver",
+          attributes: ["full_name"],
+        },
+        {
+          model: Users,
+          as: "user_receiver",
+          attributes: ["full_name"],
+        },
+      ],
+    });
+
+    return handleResponseSuccess(res, 200, "success", selectedPurchase);
   } catch (error) {
     return handleServerError(res);
   }

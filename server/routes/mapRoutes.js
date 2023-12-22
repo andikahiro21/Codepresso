@@ -8,6 +8,6 @@ const Authenticated = require("../middleware/authentication");
 const { getDistance, getRoute } = require("../controllers/mapController");
 
 router.get("/map/distance", Authenticated, isUser, upload.array(), getDistance);
-router.get("/map/route/:id", Authenticated, isUser, upload.array(), getRoute);
+router.get("/map/route/:id", Authenticated, upload.array(), getRoute);
 
 module.exports = router;

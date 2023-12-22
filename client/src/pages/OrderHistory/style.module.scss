@@ -30,13 +30,22 @@
           height: 100%;
           align-items: center;
           padding-left: 2rem;
+          img {
+            width: 2rem;
+            @include apply-at-xl-size {
+              width: 3rem;
+            }
+          }
         }
         .statusCont {
           @include directionY;
           gap: 0.1rem;
           justify-content: center;
-          font-size: 1.4rem;
+          font-size: 0.7rem;
           font-weight: 600;
+          @include apply-at-xl-size {
+            font-size: 1.4rem;
+          }
         }
       }
       .priceContainer {
@@ -46,9 +55,12 @@
         padding-right: 2rem;
         text-align: center;
         .priceTotal {
-          font-size: 1.4rem;
+          font-size: 0.7rem;
           font-weight: 600;
           color: $color-dark-green;
+          @include apply-at-xl-size {
+            font-size: 1.4rem;
+          }
         }
         .itemsCount {
           font-weight: 500;

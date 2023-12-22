@@ -1,7 +1,10 @@
 @import '@styles/base';
 
 .card {
-  width: 15rem;
+  width: 95%;
+  @include apply-at-xl-size {
+    width: 15rem;
+  }
   .imgContainer {
     @include directionX;
     width: 100%;

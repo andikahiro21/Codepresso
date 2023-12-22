@@ -175,11 +175,6 @@ function* doPayment(action) {
         text: 'Your payment has been successfully processed.',
         icon: 'success',
       });
-      // .then((result) => {
-      //   if (result.isConfirmed) {
-      //     window.location.href = '/order';
-      //   }
-      // });
     } catch (error) {
       yield put(error(error.message));
     }

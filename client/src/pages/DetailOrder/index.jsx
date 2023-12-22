@@ -50,10 +50,27 @@ const DetailOrder = ({ historyOrder, mapRoutes, login }) => {
     popupAnchor: [0, -40],
   });
 
-  console.log(historyOrder?.message?.note);
   return (
     <div className={classes.detailOrder}>
       <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" />
+      {isDataLoaded && position && (
+        <div className={classes.map} style={{ width: '100%', height: '70vh' }}>
+          <MapContainer center={position} zoom={13} style={{ width: '100%', height: '100%', zIndex: 1 }}>
+            <TileLayer
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            />
+            <Marker position={position} icon={userMarker}>
+              <Popup>{routes}</Popup>
+            </Marker>
+            <Marker position={cafePosisiton} icon={cafeMarker}>
+              <Popup>{routes}</Popup>
+            </Marker>
+
+            {routes && <Polyline color="blue" positions={JSON.parse(routes)} />}
+          </MapContainer>
+        </div>
+      )}
       <div className={classes.orderDetail}>
         <div className={classes.status}>
           <div className={classes.detailTitle}>Order Status:</div>
@@ -77,24 +94,6 @@ const DetailOrder = ({ historyOrder, mapRoutes, login }) => {
           <div className={classes.detailStatus}>{historyOrder?.message?.note}</div>
         </div>
       </div>
-      {isDataLoaded && position && (
-        <div className={classes.map} style={{ width: '100%', height: '70vh' }}>
-          <MapContainer center={position} zoom={13} style={{ width: '100%', height: '100%', zIndex: 1 }}>
-            <TileLayer
-              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            />
-            <Marker position={position} icon={userMarker}>
-              <Popup>{routes}</Popup>
-            </Marker>
-            <Marker position={cafePosisiton} icon={cafeMarker}>
-              <Popup>{routes}</Popup>
-            </Marker>
-
-            {routes && <Polyline color="blue" positions={JSON.parse(routes)} />}
-          </MapContainer>
-        </div>
-      )}
     </div>
   );
 };

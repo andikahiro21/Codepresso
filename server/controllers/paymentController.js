@@ -105,11 +105,11 @@ exports.createPayment = async (req, res) => {
       });
     }
 
-    // await Baskets.destroy({
-    //   where: {
-    //     user_id: authData.id,
-    //   },
-    // });
+    await Baskets.destroy({
+      where: {
+        user_id: authData.id,
+      },
+    });
 
     const payload = {
       total: total + deliveryCost,

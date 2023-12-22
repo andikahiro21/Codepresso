@@ -172,11 +172,7 @@ const Login = ({ locale }) => {
                 <FormattedMessage id="app_login_button" />
               </button>
             </div>
-            <div className={classes.googleButtonContainer}>
-              <button type="button">
-                <FormattedMessage id="app_login_google_button" />
-              </button>
-            </div>
+
             <div className={classes.registerCont}>
               <div className={classes.registerTitle}>
                 <FormattedMessage id="app_login_register_title" />

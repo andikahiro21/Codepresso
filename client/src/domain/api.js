@@ -85,3 +85,5 @@ export const getAllOrder = (page) => callAPI(`${urls.purchase}/?page=${page}`, '
 export const getAllOrderAdmin = (page) => callAPI(`${urls.purchase}/admin/?page=${page}`, 'GET');
 export const setOrderDelivery = (id, driverID) =>
   callAPI(`${urls.purchase}/set-delivery/${id}`, 'PUT', {}, {}, { driverID });
+export const getActivePurchase = () => callAPI(`${urls.purchase}/active-purchase`, 'GET');
+export const setFinishOrder = (id) => callAPI(`${urls.purchase}/set-finish/${id}`, 'PUT');

@@ -1,4 +1,5 @@
 import MainLayout from '@layouts/MainLayout';
+import ActiveOrder from '@pages/ActiveOrder';
 import CreateDriver from '@pages/CreateDriver';
 import CreateMenu from '@pages/CreateMenu';
 import DetailOrder from '@pages/DetailOrder';
@@ -78,7 +79,7 @@ const routes = [
     component: DetailOrder,
     layout: MainLayout,
     adminOnly: false,
-    userOnly: true,
+    userOnly: false,
     driverOnly: false,
   },
   {
@@ -132,6 +133,16 @@ const routes = [
     adminOnly: true,
     userOnly: false,
     driverOnly: false,
+  },
+  {
+    path: '/active-order',
+    name: 'ActiveOrder',
+    protected: true,
+    component: ActiveOrder,
+    layout: MainLayout,
+    adminOnly: false,
+    userOnly: false,
+    driverOnly: true,
   },
 
   { path: '*', name: 'Not Found', component: NotFound, layout: MainLayout, protected: false },

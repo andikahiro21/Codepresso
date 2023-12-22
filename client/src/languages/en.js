@@ -103,4 +103,12 @@ export default {
 
   app_list_popup_driver_title: 'Driver List',
   app_list_popup_driver_button: 'Select Driver',
+
+  app_active_order_title: 'Active Order',
+  app_active_order_track: 'Location',
+  app_active_order_order_finished: 'Finish Order',
+  app_active_order_alert: 'Make sure the customer has received the order',
+  app_active_order_no_data: 'There are no active orders yet',
+
+  app_edit_menu_title: 'Edit Menu',
 };

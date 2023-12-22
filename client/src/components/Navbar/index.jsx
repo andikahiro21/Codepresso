@@ -157,26 +157,51 @@ const Navbar = ({ title, locale, login, token, address }) => {
             <MdClose size="2rem" />
           </div>
           <ul>
-            <a href="/" onClick={handleCloseHam}>
+            <a href="/">
               <li>
                 <FormattedMessage id="app_nav_home" />
               </li>
             </a>
-            <a href="/products" onClick={handleCloseHam}>
+            <a href="/products">
               <li>
                 <FormattedMessage id="app_nav_menu" />
               </li>
             </a>
-            <a href="/order-history" onClick={handleCloseHam}>
-              <li>
-                <FormattedMessage id="app_nav_history" />
-              </li>
-            </a>
-            <a href="/login" onClick={handleCloseHam}>
-              <li>
-                <FormattedMessage id="app_nav_login" />
-              </li>
-            </a>
+
+            {decoded?.data?.role === 3 && (
+              <a href="/active-order">
+                <li>
+                  <FormattedMessage id="app_active_order_title" />
+                </li>
+              </a>
+            )}
+
+            {decoded?.data?.role === 2 && (
+              <a href="/order-history">
+                <li>
+                  <FormattedMessage id="app_nav_history" />
+                </li>
+              </a>
+            )}
+            {decoded?.data?.role === 1 && (
+              <>
+                <a href="/create-menu">
+                  <li>
+                    <FormattedMessage id="app_nav_create_menu" />
+                  </li>
+                </a>
+                <a href="/create-driver">
+                  <li>
+                    <FormattedMessage id="app_nav_create_driver" />
+                  </li>
+                </a>
+                <a href="/manage-order">
+                  <li>
+                    <FormattedMessage id="app_nav_manage_order" />
+                  </li>
+                </a>
+              </>
+            )}
           </ul>
         </div>
       )}
@@ -198,6 +223,14 @@ const Navbar = ({ title, locale, login, token, address }) => {
                 <FormattedMessage id="app_nav_menu" />
               </li>
             </a>
+
+            {decoded?.data?.role === 3 && (
+              <a href="/active-order">
+                <li>
+                  <FormattedMessage id="app_active_order_title" />
+                </li>
+              </a>
+            )}
 
             {decoded?.data?.role === 2 && (
               <a href="/order-history">

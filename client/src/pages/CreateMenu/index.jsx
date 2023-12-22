@@ -64,7 +64,9 @@ const CreateMenu = ({ categories, createError }) => {
 
   return (
     <div className={classes.createMenu}>
-      <div className={classes.createTitle}>Create Menu</div>
+      <div className={classes.createTitle}>
+        <FormattedMessage id="app_create_menu_button" />
+      </div>
       <div className={classes.form}>
         <form onSubmit={handleSubmit}>
           {createError && <span className={classes.errorCreate}>{createError}</span>}

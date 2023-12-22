@@ -1,4 +1,5 @@
 import { clientSaga } from '@containers/Client/saga';
+import { activeOrderSaga } from '@pages/ActiveOrder/saga';
 import { registerDriverSaga } from '@pages/CreateDriver/saga';
 import { menuSaga } from '@pages/CreateMenu/saga';
 import { purchaseSaga } from '@pages/DetailOrder/saga';
@@ -26,5 +27,6 @@ export default function* rootSaga() {
     editMenuSaga(),
     registerDriverSaga(),
     manageOrderSaga(),
+    activeOrderSaga(),
   ]);
 }

@@ -25,7 +25,6 @@ const PopupDriverList = ({ open, handleClose, items, driverList }) => {
     };
     dispatch(setOrderDelivery(data));
   };
-  console.log(items.id);
 
   return (
     <Dialog

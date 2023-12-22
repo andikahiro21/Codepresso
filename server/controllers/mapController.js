@@ -59,13 +59,12 @@ exports.getRoute = async (req, res) => {
     const authData = req.user;
 
     const isValidUser = await PurchaseGroups.findOne({
-      where: { id: id, user_id: authData.id },
+      where: { id },
     });
 
-    if (!isValidUser) {
-      return handleClientError(res, 403, "You are not authorized to view this route");
+    if (!(isValidUser.user_id === authData.id || isValidUser.driver_id === authData.id)) {
+      return handleClientError(res, 403, "You are not authorized to view this purchase group");
     }
-
     const route = await MapRoutes.findOne({
       where: { purchase_group_id: id },
     });

@@ -26,7 +26,6 @@ function* doSetOrderDelivery(action) {
   yield put(setLoading(true));
   try {
     const { id, driverID } = action.payload;
-    console.log(action.payload);
     yield call(setOrderDelivery, id, driverID);
     window.location.reload();
   } catch (error) {

@@ -28,7 +28,7 @@ const PopupConfirmPayment = ({ open, handleClose, distance, login, token }) => {
   const priceItems = distance?.total;
 
   const handlePaymentButtonClick = async () => {
-    const note = document.getElementById('note').value; // Get the note value from the textarea
+    const note = document.getElementById('note').value;
     const data = {
       note,
       distance: distanceRange,
