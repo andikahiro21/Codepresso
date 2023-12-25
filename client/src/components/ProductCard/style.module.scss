@@ -10,6 +10,9 @@
     width: 100%;
     height: 7rem;
     justify-content: center;
+    .imgDisable {
+      filter: saturate(0);
+    }
   }
 
   .cardContent {
@@ -64,6 +67,14 @@
       gap: 0.5rem;
       .editIcon {
         color: $color-yellow;
+        cursor: pointer;
+      }
+      .visibilityIcon {
+        color: $color-green;
+        cursor: pointer;
+      }
+      .visibilityOffIcon {
+        color: $color-dark-red;
         cursor: pointer;
       }
       .deleteIcon {

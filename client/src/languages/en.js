@@ -52,7 +52,10 @@ export default {
   app_nav_menu: 'Produk',
   app_nav_service: 'Service',
   app_nav_login: 'Sign in',
+  app_nav_about: 'About Us',
   app_nav_manage_order: 'Manage Order',
+  app_nav_manage_address: 'Manage Address',
+  app_nav_manage_categories: 'Manage Categories',
 
   app_register_driver_title: 'Register Drivers',
   app_register_driver_desc: 'Please enter driver informations to continue',
@@ -111,4 +114,5 @@ export default {
   app_active_order_no_data: 'There are no active orders yet',
 
   app_edit_menu_title: 'Edit Menu',
+  app_manage_cateogries_button: 'Add Category',
 };

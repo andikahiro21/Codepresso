@@ -206,6 +206,46 @@ exports.editMenu = async (req, res) => {
   }
 };
 
+exports.disableMenu = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const menu = await Menus.findByPk(id);
+
+    if (!menu) {
+      return handleClientError(res, 404, `Menu with ID ${id} not found.`);
+    }
+
+    await menu.update({ qty: 0 });
+
+    await redisClient.del("categoryMenus");
+    await redisClient.del("menus");
+
+    handleResponseSuccess(res, 200, "Menu Updated");
+  } catch (error) {
+    return handleServerError(res);
+  }
+};
+
+exports.enableMenu = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const menu = await Menus.findByPk(id);
+
+    if (!menu) {
+      return handleClientError(res, 404, `Menu with ID ${id} not found.`);
+    }
+
+    await menu.update({ qty: 1 });
+
+    await redisClient.del("categoryMenus");
+    await redisClient.del("menus");
+
+    handleResponseSuccess(res, 200, "Menu Updated");
+  } catch (error) {
+    return handleServerError(res);
+  }
+};
+
 exports.deleteMenu = async (req, res) => {
   const { id } = req.params;
 

@@ -56,6 +56,8 @@ export default {
   app_nav_service: 'Pelayanan',
   app_nav_login: 'Masuk',
   app_nav_manage_order: 'Kelola Pesanan',
+  app_nav_manage_address: 'Kelola Alamat',
+  app_nav_manage_categories: 'Kelola Kategori',
 
   app_create_menu_name: 'Nama Menu',
   app_create_menu_name_err: 'Nama Menu Tidak Boleh Kosong',
@@ -113,4 +115,5 @@ export default {
   app_active_order_no_data: 'Belum ada order aktif',
 
   app_edit_menu_title: 'Sunting Menu',
+  app_manage_cateogries_button: 'Tambahkan Kategori',
 };

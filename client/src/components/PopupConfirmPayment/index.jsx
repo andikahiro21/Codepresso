@@ -1,6 +1,6 @@
 /* eslint-disable no-unsafe-optional-chaining */
 /* eslint-disable arrow-body-style */
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Dialog } from '@mui/material';
@@ -12,6 +12,8 @@ import classes from './style.module.scss';
 
 const PopupConfirmPayment = ({ open, handleClose, distance, login, token }) => {
   const dispatch = useDispatch();
+  const [isOutOfRange, setIsOutOfRange] = useState(false);
+
   let decoded = null;
   if (token) {
     decoded = jwtDecode(token);
@@ -22,6 +24,10 @@ const PopupConfirmPayment = ({ open, handleClose, distance, login, token }) => {
       dispatch(getDistance());
     }
   }, [dispatch]);
+
+  useEffect(() => {
+    setIsOutOfRange(distance?.distance > 10);
+  }, [distance]);
 
   const deliveryCost = distance?.deliveryCost;
   const distanceRange = distance?.distance;
@@ -79,8 +85,8 @@ const PopupConfirmPayment = ({ open, handleClose, distance, login, token }) => {
             </div>
           </div>
           <div className={classes.btnContainer}>
-            <button type="button" onClick={handlePaymentButtonClick}>
-              Choose Payment Methods
+            <button type="button" onClick={handlePaymentButtonClick} disabled={isOutOfRange}>
+              {isOutOfRange ? 'Out of Range' : 'Choose Payment Methods'}
             </button>
           </div>
         </div>

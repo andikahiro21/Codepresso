@@ -67,6 +67,7 @@ const Products = ({ products, categories }) => {
             price={product?.price}
             description={product?.description}
             image={product?.image}
+            qty={product?.qty}
             id={product?.id}
             handleClick={handleClickOpen}
           />

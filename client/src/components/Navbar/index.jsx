@@ -27,6 +27,7 @@ import { selectAddress, selectLogin, selectToken } from '@containers/Client/sele
 import PopupBaskets from '@components/PopupBaskets';
 import PopupAddAddress from '@components/PopupAddAddress';
 import PopupConfirmPayment from '@components/PopupConfirmPayment';
+import PopupManageCategories from '@components/PopupManageCategories';
 import PopupAddress from '@components/PopupAddress';
 import { jwtDecode } from 'jwt-decode';
 import classes from './style.module.scss';
@@ -40,6 +41,7 @@ const Navbar = ({ title, locale, login, token, address }) => {
   const [openConfirmPayment, setOpenConfirmPayment] = useState(false);
   const [openAddress, setOpenAddress] = useState(false);
   const [openAddAddress, setOpenAddAddress] = useState(false);
+  const [openManageCategories, setOpenManageCategories] = useState(false);
 
   const handleClickOpenBaskets = () => {
     setOpenBaskets(true);
@@ -47,6 +49,14 @@ const Navbar = ({ title, locale, login, token, address }) => {
 
   const handleCloseBaskets = () => {
     setOpenBaskets(false);
+  };
+
+  const handleClickOpenCategories = () => {
+    setOpenManageCategories(true);
+  };
+
+  const handleCloseCategories = () => {
+    setOpenManageCategories(false);
   };
 
   const handleClickOpenPayment = () => {
@@ -148,6 +158,7 @@ const Navbar = ({ title, locale, login, token, address }) => {
         handleClose={handleCloseBaskets}
         handleClickOpenPayment={handleClickOpenPayment}
       />
+      <PopupManageCategories open={openManageCategories} handleClose={handleCloseCategories} />
       <PopupAddAddress open={openAddAddress} handleClose={handleCloseAddAddress} />
       <PopupAddress open={openAddress} handleClose={handleCloseAddress} handleOpenCreate={handleClickOpenAddAddress} />
       <PopupConfirmPayment open={openConfirmPayment} handleClose={handleClosepayment} />
@@ -329,9 +340,18 @@ const Navbar = ({ title, locale, login, token, address }) => {
                       </FormControl>
                     </MenuItem>
                     <MenuItem onClick={handleClickOpenAddress}>
-                      <div className={classes.addressTitle}>Manage Address</div>
+                      <div className={classes.addressTitle}>
+                        <FormattedMessage id="app_nav_manage_address" />
+                      </div>
                     </MenuItem>
                   </>
+                )}
+                {login && decoded?.data?.role === 1 && (
+                  <MenuItem onClick={handleClickOpenCategories}>
+                    <div className={classes.addressTitle}>
+                      <FormattedMessage id="app_nav_manage_categories" />
+                    </div>
+                  </MenuItem>
                 )}
                 <MenuItem onClick={handleLogout}>
                   <ListItemIcon>

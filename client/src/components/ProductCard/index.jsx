@@ -6,7 +6,7 @@ import { connect, useDispatch } from 'react-redux';
 import { jwtDecode } from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
 
-import { deleteProducts } from '@pages/Products/actions';
+import { deleteProducts, setProductDisable, setProductEnable } from '@pages/Products/actions';
 
 import { selectLogin, selectToken } from '@containers/Client/selectors';
 
@@ -14,10 +14,12 @@ import Card from '@mui/material/Card';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import CardActions from '@mui/material/CardActions';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 
 import classes from './style.module.scss';
 
-const ProductCard = ({ name, description, price, image, login, token, id, handleClick }) => {
+const ProductCard = ({ name, description, price, image, login, token, id, handleClick, qty }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   let decoded = null;
@@ -28,17 +30,30 @@ const ProductCard = ({ name, description, price, image, login, token, id, handle
     navigate('/login');
   };
 
+  const handleDisable = () => {
+    dispatch(setProductDisable(id));
+  };
+
+  const handleEnable = () => {
+    dispatch(setProductEnable(id));
+  };
+
   let actionButton = null;
 
   if (login && decoded?.data?.role === 2) {
     actionButton = (
-      <button type="button" onClick={() => handleClick(id)}>
-        Add Order
+      <button type="button" onClick={() => handleClick(id)} disabled={qty === 0}>
+        {qty === 0 ? 'Sold Out' : 'Add Order'}
       </button>
     );
   } else if (decoded?.data?.role === 1) {
     actionButton = (
-      <div className={classes.adminAction}>
+      <div className={`${classes.adminAction}`}>
+        {qty === 1 ? (
+          <VisibilityIcon onClick={handleDisable} className={classes.visibilityIcon} />
+        ) : (
+          <VisibilityOffIcon onClick={handleEnable} className={classes.visibilityOffIcon} />
+        )}
         <EditIcon
           className={classes.editIcon}
           onClick={() => {
@@ -55,8 +70,8 @@ const ProductCard = ({ name, description, price, image, login, token, id, handle
     );
   } else {
     actionButton = (
-      <button type="button" onClick={handleLogin}>
-        Add Order
+      <button type="button" onClick={handleLogin} disabled={qty === 0}>
+        {qty === 0 ? 'Sold Out' : 'Add Order'}
       </button>
     );
   }
@@ -64,7 +79,7 @@ const ProductCard = ({ name, description, price, image, login, token, id, handle
   return (
     <Card className={classes.card}>
       <div className={classes.imgContainer}>
-        <img src={image} alt="Logo" />
+        <img src={image} alt="Logo" className={`${qty === 0 ? classes.imgDisable : ''}`} />
       </div>
       <div className={classes.cardContent}>
         <div className={classes.title}>{name}</div>
@@ -93,6 +108,7 @@ ProductCard.propTypes = {
   price: PropTypes.number,
   login: PropTypes.bool,
   token: PropTypes.string,
+  qty: PropTypes.number,
 };
 
 export default connect(mapStateToProps)(ProductCard);

@@ -55,9 +55,13 @@ export const createProducts = (data) =>
 export const deleteProducts = (id) => callAPI(`${urls.menu}/${id}`, 'DELETE');
 export const editMenu = (data, id) =>
   callAPI(`${urls.menu}/${id}`, 'PUT', { 'Content-Type': 'multipart/form-data' }, {}, data);
+export const enableProduct = (id) => callAPI(`${urls.menu}/enable/${id}`, 'PUT');
+export const disableProduct = (id) => callAPI(`${urls.menu}/disable/${id}`, 'PUT');
 
 // Categories
 export const getCategories = () => callAPI(`${urls.category}`, 'GET');
+export const deleteCategory = (id) => callAPI(`${urls.category}/${id}`, 'DELETE');
+export const addCategory = (data) => callAPI(`${urls.category}`, 'POST', {}, {}, data);
 
 // Address
 export const getAddress = () => callAPI(`${urls.address}`, 'GET');

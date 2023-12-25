@@ -1,4 +1,6 @@
 import {
+  ADD_CATEGORY,
+  DELETE_CATEGORY,
   DELETE_PRODUCTS,
   GET_ALL_PRODUCTS,
   GET_CATEGORIES,
@@ -6,6 +8,8 @@ import {
   SET_BASKET,
   SET_CATEGORIES,
   SET_PRODUCTS,
+  SET_PRODUCT_DISABLE,
+  SET_PRODUCT_ENABLE,
   SET_SELECTED_PRODUCTS,
 } from './constants';
 
@@ -32,9 +36,29 @@ export const setCategories = (categories) => ({
   payload: categories,
 });
 
+export const addCategory = (data) => ({
+  type: ADD_CATEGORY,
+  payload: data,
+});
+
+export const deleteCategory = (data) => ({
+  type: DELETE_CATEGORY,
+  payload: data,
+});
+
 export const setSelectedProducts = (selectedProducts) => ({
   type: SET_SELECTED_PRODUCTS,
   payload: selectedProducts,
+});
+
+export const setProductEnable = (data) => ({
+  type: SET_PRODUCT_ENABLE,
+  payload: data,
+});
+
+export const setProductDisable = (data) => ({
+  type: SET_PRODUCT_DISABLE,
+  payload: data,
 });
 
 export const setBasket = (basket) => ({
