@@ -47,7 +47,7 @@ async function getOpenRouteServiceRoute(latStart, lonStart, latEnd, lonEnd, purc
 
     await MapRoutes.create({
       purchase_group_id: purchaseGroupId,
-      routes: JSON.stringify(routeData), // Simpan sebagai string JSON
+      routes: JSON.stringify(routeData),
     });
 
     return routeData;

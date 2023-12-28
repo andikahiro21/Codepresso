@@ -93,7 +93,6 @@ exports.getSelectedPurchaseGroups = async (req, res) => {
 
     return handleResponseSuccess(res, 200, selectedPurchase);
   } catch (error) {
-    console.log(error);
     return handleServerError(res);
   }
 };

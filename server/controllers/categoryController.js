@@ -67,7 +67,6 @@ exports.createCategory = async (req, res) => {
 
     return handleResponseSuccess(res, 201, "Category Created", newCategory);
   } catch (error) {
-    console.log(error);
     return handleServerError(res);
   }
 };

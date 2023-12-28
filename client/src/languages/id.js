@@ -58,6 +58,7 @@ export default {
   app_nav_manage_order: 'Kelola Pesanan',
   app_nav_manage_address: 'Kelola Alamat',
   app_nav_manage_categories: 'Kelola Kategori',
+  app_nav_about: 'Tentang Kami',
 
   app_create_menu_name: 'Nama Menu',
   app_create_menu_name_err: 'Nama Menu Tidak Boleh Kosong',

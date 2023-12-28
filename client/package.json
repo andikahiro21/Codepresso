@@ -8,7 +8,7 @@
     "build": "vite build",
     "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "test": "jest --env=jsdom --onlyChanged",
+    "test": "jest --env=jsdom  --coverage=true --passWithNoTests",
     "test:all": "jest --env=jsdom --all"
   },
   "dependencies": {
@@ -49,7 +49,7 @@
     "@babel/preset-env": "^7.22.9",
     "@babel/preset-react": "^7.22.5",
     "@testing-library/jest-dom": "^5.17.0",
-    "@testing-library/react": "^14.0.0",
+    "@testing-library/react": "^14.1.2",
     "@types/react": "^18.2.14",
     "@types/react-dom": "^18.2.6",
     "@vitejs/plugin-react": "^4.0.0",

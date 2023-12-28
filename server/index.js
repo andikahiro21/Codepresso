@@ -44,6 +44,9 @@ app.all("*", (req, res) => {
   res.status(404).json({ message: "API Not Found" });
 });
 
-app.listen(PORT, () => {
-  console.log(`App running on port ${PORT}`);
-});
+if (!module.parent) {
+  app.listen(PORT, () => {
+    console.log(`App running on port ${PORT}`);
+  });
+}
+module.exports = app;

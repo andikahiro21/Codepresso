@@ -35,8 +35,6 @@ const ActiveOrder = ({ activePurchase }) => {
     navigate(`/detail-order/${activePurchase?.data?.id}`);
   };
 
-  console.log(activePurchase.data == null);
-
   return (
     <div className={classes.orderHistory}>
       <PopupAlert open={open} handleClose={handleClose} id={activePurchase?.data?.id} />

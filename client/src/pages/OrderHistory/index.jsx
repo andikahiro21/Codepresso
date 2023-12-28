@@ -6,7 +6,6 @@ import Macchiato from '@static/images/macchiato.png';
 import { FormattedMessage } from 'react-intl';
 import { useNavigate } from 'react-router-dom';
 
-import { getHistoryOrder } from '@pages/DetailOrder/actions';
 import { getAllOrder } from './actions';
 import { selectAllOrder } from './selectors';
 import classes from './style.module.scss';
@@ -37,7 +36,6 @@ const OrderHistory = ({ allOrder }) => {
   };
 
   useEffect(() => {
-    dispatch(getHistoryOrder(67));
     dispatch(getAllOrder(currentPage));
   }, [dispatch, currentPage]);
 

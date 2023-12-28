@@ -12,20 +12,12 @@ exports.getAddress = async (req, res) => {
   try {
     const authData = req.user;
 
-    let address = await redisClient.get("address");
+    const response = await Address.findAll({
+      where: { user_id: authData.id },
+      attributes: ["id", "address_name", "active"],
+    });
 
-    if (!address) {
-      const response = await Address.findAll({
-        where: { user_id: authData.id },
-        attributes: ["id", "address_name", "active"],
-      });
-      await redisClient.set("address", JSON.stringify(response));
-      address = response;
-    } else {
-      address = JSON.parse(address);
-    }
-
-    return handleResponseSuccess(res, 200, "success", address);
+    return handleResponseSuccess(res, 200, "success", response);
   } catch (error) {
     return handleServerError(res);
   }

@@ -22,7 +22,7 @@ import { MdClose } from 'react-icons/md';
 
 import { FormControl, InputLabel, ListItemIcon, Select } from '@mui/material';
 import { Logout } from '@mui/icons-material';
-import { getAddress, setActiveAddress, setLogin, setToken } from '@containers/Client/actions';
+import { getAddress, setActiveAddress } from '@containers/Client/actions';
 import { selectAddress, selectLogin, selectToken } from '@containers/Client/selectors';
 import PopupBaskets from '@components/PopupBaskets';
 import PopupAddAddress from '@components/PopupAddAddress';
@@ -128,8 +128,7 @@ const Navbar = ({ title, locale, login, token, address }) => {
   };
 
   const handleLogout = () => {
-    dispatch(setLogin(false));
-    dispatch(setToken(null));
+    localStorage.clear();
     window.location.href = '/login';
   };
 
@@ -173,11 +172,6 @@ const Navbar = ({ title, locale, login, token, address }) => {
                 <FormattedMessage id="app_nav_home" />
               </li>
             </a>
-            <a href="/products">
-              <li>
-                <FormattedMessage id="app_nav_menu" />
-              </li>
-            </a>
 
             {decoded?.data?.role === 3 && (
               <a href="/active-order">
@@ -188,14 +182,26 @@ const Navbar = ({ title, locale, login, token, address }) => {
             )}
 
             {decoded?.data?.role === 2 && (
-              <a href="/order-history">
-                <li>
-                  <FormattedMessage id="app_nav_history" />
-                </li>
-              </a>
+              <>
+                <a href="/products">
+                  <li>
+                    <FormattedMessage id="app_nav_menu" />
+                  </li>
+                </a>
+                <a href="/order-history">
+                  <li>
+                    <FormattedMessage id="app_nav_history" />
+                  </li>
+                </a>
+              </>
             )}
             {decoded?.data?.role === 1 && (
               <>
+                <a href="/products">
+                  <li>
+                    <FormattedMessage id="app_nav_menu" />
+                  </li>
+                </a>
                 <a href="/create-menu">
                   <li>
                     <FormattedMessage id="app_nav_create_menu" />
@@ -209,6 +215,20 @@ const Navbar = ({ title, locale, login, token, address }) => {
                 <a href="/manage-order">
                   <li>
                     <FormattedMessage id="app_nav_manage_order" />
+                  </li>
+                </a>
+              </>
+            )}
+            {!decoded?.data && (
+              <>
+                <a href="/products">
+                  <li>
+                    <FormattedMessage id="app_nav_menu" />
+                  </li>
+                </a>
+                <a href="/login">
+                  <li>
+                    <FormattedMessage id="app_nav_login" />
                   </li>
                 </a>
               </>
@@ -229,11 +249,13 @@ const Navbar = ({ title, locale, login, token, address }) => {
                 <FormattedMessage id="app_nav_home" />
               </li>
             </a>
-            <a href="/products">
-              <li>
-                <FormattedMessage id="app_nav_menu" />
-              </li>
-            </a>
+            {!decoded?.data && (
+              <a href="/products">
+                <li>
+                  <FormattedMessage id="app_nav_menu" />
+                </li>
+              </a>
+            )}
 
             {decoded?.data?.role === 3 && (
               <a href="/active-order">
@@ -244,14 +266,26 @@ const Navbar = ({ title, locale, login, token, address }) => {
             )}
 
             {decoded?.data?.role === 2 && (
-              <a href="/order-history">
-                <li>
-                  <FormattedMessage id="app_nav_history" />
-                </li>
-              </a>
+              <>
+                <a href="/products">
+                  <li>
+                    <FormattedMessage id="app_nav_menu" />
+                  </li>
+                </a>
+                <a href="/order-history">
+                  <li>
+                    <FormattedMessage id="app_nav_history" />
+                  </li>
+                </a>
+              </>
             )}
             {decoded?.data?.role === 1 && (
               <>
+                <a href="/products">
+                  <li>
+                    <FormattedMessage id="app_nav_menu" />
+                  </li>
+                </a>
                 <a href="/create-menu">
                   <li>
                     <FormattedMessage id="app_nav_create_menu" />

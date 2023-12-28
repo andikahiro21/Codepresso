@@ -75,7 +75,6 @@ exports.getRoute = async (req, res) => {
 
     return handleResponseSuccess(res, 200, "Route Found", route);
   } catch (error) {
-    console.log(error);
     return handleServerError(res);
   }
 };

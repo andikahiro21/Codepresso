@@ -60,7 +60,7 @@ exports.login = async (req, res) => {
 
     const token = generateToken(user);
 
-    res.status(200).json({ data: token, message: "Success" });
+    return handleResponseSuccess(res, 200, "success", token);
   } catch (error) {
     return handleServerError(res);
   }
@@ -102,7 +102,6 @@ exports.registerDriver = async (req, res) => {
   try {
     const newData = req.body;
     const decData = decryptObjectPayload(newData);
-    console.log(decData);
 
     const validate = validateBodyRegisterDriver(decData);
     if (validate) {

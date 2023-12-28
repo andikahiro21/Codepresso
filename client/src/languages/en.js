@@ -52,6 +52,7 @@ export default {
   app_nav_menu: 'Produk',
   app_nav_service: 'Service',
   app_nav_login: 'Sign in',
+  app_nav_logout: 'Logout',
   app_nav_about: 'About Us',
   app_nav_manage_order: 'Manage Order',
   app_nav_manage_address: 'Manage Address',

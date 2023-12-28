@@ -1,10 +1,8 @@
 /* eslint-disable arrow-body-style */
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { connect } from 'react-redux';
 import { Dialog } from '@mui/material';
 
-import { createStructuredSelector } from 'reselect';
 import classes from './style.module.scss';
 
 const PopupListOrder = ({ open, handleClose, items }) => {
@@ -14,6 +12,7 @@ const PopupListOrder = ({ open, handleClose, items }) => {
       open={open}
       fullWidth="xl"
       maxWidth="md"
+      data-testid="popupListOrder"
       keepMounted
       onClose={handleClose}
       aria-describedby="alert-dialog-slide-description"
@@ -53,6 +52,4 @@ PopupListOrder.propTypes = {
   items: PropTypes.object,
 };
 
-const mapStateToProps = createStructuredSelector({});
-
-export default connect(mapStateToProps)(PopupListOrder);
+export default PopupListOrder;

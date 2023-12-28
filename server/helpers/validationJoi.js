@@ -73,7 +73,7 @@ const validateBodyRegisterDriver = (reqBody) => {
     fullName: Joi.string().min(3).required(),
     phoneNumber: Joi.number().required(),
     password: Joi.string().min(6).required(),
-    image: Joi.any().valid("image/jpeg", "image/png", "image/gif"),
+    image: Joi.any(),
   });
   const { error } = schema.validate(reqBody, {
     abortEarly: false,
