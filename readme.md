@@ -6,7 +6,7 @@ Codepresso is a full-fledged online platform revolutionizing your coffee experie
 >
 > This project is no longer being worked on. This branch repo only serves to give inspiration to others as a point in time reference.
 
-![Serverless Airline Booking sample](./media/prototype-web.png)
+![Serverless Airline Booking sample](./media/prototype-web1.png)
 
 ## Run Project
 
@@ -34,5 +34,5 @@ Summary of what the stack looks like now including a picture with the core tech:
 - **API** - implement restfull api, for frontend and backend communication
 - **Auth** - Uses a JsonWebToken(JWT) that is used to store user information, and is used to determine user authority.
 
-![Core stack](./media/core-stack.png)
+![Core stack](./media/core-stack1.png)
 ![Core stack](./media/core-stack2.png)
