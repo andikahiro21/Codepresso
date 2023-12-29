@@ -11,7 +11,6 @@ function* login(action) {
     const response = yield call(loginApi, action.payload);
     yield put({ type: SET_LOGIN, login: true });
     yield put({ type: SET_TOKEN, token: response.data });
-    window.location.href = '/';
   } catch (e) {
     yield put(loginFailure(e.response.data.message));
   } finally {

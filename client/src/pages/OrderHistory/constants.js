@@ -1,0 +1,2 @@
+export const GET_ALL_PURCHASE = 'GET_ALL_PURCHASE';
+export const SET_ALL_PURCHASE = 'SET_ALL_PURCHASE';

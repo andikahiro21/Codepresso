@@ -3,9 +3,9 @@ import { createStructuredSelector } from 'reselect';
 import { FormattedMessage } from 'react-intl';
 
 import AboutUs from './component/aboutus';
+import Service from './component/service';
 
 import classes from './style.module.scss';
-import Service from './component/service';
 
 const Home = () => (
   <div className={classes.home}>

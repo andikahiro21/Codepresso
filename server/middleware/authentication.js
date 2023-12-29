@@ -1,44 +1,38 @@
-const { errorHandler } = require('../helpers')
-const verifyJwtToken = require('../utils/verifyTokenJwt')
-require('dotenv').config()
+/* eslint-disable comma-dangle */
+/* eslint-disable semi */
+/* eslint-disable quotes */
+const verifyJwtToken = require("../utils/verifyTokenJwt");
+require("dotenv").config();
 
-const { Users } = require('../models')
+const { Users } = require("../models");
+const { handleServerError, handleClientError } = require("../helpers/handleError");
 const Authenticated = async (req, res, next) => {
   try {
-    const authHeader = req.headers.authorization || req.headers.Authorization
+    const authHeader = req.headers.authorization || req.headers.Authorization;
 
     if (!authHeader) {
-      return errorHandler(res, 401, 'Unauthorized', 'authentication required')
+      return handleClientError(res, 401, "authentication required");
     }
 
-    const token = authHeader.split(' ')[1]
+    const token = authHeader.split(" ")[1];
     if (token) {
-      verifyJwtToken(
-        token,
-        process.env.ACCESS_TOKEN_SECRET,
-        async (err, decoded) => {
-          if (err) {
-            return errorHandler(
-              res,
-              403,
-              'Forbidden',
-              'Token invalid, please login again'
-            )
-          }
-          const user = await Users.findByPk(decoded.id, {
-            attributes: { exclude: ['password'] }
-          })
-          if (!user) return errorHandler(res, 404, 'Not Found', 'User Notfound')
-          req.user = user
-          next()
+      verifyJwtToken(token, process.env.JWT_SECRET, async (err, decoded) => {
+        if (err) {
+          return handleClientError(res, 403, "Token invalid, please login again");
         }
-      )
+        const user = await Users.findByPk(decoded.data.id, {
+          attributes: { exclude: ["password"] },
+        });
+        if (!user) return handleClientError(res, 404, "User Notfound");
+        req.user = user;
+        next();
+      });
     } else {
-      return errorHandler(res, 401, 'Unauthorized', 'Token is required')
+      return handleClientError(res, 401, "Token is required");
     }
   } catch (error) {
-    return errorHandler(res)
+    return handleServerError(res);
   }
-}
+};
 
-module.exports = Authenticated
+module.exports = Authenticated;

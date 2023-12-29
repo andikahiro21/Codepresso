@@ -1,0 +1,255 @@
+.popupOrder {
+  .card {
+    @include directionY;
+    gap: 1rem;
+    height: fit-content;
+    padding-bottom: 8rem;
+    padding-top: 3rem;
+    position: relative;
+    @include apply-at-xl-size {
+      @include directionX;
+    }
+    .left {
+      width: 90%;
+      padding-left: 1rem;
+      @include apply-at-xl-size {
+        width: 40%;
+      }
+      .imgContainer {
+        @include directionX;
+        justify-content: center;
+        align-items: center;
+        background-color: $color-very-light-grey;
+        height: 15rem;
+        width: 100%;
+        border-radius: 1rem;
+        img {
+          width: 30%;
+        }
+      }
+      .sizeContainer {
+        margin-top: 1rem;
+        font-size: 1.5rem;
+        font-weight: 600;
+        .cardContainer {
+          @include directionX;
+          gap: 1rem;
+          margin-top: 0.5rem;
+          .cardSize {
+            @include directionY;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            width: 4rem;
+            height: 5rem;
+            border-radius: 0.5rem;
+            background-color: $color-very-light-grey;
+            cursor: pointer;
+            img {
+              width: 30%;
+            }
+            .sizeTitle {
+              font-size: 1rem;
+              color: $color-grey;
+            }
+          }
+          .cardSizeActive {
+            @include directionY;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            width: 4rem;
+            height: 5rem;
+            border-radius: 0.5rem;
+            background-color: $color-dark-blue;
+            img {
+              width: 30%;
+            }
+            .sizeTitle {
+              font-size: 1rem;
+              color: $color-white;
+            }
+          }
+        }
+      }
+    }
+
+    .product {
+      width: 90%;
+      padding-left: 1rem;
+      @include apply-at-xl-size {
+        width: 60%;
+      }
+      .title {
+        font-size: 1.5rem;
+        font-weight: 600;
+      }
+      .price {
+        @include directionX;
+        gap: 0.3rem;
+        font-weight: 600;
+        font-size: 1.1rem;
+        color: $color-dark-green;
+      }
+      .descProduct {
+        width: 90%;
+        text-align: justify;
+        margin-top: 1rem;
+        font-size: 0.8rem;
+      }
+      .beanContainer {
+        .beanTitle {
+          font-size: 1.2rem;
+          font-weight: 600;
+          margin-top: 0.5rem;
+        }
+        .cardBeanContainer {
+          @include directionX;
+          gap: 0.5rem;
+          .bean {
+            @include directionX;
+            align-items: center;
+            justify-content: center;
+            color: $color-grey;
+            border-radius: 0.5rem;
+            padding: 0.1rem 0.5rem 0.1rem 0.5rem;
+            background-color: $color-very-light-grey;
+            cursor: pointer;
+          }
+          .beanActive {
+            @include directionX;
+            align-items: center;
+            justify-content: center;
+            color: $color-white;
+            border-radius: 0.5rem;
+            padding: 0.1rem 0.5rem 0.1rem 0.5rem;
+            background-color: $color-dark-blue;
+          }
+        }
+      }
+      .sugarContainer {
+        .sugarTitle {
+          font-size: 1.2rem;
+          font-weight: 600;
+          margin-top: 0.5rem;
+        }
+        .cardSugarContainer {
+          @include directionX;
+          gap: 0.5rem;
+          .sugar {
+            @include directionX;
+            align-items: center;
+            justify-content: center;
+            color: $color-grey;
+            border-radius: 0.5rem;
+            padding: 0.1rem 0.5rem 0.1rem 0.5rem;
+            background-color: $color-very-light-grey;
+            cursor: pointer;
+          }
+          .sugarActive {
+            @include directionX;
+            align-items: center;
+            justify-content: center;
+            color: $color-white;
+            border-radius: 0.5rem;
+            padding: 0.1rem 0.5rem 0.1rem 0.5rem;
+            background-color: $color-dark-blue;
+          }
+        }
+      }
+      .milkContainer {
+        .milkTitle {
+          font-size: 1.2rem;
+          font-weight: 600;
+          margin-top: 0.5rem;
+        }
+        .cardMilkContainer {
+          @include directionX;
+          gap: 0.5rem;
+          .milk {
+            @include directionX;
+            align-items: center;
+            justify-content: center;
+            color: $color-grey;
+            border-radius: 0.5rem;
+            padding: 0.1rem 0.5rem 0.1rem 0.5rem;
+            background-color: $color-very-light-grey;
+            cursor: pointer;
+          }
+          .milkActive {
+            @include directionX;
+            align-items: center;
+            justify-content: center;
+            color: $color-white;
+            border-radius: 0.5rem;
+            padding: 0.1rem 0.5rem 0.1rem 0.5rem;
+            background-color: $color-dark-blue;
+          }
+        }
+      }
+    }
+    .action {
+      @include directionX;
+      justify-content: end;
+      align-content: center;
+      position: absolute;
+      gap: 1rem;
+      bottom: 0;
+      height: 4rem;
+      width: 100%;
+      border-radius: 0px 0px 16px 16px;
+      box-shadow: 0px -4px 4px 0px rgba(0, 0, 0, 0.04);
+      .btnCont {
+        @include directionX;
+        align-items: center;
+        padding-right: 1rem;
+        button {
+          background-color: $color-dark-green;
+          color: $color-white;
+          padding: 0.7rem 1rem 0.7rem 1rem;
+          border-radius: 0.5rem;
+          border: none;
+        }
+      }
+      .qtyCont {
+        @include directionX;
+        align-items: center;
+        .qty {
+          @include directionX;
+          justify-content: space-between;
+          align-items: center;
+          gap: 0.5rem;
+          border: 1px solid $color-white-fade;
+          height: 2rem;
+          width: 4rem;
+          border-radius: 0.5rem;
+          button {
+            width: 1rem;
+            height: 100%;
+            background: none;
+            border: none;
+            font-size: 0.8rem;
+            cursor: pointer;
+          }
+        }
+      }
+      .totalPriceCont {
+        @include directionX;
+        align-items: center;
+        margin-right: 2rem;
+        .totalPrice {
+          @include directionX;
+          justify-content: space-between;
+          align-items: center;
+          gap: 0.5rem;
+          height: 2rem;
+          width: 4rem;
+          border-radius: 0.5rem;
+          font-size: 1.1rem;
+          font-weight: 600;
+          color: $color-dark-green;
+        }
+      }
+    }
+  }
+}

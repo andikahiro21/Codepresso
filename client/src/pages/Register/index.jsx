@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 import PropTypes from 'prop-types';
 
 import { useEffect, useState } from 'react';
@@ -19,6 +20,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { setLocale } from '@containers/App/actions';
 import { createStructuredSelector } from 'reselect';
 import { selectLocale } from '@containers/App/selectors';
+import encryptPayload from '@utils/encryptPayload';
 import classes from './style.module.scss';
 import { registerRequest } from './actions';
 import { selectRegisterError } from './selector';
@@ -63,7 +65,11 @@ const Register = ({ locale }) => {
   }, [isLoggedIn, navigate]);
 
   const onSubmit = (data) => {
-    dispatch(registerRequest(data));
+    const email = encryptPayload(data?.email);
+    const password = encryptPayload(data?.password);
+    const fullName = encryptPayload(data?.fullName);
+    const phoneNumber = encryptPayload(data?.phoneNumber);
+    dispatch(registerRequest({ email, password, fullName, phoneNumber }));
   };
 
   const handleClick = (event) => {

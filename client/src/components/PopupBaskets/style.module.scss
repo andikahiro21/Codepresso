@@ -1,0 +1,167 @@
+@import '@styles/base';
+
+.cardContainer {
+  height: 70vh;
+  padding-bottom: 1rem;
+  padding-top: 1rem;
+  .cardTitle {
+    @include directionY;
+    align-items: center;
+    font-size: 1.5rem;
+    font-weight: 600;
+    height: 3.5rem;
+    border-bottom: 1px solid rgba($color-line-grey, 0.2);
+    width: 100%;
+  }
+
+  .basketsContainer {
+    width: 100%;
+    height: fit-content;
+    padding-bottom: 15%;
+    position: relative;
+    .basket {
+      @include directionX;
+      width: 100%;
+      height: 7rem;
+      border-bottom: 1px solid rgba($color-line-grey, 0.2);
+      .imgContainer {
+        @include directionX;
+        align-items: center;
+        height: 100%;
+        width: 20%;
+        .img {
+          @include directionX;
+          justify-content: center;
+          align-items: center;
+          background-color: $color-very-light-grey;
+          height: 85%;
+          width: 85%;
+          border-radius: 1rem;
+          margin-left: 1rem;
+          img {
+            width: 50%;
+          }
+        }
+      }
+      .productDesc {
+        padding-top: 0.3rem;
+        padding-left: 1rem;
+        position: relative;
+        width: 80%;
+        .name {
+          font-size: 1.2rem;
+          font-weight: 600;
+        }
+        .addons {
+          @include directionX;
+          gap: 0.3rem;
+          font-size: 0.8rem;
+          color: $color-dark-grey;
+        }
+        .actions {
+          @include directionX;
+          width: 95%;
+          position: absolute;
+          bottom: 0.7rem;
+          justify-content: space-between;
+          .leftActions {
+            width: 50%;
+            .qtyCont {
+              @include directionX;
+              align-items: center;
+              .qty {
+                @include directionX;
+                justify-content: space-between;
+                align-items: center;
+                gap: 0.5rem;
+                border: 1px solid $color-white-fade;
+                height: 1.5rem;
+                width: 4rem;
+                border-radius: 0.5rem;
+                button {
+                  width: 1rem;
+                  height: 100%;
+                  background: none;
+                  border: none;
+                  font-size: 0.8rem;
+                  cursor: pointer;
+                }
+              }
+            }
+            .delete {
+              @include directionX;
+              height: 1.5rem;
+              align-items: center;
+              margin-left: 0.5rem;
+              cursor: pointer;
+              .deleteIcon {
+                color: $color-dark-red;
+                width: 1.3rem;
+              }
+            }
+          }
+          .rightActions {
+            .totalPriceCont {
+              @include directionX;
+              align-items: center;
+              margin-right: 2rem;
+              .totalPrice {
+                @include directionX;
+                justify-content: space-between;
+                align-items: center;
+                gap: 0.5rem;
+                height: 2rem;
+                width: 4rem;
+                border-radius: 0.5rem;
+                font-size: 1.1rem;
+                font-weight: 600;
+                color: $color-dark-green;
+              }
+            }
+          }
+        }
+      }
+    }
+    .checkout {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      border-radius: 0px 0px 16px 16px;
+      box-shadow: 0px -1px 16px 0px rgba(0, 0, 0, 0.05);
+      background-color: $color-white;
+      .header {
+        @include directionX;
+        justify-content: space-between;
+        padding-right: 3%;
+        padding-left: 3%;
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        margin-top: 1rem;
+        .checkoutPriceCont {
+          @include directionX;
+          gap: 0.5rem;
+          .checkoutPrice {
+            @include directionX;
+            gap: 0.3rem;
+          }
+        }
+      }
+      .btnContainer {
+        @include directionX;
+        justify-content: center;
+        margin-bottom: 0.5rem;
+        width: 100%;
+        button {
+          width: 95%;
+          height: 2.5rem;
+          background-color: $color-green;
+          color: $color-white;
+          border: none;
+          border-radius: 0.5rem;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}

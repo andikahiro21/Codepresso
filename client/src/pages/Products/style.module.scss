@@ -1,0 +1,35 @@
+@import '@styles/base';
+
+.products {
+  background-image: url('../../static/images/bg-image.png');
+  padding-left: 2rem;
+  padding-top: 1rem;
+
+  @include apply-at-xl-size {
+    padding-left: 3rem;
+  }
+
+  .title {
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+  .category {
+    @include directionX;
+    gap: 1.3rem;
+    margin-bottom: 1.5rem;
+    .categoryName {
+      cursor: pointer;
+    }
+    .active {
+      border-bottom: 2px solid $color-light-red;
+    }
+  }
+  .content {
+    @include directionX;
+    justify-content: start;
+    width: 95%;
+    padding-bottom: 3rem;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+}

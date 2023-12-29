@@ -1,0 +1,69 @@
+@import '@styles/base';
+
+.cardContainer {
+  height: 70vh;
+  padding-bottom: 1rem;
+  padding-top: 1rem;
+  .cardTitle {
+    @include directionY;
+    align-items: center;
+    font-size: 1.5rem;
+    font-weight: 600;
+    height: 3.5rem;
+    border-bottom: 1px solid rgba($color-line-grey, 0.2);
+    width: 100%;
+  }
+
+  .listDriverContainer {
+    width: 100%;
+    height: fit-content;
+    padding-bottom: 1rem;
+    position: relative;
+    .listDriver {
+      @include directionX;
+      width: 100%;
+      height: 7rem;
+      border-bottom: 1px solid rgba($color-line-grey, 0.2);
+      .imgContainer {
+        @include directionX;
+        align-items: center;
+        height: 100%;
+        width: 20%;
+        .img {
+          @include directionX;
+          justify-content: center;
+          align-items: center;
+          height: 5rem;
+          width: 5rem;
+          margin-left: 1rem;
+          border-radius: 100%;
+          overflow: hidden;
+          img {
+            width: 100%;
+          }
+        }
+      }
+      .productDesc {
+        @include directionY;
+        justify-content: center;
+        padding-top: 0.3rem;
+        padding-left: 1rem;
+        width: 80%;
+        gap: 0.5rem;
+        .name {
+          font-size: 1.2rem;
+          font-weight: 600;
+        }
+        .btnContainer {
+          button {
+            padding: 0.5rem 1.5rem 0.5rem 1.5rem;
+            border-radius: 0.5rem;
+            border: none;
+            color: $color-white;
+            background-color: $color-dark-green;
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,2 @@
+export const CREATE_MENU = 'CREATE_MENU';
+export const SET_CREATE_ERROR = 'SET_CREATE_ERROR';

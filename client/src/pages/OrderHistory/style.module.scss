@@ -1,0 +1,95 @@
+@import '@styles/base';
+
+.orderHistory {
+  background-image: url('../../static/images/bg-image.png');
+
+  .orderTitle {
+    font-size: 1.5rem;
+    font-weight: 600;
+    padding-left: 1rem;
+  }
+  .orderCont {
+    padding-bottom: 2rem;
+    padding-top: 2rem;
+    .order {
+      @include directionX;
+      justify-content: space-between;
+      width: 90%;
+      height: 10rem;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+      background-color: $color-white;
+      margin-left: 1rem;
+      border-radius: 0.5rem;
+      margin-top: 0.5rem;
+      cursor: pointer;
+      .left {
+        @include directionX;
+        gap: 2rem;
+        .imgContainer {
+          @include directionX;
+          height: 100%;
+          align-items: center;
+          padding-left: 2rem;
+          img {
+            width: 2rem;
+            @include apply-at-xl-size {
+              width: 3rem;
+            }
+          }
+        }
+        .statusCont {
+          @include directionY;
+          gap: 0.1rem;
+          justify-content: center;
+          font-size: 0.7rem;
+          font-weight: 600;
+          @include apply-at-xl-size {
+            font-size: 1.4rem;
+          }
+        }
+      }
+      .priceContainer {
+        @include directionY;
+        justify-content: center;
+        gap: 0.1rem;
+        padding-right: 2rem;
+        text-align: center;
+        .priceTotal {
+          font-size: 0.7rem;
+          font-weight: 600;
+          color: $color-dark-green;
+          @include apply-at-xl-size {
+            font-size: 1.4rem;
+          }
+        }
+        .itemsCount {
+          font-weight: 500;
+          color: $color-dark-grey;
+        }
+      }
+    }
+    .pagination {
+      @include directionX;
+      width: 100%;
+      justify-content: center;
+      margin-top: 2rem;
+      gap: 0.5rem;
+
+      span {
+        @include directionX;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        padding: 5px;
+        margin-right: 5px;
+        border: 1px solid #ccc;
+        width: 1rem;
+
+        &.currentPage {
+          background-color: $color-dark-green;
+          color: #fff;
+        }
+      }
+    }
+  }
+}

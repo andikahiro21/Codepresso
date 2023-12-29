@@ -1,20 +1,32 @@
-const { errorHandler } = require('../helpers')
+/* eslint-disable comma-dangle */
+/* eslint-disable semi */
+/* eslint-disable quotes */
+const { handleClientError } = require("../helpers/handleError");
 
 const isAdmin = async (req, res, next) => {
-  const { role } = req.user
+  const { role } = req.user;
   if (role !== 1) {
-    return errorHandler(res, 403, 'Forbiden', 'You are not an admin')
+    return handleClientError(res, 403, "You are not an admin");
   } else {
-    next()
+    next();
   }
-}
+};
 const isUser = async (req, res, next) => {
-  const { role } = req.user
+  const { role } = req.user;
   if (role !== 2) {
-    return errorHandler(res, 403, 'Forbiden', 'You are not an user')
+    return handleClientError(res, 403, "You are not an user");
   } else {
-    next()
+    next();
   }
-}
+};
 
-module.exports = { isAdmin, isUser }
+const isDriver = async (req, res, next) => {
+  const { role } = req.user;
+  if (role !== 3) {
+    return handleClientError(res, 403, "You are not an driver");
+  } else {
+    next();
+  }
+};
+
+module.exports = { isAdmin, isUser, isDriver };

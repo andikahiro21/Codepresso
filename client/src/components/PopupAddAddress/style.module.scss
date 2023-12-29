@@ -1,0 +1,45 @@
+@import '@styles/base';
+@import url('https://unpkg.com/leaflet@1.0.1/dist/leaflet.css');
+
+.cardContainer {
+  height: 20rem;
+  padding-bottom: 5rem;
+  padding-top: 1rem;
+  position: relative;
+  .cardTitle {
+    @include directionY;
+    align-items: center;
+    font-size: 1.5rem;
+    font-weight: 600;
+    height: 3.5rem;
+    border-bottom: 1px solid rgba($color-line-grey, 0.2);
+    width: 100%;
+  }
+  .map {
+    width: 100%;
+  }
+  .checkout {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    border-radius: 0px 0px 16px 16px;
+    box-shadow: 0px -1px 16px 0px rgba(0, 0, 0, 0.05);
+    background-color: $color-white;
+
+    .btnContainer {
+      @include directionX;
+      justify-content: center;
+      margin-bottom: 0.5rem;
+      width: 100%;
+      button {
+        width: 95%;
+        height: 2.5rem;
+        background-color: $color-green;
+        color: $color-white;
+        border: none;
+        border-radius: 0.5rem;
+        cursor: pointer;
+      }
+    }
+  }
+}

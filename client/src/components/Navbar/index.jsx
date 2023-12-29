@@ -1,8 +1,11 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { useDispatch } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { createStructuredSelector } from 'reselect';
 
 import logoNav from '@static/images/logoNav.png';
 
@@ -10,19 +13,82 @@ import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
 import { FaBars } from 'react-icons/fa';
 
 import { setLocale } from '@containers/App/actions';
 import { MdClose } from 'react-icons/md';
 
+import { FormControl, InputLabel, ListItemIcon, Select } from '@mui/material';
+import { Logout } from '@mui/icons-material';
+import { getAddress, setActiveAddress } from '@containers/Client/actions';
+import { selectAddress, selectLogin, selectToken } from '@containers/Client/selectors';
+import PopupBaskets from '@components/PopupBaskets';
+import PopupAddAddress from '@components/PopupAddAddress';
+import PopupConfirmPayment from '@components/PopupConfirmPayment';
+import PopupManageCategories from '@components/PopupManageCategories';
+import PopupAddress from '@components/PopupAddress';
+import { jwtDecode } from 'jwt-decode';
 import classes from './style.module.scss';
 
-const Navbar = ({ title, locale }) => {
+const Navbar = ({ title, locale, login, token, address }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [menuPosition, setMenuPosition] = useState(null);
   const [openHam, setOpenHam] = useState(false);
+  const [openBaskets, setOpenBaskets] = useState(false);
+  const [openConfirmPayment, setOpenConfirmPayment] = useState(false);
+  const [openAddress, setOpenAddress] = useState(false);
+  const [openAddAddress, setOpenAddAddress] = useState(false);
+  const [openManageCategories, setOpenManageCategories] = useState(false);
+
+  const handleClickOpenBaskets = () => {
+    setOpenBaskets(true);
+  };
+
+  const handleCloseBaskets = () => {
+    setOpenBaskets(false);
+  };
+
+  const handleClickOpenCategories = () => {
+    setOpenManageCategories(true);
+  };
+
+  const handleCloseCategories = () => {
+    setOpenManageCategories(false);
+  };
+
+  const handleClickOpenPayment = () => {
+    const hasActiveAddress = address.some((addr) => addr.active);
+
+    if (hasActiveAddress) {
+      setOpenBaskets(false);
+      setOpenConfirmPayment(true);
+    } else {
+      alert('Active address not found! Please select or add an active address.');
+    }
+  };
+
+  const handleClosepayment = () => {
+    setOpenConfirmPayment(false);
+  };
+
+  const handleClickOpenAddress = () => {
+    setOpenAddress(true);
+  };
+
+  const handleCloseAddress = () => {
+    setOpenAddress(false);
+  };
+  const handleClickOpenAddAddress = () => {
+    setOpenAddress(false);
+    setOpenAddAddress(true);
+  };
+
+  const handleCloseAddAddress = () => {
+    setOpenAddAddress(false);
+  };
 
   const open = Boolean(menuPosition);
 
@@ -41,6 +107,15 @@ const Navbar = ({ title, locale }) => {
     setMenuPosition(null);
   };
 
+  const [anchorEl, setAnchorEl] = useState(null);
+  const opened = Boolean(anchorEl);
+  const handleClickProfile = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleCloseProfile = () => {
+    setAnchorEl(null);
+  };
+
   const handleClickLogin = () => {
     navigate('/login');
   };
@@ -52,43 +127,112 @@ const Navbar = ({ title, locale }) => {
     handleClose();
   };
 
+  const handleLogout = () => {
+    localStorage.clear();
+    window.location.href = '/login';
+  };
+
+  const handleActiveChange = (event) => {
+    const selectedAddressId = event.target.value;
+    dispatch(setActiveAddress(selectedAddressId));
+  };
   const goHome = () => {
     navigate('/');
   };
 
+  let decoded = null;
+  if (token) {
+    decoded = jwtDecode(token);
+  }
+
+  useEffect(() => {
+    if (token && decoded && decoded?.data?.role === 2) {
+      dispatch(getAddress());
+    }
+  }, [dispatch, token]);
   return (
     <div className={classes.headerWrapper} data-testid="navbar">
+      <PopupBaskets
+        open={openBaskets}
+        handleClose={handleCloseBaskets}
+        handleClickOpenPayment={handleClickOpenPayment}
+      />
+      <PopupManageCategories open={openManageCategories} handleClose={handleCloseCategories} />
+      <PopupAddAddress open={openAddAddress} handleClose={handleCloseAddAddress} />
+      <PopupAddress open={openAddress} handleClose={handleCloseAddress} handleOpenCreate={handleClickOpenAddAddress} />
+      <PopupConfirmPayment open={openConfirmPayment} handleClose={handleClosepayment} />
       {openHam && (
         <div className={classes.popUpCard}>
           <div className={classes.closeButton} onClick={handleCloseHam}>
             <MdClose size="2rem" />
           </div>
           <ul>
-            <a href="/" onClick={handleCloseHam}>
+            <a href="/">
               <li>
                 <FormattedMessage id="app_nav_home" />
               </li>
             </a>
-            <a href="#" onClick={handleCloseHam}>
-              <li>
-                <FormattedMessage id="app_nav_menu" />
-              </li>
-            </a>
-            <a href="#" onClick={handleCloseHam}>
-              <li>
-                <FormattedMessage id="app_nav_about" />
-              </li>
-            </a>
-            <a href="#" onClick={handleCloseHam}>
-              <li>
-                <FormattedMessage id="app_nav_service" />
-              </li>
-            </a>
-            <a href="/login" onClick={handleCloseHam}>
-              <li>
-                <FormattedMessage id="app_nav_login" />
-              </li>
-            </a>
+
+            {decoded?.data?.role === 3 && (
+              <a href="/active-order">
+                <li>
+                  <FormattedMessage id="app_active_order_title" />
+                </li>
+              </a>
+            )}
+
+            {decoded?.data?.role === 2 && (
+              <>
+                <a href="/products">
+                  <li>
+                    <FormattedMessage id="app_nav_menu" />
+                  </li>
+                </a>
+                <a href="/order-history">
+                  <li>
+                    <FormattedMessage id="app_nav_history" />
+                  </li>
+                </a>
+              </>
+            )}
+            {decoded?.data?.role === 1 && (
+              <>
+                <a href="/products">
+                  <li>
+                    <FormattedMessage id="app_nav_menu" />
+                  </li>
+                </a>
+                <a href="/create-menu">
+                  <li>
+                    <FormattedMessage id="app_nav_create_menu" />
+                  </li>
+                </a>
+                <a href="/create-driver">
+                  <li>
+                    <FormattedMessage id="app_nav_create_driver" />
+                  </li>
+                </a>
+                <a href="/manage-order">
+                  <li>
+                    <FormattedMessage id="app_nav_manage_order" />
+                  </li>
+                </a>
+              </>
+            )}
+            {!decoded?.data && (
+              <>
+                <a href="/products">
+                  <li>
+                    <FormattedMessage id="app_nav_menu" />
+                  </li>
+                </a>
+                <a href="/login">
+                  <li>
+                    <FormattedMessage id="app_nav_login" />
+                  </li>
+                </a>
+              </>
+            )}
           </ul>
         </div>
       )}
@@ -100,37 +244,168 @@ const Navbar = ({ title, locale }) => {
 
         <div className={classes.menuList}>
           <ul>
-            <a href="#">
+            <a href="/">
               <li>
                 <FormattedMessage id="app_nav_home" />
               </li>
             </a>
-            <a href="#">
-              <li>
-                <FormattedMessage id="app_nav_about" />
-              </li>
-            </a>
-            <a href="#">
-              <li>
-                <FormattedMessage id="app_nav_menu" />
-              </li>
-            </a>
-            <a href="#">
-              <li>
-                <FormattedMessage id="app_nav_service" />
-              </li>
-            </a>
+            {!decoded?.data && (
+              <a href="/products">
+                <li>
+                  <FormattedMessage id="app_nav_menu" />
+                </li>
+              </a>
+            )}
+
+            {decoded?.data?.role === 3 && (
+              <a href="/active-order">
+                <li>
+                  <FormattedMessage id="app_active_order_title" />
+                </li>
+              </a>
+            )}
+
+            {decoded?.data?.role === 2 && (
+              <>
+                <a href="/products">
+                  <li>
+                    <FormattedMessage id="app_nav_menu" />
+                  </li>
+                </a>
+                <a href="/order-history">
+                  <li>
+                    <FormattedMessage id="app_nav_history" />
+                  </li>
+                </a>
+              </>
+            )}
+            {decoded?.data?.role === 1 && (
+              <>
+                <a href="/products">
+                  <li>
+                    <FormattedMessage id="app_nav_menu" />
+                  </li>
+                </a>
+                <a href="/create-menu">
+                  <li>
+                    <FormattedMessage id="app_nav_create_menu" />
+                  </li>
+                </a>
+                <a href="/create-driver">
+                  <li>
+                    <FormattedMessage id="app_nav_create_driver" />
+                  </li>
+                </a>
+                <a href="/manage-order">
+                  <li>
+                    <FormattedMessage id="app_nav_manage_order" />
+                  </li>
+                </a>
+              </>
+            )}
           </ul>
         </div>
         <div className={classes.toolbar}>
+          {login && decoded ? (
+            <>
+              {login && decoded?.data?.role === 2 && (
+                <div className={classes.cartContainer} onClick={handleClickOpenBaskets}>
+                  <ShoppingCartIcon />
+                </div>
+              )}
+
+              <img src={decoded.data.image} className={classes.profileIcon} alt="icon" onClick={handleClickProfile} />
+              <Menu
+                anchorEl={anchorEl}
+                id="account-menu"
+                open={opened}
+                onClose={handleCloseProfile}
+                onClick={handleCloseProfile}
+                PaperProps={{
+                  elevation: 0,
+                  sx: {
+                    overflow: 'visible',
+                    filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+                    mt: 1.5,
+                    '& .MuiAvatar-root': {
+                      width: 32,
+                      height: 32,
+                      ml: -0.5,
+                      mr: 1,
+                    },
+                    '&:before': {
+                      content: '""',
+                      display: 'block',
+                      position: 'absolute',
+                      top: 0,
+                      right: 14,
+                      width: 10,
+                      height: 10,
+                      bgcolor: 'background.paper',
+                      transform: 'translateY(-50%) rotate(45deg)',
+                      zIndex: 0,
+                    },
+                  },
+                }}
+                transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+                anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+              >
+                {login && decoded?.data?.role === 2 && (
+                  <>
+                    <MenuItem>
+                      <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+                        <InputLabel id="active-address-label">
+                          <FormattedMessage id="app_nav_active_address" />
+                        </InputLabel>
+                        <Select
+                          labelId="active-address-label"
+                          id="active-address"
+                          value={address?.find((a) => a?.active)?.id || ''}
+                          onChange={handleActiveChange}
+                          className={classes.selectAddress}
+                          label={<FormattedMessage id="app_nav_active_address" />}
+                        >
+                          {address?.map((addr) => (
+                            <MenuItem className={classes.addressName} key={addr.id} value={addr.id}>
+                              {addr.address_name}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </FormControl>
+                    </MenuItem>
+                    <MenuItem onClick={handleClickOpenAddress}>
+                      <div className={classes.addressTitle}>
+                        <FormattedMessage id="app_nav_manage_address" />
+                      </div>
+                    </MenuItem>
+                  </>
+                )}
+                {login && decoded?.data?.role === 1 && (
+                  <MenuItem onClick={handleClickOpenCategories}>
+                    <div className={classes.addressTitle}>
+                      <FormattedMessage id="app_nav_manage_categories" />
+                    </div>
+                  </MenuItem>
+                )}
+                <MenuItem onClick={handleLogout}>
+                  <ListItemIcon>
+                    <Logout fontSize="small" />
+                  </ListItemIcon>
+                  Logout
+                </MenuItem>
+              </Menu>
+            </>
+          ) : (
+            <button className={classes.btnLogin} type="button" onClick={handleClickLogin}>
+              <FormattedMessage id="app_nav_login" />
+            </button>
+          )}
           <div className={classes.toggle} onClick={handleClick}>
             <Avatar className={classes.avatar} src={locale === 'id' ? '/id.png' : '/en.png'} />
             <div className={classes.lang}>{locale}</div>
             <ExpandMoreIcon />
           </div>
-          <button className={classes.btnLogin} type="button" onClick={handleClickLogin}>
-            <FormattedMessage id="app_nav_login" />
-          </button>
+
           <div className={classes.hamburgerMenu}>
             <div onClick={handleOpenHam}>
               <FaBars size="1.3rem" />
@@ -160,9 +435,18 @@ const Navbar = ({ title, locale }) => {
   );
 };
 
+const mapStateToProps = createStructuredSelector({
+  login: selectLogin,
+  token: selectToken,
+  address: selectAddress,
+});
+
 Navbar.propTypes = {
   title: PropTypes.string,
   locale: PropTypes.string.isRequired,
+  login: PropTypes.bool,
+  token: PropTypes.string,
+  address: PropTypes.array,
 };
 
-export default Navbar;
+export default connect(mapStateToProps)(Navbar);

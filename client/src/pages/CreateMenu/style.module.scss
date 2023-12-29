@@ -1,0 +1,204 @@
+.createMenu {
+  background-image: url('../../static/images/bg-image.png');
+
+  .errorCreate {
+    font-size: 20px;
+    color: $color-white;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    background-color: $color-dark-red;
+  }
+  .createTitle {
+    font-size: 1.5rem;
+    font-weight: 600;
+    padding-left: 1rem;
+
+    @include apply-at-xl-size {
+      padding-left: 2rem;
+    }
+  }
+  .form {
+    padding-top: 30px;
+    width: 90%;
+    padding-left: 1rem;
+    padding-bottom: 1rem;
+    @include apply-at-xl-size {
+      padding-left: 2rem;
+      padding-bottom: 2rem;
+    }
+    form {
+      @include directionY;
+      gap: 1rem;
+      .name {
+        @include directionY;
+        label {
+          font-weight: 600;
+          height: 2rem;
+        }
+        input {
+          width: 98%;
+          height: 40px;
+          border-radius: 5px;
+          border: 0.5px solid $color-dark-blue;
+          outline: none;
+          padding-left: 1%;
+          @include apply-at-xl-size {
+            width: 98%;
+          }
+        }
+
+        input:focus {
+          border: 2px solid $color-dark-blue;
+        }
+      }
+
+      .category {
+        @include directionY;
+        label {
+          font-weight: 600;
+          height: 2rem;
+        }
+        select {
+          width: 98%;
+          height: 2rem;
+          border-radius: 5px;
+          border: 0.5px solid $color-dark-blue;
+          outline: none;
+          padding-left: 1%;
+          @include apply-at-xl-size {
+            width: 99%;
+          }
+        }
+
+        select:focus {
+          border: 2px solid $color-dark-blue;
+        }
+      }
+
+      .description {
+        @include directionY;
+        label {
+          font-weight: 600;
+          height: 2rem;
+        }
+        textarea {
+          width: 98%;
+          height: 5rem;
+          border-radius: 5px;
+          border: 0.5px solid $color-dark-blue;
+          outline: none;
+          padding-left: 1%;
+          @include apply-at-xl-size {
+            width: 98%;
+          }
+        }
+
+        input:focus {
+          border: 2px solid $color-dark-blue;
+        }
+      }
+
+      .type {
+        @include directionY;
+        label {
+          font-weight: 600;
+          height: 2rem;
+        }
+        select {
+          width: 98%;
+          height: 2rem;
+          border-radius: 5px;
+          border: 0.5px solid $color-dark-blue;
+          outline: none;
+          padding-left: 1%;
+          @include apply-at-xl-size {
+            width: 99%;
+          }
+        }
+
+        select:focus {
+          border: 2px solid $color-dark-blue;
+        }
+      }
+      .image {
+        @include directionY;
+        label {
+          font-weight: 600;
+          height: 2rem;
+        }
+        input {
+          width: 98%;
+          height: 40px;
+          border-radius: 5px;
+          border: 0.5px solid $color-dark-blue;
+          outline: none;
+          padding-left: 1%;
+          padding-top: 1%;
+          @include apply-at-xl-size {
+            width: 98%;
+          }
+        }
+
+        input:focus {
+          border: 2px solid $color-dark-blue;
+        }
+      }
+
+      .price {
+        @include directionY;
+        label {
+          font-weight: 600;
+          height: 2rem;
+        }
+        input {
+          width: 98%;
+          height: 40px;
+          border-radius: 5px;
+          border: 0.5px solid $color-dark-blue;
+          outline: none;
+          padding-left: 1%;
+          @include apply-at-xl-size {
+            width: 98%;
+          }
+        }
+
+        input:focus {
+          border: 2px solid $color-dark-blue;
+        }
+      }
+
+      .addOnsContainer {
+        @include directionY;
+        gap: 2rem;
+        @include apply-at-xl-size {
+          @include directionX;
+        }
+        .addOns {
+          @include directionX;
+          gap: 0.5rem;
+        }
+      }
+
+      .createMenuButtonContainer {
+        padding-top: 20px;
+        button {
+          width: 100%;
+          height: 45px;
+          border-radius: 10px;
+          border: none;
+          outline: none;
+          background-color: $color-green;
+          color: $color-white;
+          cursor: pointer;
+          @include apply-at-xl-size {
+            width: 20%;
+          }
+        }
+        button:hover {
+          filter: brightness(120%);
+        }
+      }
+    }
+  }
+}

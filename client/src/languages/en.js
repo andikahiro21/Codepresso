@@ -46,10 +46,36 @@ export default {
   app_reset_button: 'Send',
 
   app_nav_home: 'Home',
-  app_nav_about: 'About Us',
-  app_nav_menu: 'Order',
+  app_nav_history: 'Order History',
+  app_nav_create_menu: 'Create Menu',
+  app_nav_create_driver: 'Register Drivers',
+  app_nav_menu: 'Produk',
   app_nav_service: 'Service',
   app_nav_login: 'Sign in',
+  app_nav_logout: 'Logout',
+  app_nav_about: 'About Us',
+  app_nav_manage_order: 'Manage Order',
+  app_nav_manage_address: 'Manage Address',
+  app_nav_manage_categories: 'Manage Categories',
+
+  app_register_driver_title: 'Register Drivers',
+  app_register_driver_desc: 'Please enter driver informations to continue',
+
+  app_create_menu_name: 'Menu Name',
+  app_create_menu_name_err: 'Name is Required',
+  app_create_menu_category: 'Category',
+  app_create_menu_description: 'Description',
+  app_create_menu_description_err: 'Description is Required',
+  app_create_menu_type: 'Type',
+  app_create_menu_image: 'Image',
+  app_create_menu_image_err: 'Image Is Required',
+  app_create_menu_price: 'Price',
+  app_create_menu_price_err: 'Price Is Required',
+  app_create_menu_sizes: 'Include Size Add Ons',
+  app_create_menu_beans: 'Include Beans Add Ons',
+  app_create_menu_milk: 'Include Milk Add Ons',
+  app_create_menu_sugars: 'Include Sugars Add Ons',
+  app_create_menu_button: 'Create Menu',
 
   app_home_title: 'Craving the perfect cup of coffee? Our blends are lovely and delicious.',
   app_home_desc: 'With Coffe Delivery, you can have your coffee delivered to you wherever you are, at any time.',
@@ -65,4 +91,29 @@ export default {
   app_service_workshop: 'Workshop',
   app_service_workshop_desc:
     'Join our coffee workshops to learn the art of brewing and experience the world of coffee like never before',
+
+  app_products_title: 'Our Products',
+  app_nav_active_address: 'Address',
+
+  app_order_history_title: 'Order History',
+
+  app_manage_order_title: 'Manage Order',
+  app_manage_order_finished: 'Order Finished',
+  app_manage_order_delivery: 'On-Delivery',
+  app_manage_order_button: 'Choose Driver',
+  app_manage_order_list_button: 'Order List',
+
+  app_list_order_title: 'Order List',
+
+  app_list_popup_driver_title: 'Driver List',
+  app_list_popup_driver_button: 'Select Driver',
+
+  app_active_order_title: 'Active Order',
+  app_active_order_track: 'Location',
+  app_active_order_order_finished: 'Finish Order',
+  app_active_order_alert: 'Make sure the customer has received the order',
+  app_active_order_no_data: 'There are no active orders yet',
+
+  app_edit_menu_title: 'Edit Menu',
+  app_manage_cateogries_button: 'Add Category',
 };

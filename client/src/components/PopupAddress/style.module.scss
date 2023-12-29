@@ -1,0 +1,55 @@
+@import '@styles/base';
+
+.cardContainer {
+  height: 50vh;
+  padding-bottom: 1rem;
+  padding-top: 1rem;
+  position: relative;
+  .cardTitle {
+    @include directionY;
+    align-items: center;
+    font-size: 1.5rem;
+    font-weight: 600;
+    height: 3.5rem;
+    border-bottom: 1px solid rgba($color-line-grey, 0.2);
+    width: 100%;
+  }
+  button {
+    padding: 0.5rem 2rem 0.5rem 2rem;
+    margin-top: 0.4rem;
+    margin-left: 1rem;
+    background-color: $color-dark-green;
+    color: $color-white;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+  }
+  .addressCont {
+    width: 100%;
+    overflow: hidden;
+    margin-top: 1rem;
+    .address {
+      @include directionX;
+      justify-content: space-between;
+      width: 100%;
+      border-bottom: 1px solid rgba($color-line-grey, 0.2);
+      font-size: 1.2rem;
+      padding-left: 1rem;
+      height: 2.5rem;
+      padding-top: 1rem;
+    }
+    .addressName {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      font-weight: 500;
+      color: $color-dark-blue;
+    }
+    .action {
+      padding-right: 2rem;
+      .deleteIcon {
+        color: $color-dark-red;
+      }
+    }
+  }
+}

@@ -1,0 +1,4 @@
+export const GET_HISTORY_ORDER = 'GET_HISTORY_ORDER';
+export const SET_HISTORY_ORDER = 'SET_HISTORY_ORDER';
+export const GET_ROUTES = 'GET_ROUTES';
+export const SET_ROUTES = 'SET_ROUTES';

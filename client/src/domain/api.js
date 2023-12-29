@@ -1,9 +1,20 @@
+/* eslint-disable no-useless-catch */
 import config from '@config/index';
 import { merge } from 'lodash';
 
 import request from '@utils/request';
 
-const urls = {};
+const urls = {
+  auth: 'auth',
+  menu: 'menu',
+  category: 'category',
+  address: 'address',
+  addons: 'add-ons',
+  basket: 'basket',
+  map: 'map',
+  payment: 'payment',
+  purchase: 'purchase',
+};
 
 export const callAPI = async (endpoint, method, header = {}, params = {}, data = {}) => {
   const defaultHeader = {
@@ -27,20 +38,56 @@ export const callAPI = async (endpoint, method, header = {}, params = {}, data =
   }
 };
 
+// Auth
 export const login = (data) => callAPI('/auth/login', 'POST', {}, {}, data);
 export const register = (data) => callAPI('/auth/register', 'POST', {}, {}, data);
 export const forgotPassword = (data) => callAPI('/auth/forgot-password', 'POST', {}, {}, data);
 export const resetPassword = (token, data) => callAPI(`/auth/reset-password/${token}`, 'PUT', {}, {}, data);
-export const getAllMenu = () => callAPI('/category/menu', 'GET', {}, {}, {});
-export const payment = (data) => callAPI('/payment', 'POST', {}, {}, data);
-export const notificationMidtrans = (token) => callAPI('/payment/midtrans-notification', 'POST', { token }, {}, {});
-export const getOrder = () => callAPI('/menu/purchase/order', 'GET', {}, {}, {});
-export const getManageOrder = () => callAPI('/menu/purchase/all-order', 'GET', {}, {}, {});
-export const serveMenu = (data) => callAPI('/admin/serve', 'POST', {}, {}, data);
-export const getMenuID = (data) => callAPI(`/menu/${data}`, 'GET', {}, {}, {});
-export const editMenu = (id, data) =>
-  callAPI(`/menu/${id}`, 'PUT', { 'Content-Type': 'multipart/form-data' }, {}, data);
-export const getCategory = (data) => callAPI(`/category`, 'GET', {}, {}, {});
-export const createMenu = (data) =>
-  callAPI(`/menu/create`, 'POST', { 'Content-Type': 'multipart/form-data' }, {}, data);
-export const deleteMenu = (data) => callAPI(`/menu/${data}`, 'DELETE', {}, {}, {});
+export const registerDriver = (data) =>
+  callAPI(`${urls.auth}/register-driver`, 'POST', { 'Content-Type': 'multipart/form-data' }, {}, data);
+export const driverList = () => callAPI(`${urls.auth}/check-driver`, 'GET');
+
+// Products
+export const getAllProducts = () => callAPI(`${urls.menu}`, 'GET');
+export const getSelectedProducts = (id) => callAPI(`${urls.addons}/${id}`, 'GET');
+export const createProducts = (data) =>
+  callAPI(`${urls.menu}`, 'POST', { 'Content-Type': 'multipart/form-data' }, {}, data);
+export const deleteProducts = (id) => callAPI(`${urls.menu}/${id}`, 'DELETE');
+export const editMenu = (data, id) =>
+  callAPI(`${urls.menu}/${id}`, 'PUT', { 'Content-Type': 'multipart/form-data' }, {}, data);
+export const enableProduct = (id) => callAPI(`${urls.menu}/enable/${id}`, 'PUT');
+export const disableProduct = (id) => callAPI(`${urls.menu}/disable/${id}`, 'PUT');
+
+// Categories
+export const getCategories = () => callAPI(`${urls.category}`, 'GET');
+export const deleteCategory = (id) => callAPI(`${urls.category}/${id}`, 'DELETE');
+export const addCategory = (data) => callAPI(`${urls.category}`, 'POST', {}, {}, data);
+
+// Address
+export const getAddress = () => callAPI(`${urls.address}`, 'GET');
+export const createAddress = (data) => callAPI(`${urls.address}`, 'POST', {}, {}, data);
+export const setActiveAddress = ({ id }) => callAPI(`${urls.address}/set-active/${id}`, 'PUT');
+export const deleteAddress = (id) => callAPI(`${urls.address}/${id}`, 'DELETE');
+
+// Basket
+export const setBasket = (data) => callAPI(`${urls.basket}`, 'POST', {}, {}, data);
+export const getBaskets = () => callAPI(`${urls.basket}`, 'GET');
+export const editBaskets = ({ id, data }) => callAPI(`${urls.basket}/${id}`, 'PUT', {}, {}, data);
+export const deleteBaskets = (id) => callAPI(`${urls.basket}/${id}`, 'DELETE');
+
+// Map
+export const getDistance = () => callAPI(`${urls.map}/distance`, 'GET');
+export const getMapRoutes = (id) => callAPI(`${urls.map}/route/${id}`, 'GET');
+
+// Payment
+export const payment = (data) => callAPI(`${urls.payment}`, 'POST', {}, {}, data);
+export const notificationMidtrans = (token) => callAPI(`${urls.payment}/notification`, 'POST', { token }, {}, {});
+
+// Purchases
+export const getHistoryOrder = (id) => callAPI(`${urls.purchase}/${id}`, 'GET');
+export const getAllOrder = (page) => callAPI(`${urls.purchase}/?page=${page}`, 'GET');
+export const getAllOrderAdmin = (page) => callAPI(`${urls.purchase}/admin/?page=${page}`, 'GET');
+export const setOrderDelivery = (id, driverID) =>
+  callAPI(`${urls.purchase}/set-delivery/${id}`, 'PUT', {}, {}, { driverID });
+export const getActivePurchase = () => callAPI(`${urls.purchase}/active-purchase`, 'GET');
+export const setFinishOrder = (id) => callAPI(`${urls.purchase}/set-finish/${id}`, 'PUT');

@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
@@ -20,6 +21,7 @@ import { selectLocale } from '@containers/App/selectors';
 import { setLocale } from '@containers/App/actions';
 
 import { createStructuredSelector } from 'reselect';
+import encryptPayload from '@utils/encryptPayload';
 import { loginRequest } from './actions';
 
 import { selectLoginError } from './selectors';
@@ -64,7 +66,9 @@ const Login = ({ locale }) => {
   }, [isLoggedIn, navigate]);
 
   const onSubmit = (data) => {
-    dispatch(loginRequest(data));
+    const email = encryptPayload(data?.email);
+    const password = encryptPayload(data?.password);
+    dispatch(loginRequest({ email, password }));
   };
 
   const handleClick = (event) => {
@@ -168,11 +172,7 @@ const Login = ({ locale }) => {
                 <FormattedMessage id="app_login_button" />
               </button>
             </div>
-            <div className={classes.googleButtonContainer}>
-              <button type="button">
-                <FormattedMessage id="app_login_google_button" />
-              </button>
-            </div>
+
             <div className={classes.registerCont}>
               <div className={classes.registerTitle}>
                 <FormattedMessage id="app_login_register_title" />
