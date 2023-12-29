@@ -36,3 +36,11 @@ Summary of what the stack looks like now including a picture with the core tech:
 
 ![Core stack](./media/core-stack1.png)
 ![Core stack](./media/core-stack2.png)
+
+### Back-end
+
+See more information about backend in [here](/server/README.md)
+
+### Front-end
+
+See more information about our [Front-end, components, routing and convention](/client/README.md)
