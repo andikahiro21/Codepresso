@@ -39,7 +39,7 @@ Summary of what the stack looks like now including a picture with the core tech:
 
 ### Back-end
 
-See more information about backend in [here](/server/README.md)
+See more information about backend in [here](/server/readme.md)
 
 ### Front-end
 
