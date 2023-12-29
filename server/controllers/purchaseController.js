@@ -5,6 +5,7 @@ const { Op } = require("sequelize");
 const { handleServerError, handleClientError } = require("../helpers/handleError");
 const handleResponseSuccess = require("../helpers/responseSuccess");
 const { Users, PurchaseGroups, Menus, Purchases, Sugars, Sizes, Beans, Milk } = require("../models");
+const sequelize = require("sequelize");
 
 exports.setDelivery = async (req, res) => {
   try {
@@ -235,33 +236,17 @@ exports.getPurchaseGroupsAdmin = async (req, res) => {
           attributes: ["full_name"],
         },
       ],
-      order: [["createdAt", "ASC"]],
+      order: [[sequelize.literal(`FIELD(status, 'Order Receive', 'On-Delivery', 'Order Finished')`)], ["createdAt", "ASC"]],
+      limit: limitPerPage,
+      offset,
     });
-
-    const groupedData = allPurchaseGroups.reduce((acc, purchaseGroup) => {
-      const status = purchaseGroup.status;
-
-      if (!acc[status]) {
-        acc[status] = [];
-      }
-
-      acc[status].push(purchaseGroup);
-
-      return acc;
-    }, {});
-
-    const displayOrder = ["Order Receive", "On-Delivery", "Order Finished"];
-
-    const selectedPurchase = displayOrder.flatMap((status) => groupedData[status] || []);
-
-    const paginatedData = selectedPurchase.slice(offset, offset + limitPerPage);
 
     const totalPage = Math.ceil(totalPurchaseGroups / limitPerPage);
 
     const data = {
       totalPage,
       page,
-      selectedPurchase: paginatedData,
+      selectedPurchase: allPurchaseGroups,
     };
 
     return handleResponseSuccess(res, 200, "success", data);

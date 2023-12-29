@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1703728323728" clover="3.2.0">
-  <project timestamp="1703728323728" name="All files">
+<coverage generated="1703756580315" clover="3.2.0">
+  <project timestamp="1703756580316" name="All files">
     <metrics statements="640" coveredstatements="305" conditionals="174" coveredconditionals="34" methods="200" coveredmethods="57" elements="1014" coveredelements="396" complexity="0" loc="640" ncloc="640" packages="24" files="74" classes="74"/>
     <package name="config">
       <metrics statements="3" coveredstatements="3" conditionals="2" coveredconditionals="1" methods="0" coveredmethods="0"/>
@@ -67,8 +67,8 @@
       <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
       <file name="index.jsx" path="D:\Kerjaan\Oktober 2023\Final Project\codepresso\client\src\components\Footer\index.jsx">
         <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
-        <line num="9" count="1" type="stmt"/>
-        <line num="10" count="2" type="stmt"/>
+        <line num="11" count="1" type="stmt"/>
+        <line num="12" count="2" type="stmt"/>
       </file>
     </package>
     <package name="src.components.Loader">

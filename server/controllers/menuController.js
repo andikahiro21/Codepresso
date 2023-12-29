@@ -16,7 +16,9 @@ exports.getMenu = async (req, res) => {
     let menus = await redisClient.get("menus");
 
     if (!menus) {
-      const response = await Menus.findAll();
+      const response = await Menus.findAll({
+        order: [["qty", "DESC"]],
+      });
       await redisClient.set("menus", JSON.stringify(response));
       menus = response;
     } else {
