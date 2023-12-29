@@ -6,7 +6,7 @@ Codepresso is a full-fledged online platform revolutionizing your coffee experie
 >
 > This project is no longer being worked on. This branch repo only serves to give inspiration to others as a point in time reference.
 
-![Serverless Airline Booking sample](./media/prototype-web1.png)
+![Codepresso sample](./media/prototype-web1.png)
 
 ## Run Project
 
