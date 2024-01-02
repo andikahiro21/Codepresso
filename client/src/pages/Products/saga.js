@@ -25,10 +25,10 @@ import {
 } from './constants';
 import { setCategories, setProducts, setSelectedProducts } from './actions';
 
-function* doGetAllProducts() {
+function* doGetAllProducts(action) {
   yield put(setLoading(true));
   try {
-    const response = yield call(getAllProducts);
+    const response = yield call(getAllProducts, action.payload);
     yield put(setProducts(response));
   } catch (e) {
     yield put(showPopup());

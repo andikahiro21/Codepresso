@@ -15,6 +15,7 @@ import classes from './style.module.scss';
 const Products = ({ products, categories }) => {
   const dispatch = useDispatch();
   const [selectedCategory, setSelectedCategory] = useState('All');
+  const [currentPage, setCurrentPage] = useState(1);
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = (id) => {
@@ -26,16 +27,22 @@ const Products = ({ products, categories }) => {
     setOpen(false);
   };
   useEffect(() => {
-    dispatch(getAllProducts());
+    dispatch(getAllProducts(currentPage));
     dispatch(getCategories());
-  }, []);
+  }, [dispatch, currentPage]);
 
   const handleCategoryClick = (category) => {
     setSelectedCategory(category);
   };
 
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
   const filteredProducts =
-    selectedCategory === 'All' ? products : products.filter((product) => product.category_id === selectedCategory.id);
+    selectedCategory === 'All'
+      ? products?.data
+      : products?.data?.filter((product) => product.category_id === selectedCategory.id);
   return (
     <div className={classes.products}>
       <PopupOrder open={open} handleClose={handleClose} />
@@ -71,6 +78,17 @@ const Products = ({ products, categories }) => {
             id={product?.id}
             handleClick={handleClickOpen}
           />
+        ))}
+      </div>
+      <div className={classes.pagination}>
+        {Array.from({ length: products?.totalPage }, (_, index) => index + 1).map((page) => (
+          <span
+            key={page}
+            className={page === currentPage ? classes.currentPage : ''}
+            onClick={() => handlePageChange(page)}
+          >
+            {page}
+          </span>
         ))}
       </div>
     </div>
