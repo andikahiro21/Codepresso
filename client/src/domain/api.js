@@ -48,7 +48,7 @@ export const registerDriver = (data) =>
 export const driverList = () => callAPI(`${urls.auth}/check-driver`, 'GET');
 
 // Products
-export const getAllProducts = () => callAPI(`${urls.menu}`, 'GET');
+export const getAllProducts = (data) => callAPI(`${urls.menu}/?page=${data}`, 'GET');
 export const getSelectedProducts = (id) => callAPI(`${urls.addons}/${id}`, 'GET');
 export const createProducts = (data) =>
   callAPI(`${urls.menu}`, 'POST', { 'Content-Type': 'multipart/form-data' }, {}, data);

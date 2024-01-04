@@ -13,8 +13,9 @@ import {
   SET_SELECTED_PRODUCTS,
 } from './constants';
 
-export const getAllProducts = () => ({
+export const getAllProducts = (data) => ({
   type: GET_ALL_PRODUCTS,
+  payload: data,
 });
 
 export const getSelectedProducts = (id) => ({

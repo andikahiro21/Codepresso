@@ -13,19 +13,33 @@ const redisClient = new Redis();
 
 exports.getMenu = async (req, res) => {
   try {
-    let menus = await redisClient.get("menus");
+    // let menus = await redisClient.get("menus");
+    const page = req.query.page || 1;
+    const limitPerPage = 10;
+    const offset = (page - 1) * limitPerPage;
+    const totalRecords = await Menus.count();
+    // if (!menus) {
+    const response = await Menus.findAll({
+      limit: limitPerPage,
+      offset: offset,
+      order: [["qty", "DESC"]],
+    });
 
-    if (!menus) {
-      const response = await Menus.findAll({
-        order: [["qty", "DESC"]],
-      });
-      await redisClient.set("menus", JSON.stringify(response));
-      menus = response;
-    } else {
-      menus = JSON.parse(menus);
-    }
+    const totalPage = Math.ceil(totalRecords / limitPerPage);
 
-    handleResponseSuccess(res, 200, "success", menus);
+    // await redisClient.set("menus", JSON.stringify(response));
+    // menus = response;
+    // } else {
+    //   menus = JSON.parse(menus);
+    // }
+
+    const data = {
+      totalPage,
+      page,
+      data: response,
+    };
+
+    handleResponseSuccess(res, 200, "success", data);
   } catch (error) {
     return handleServerError(res);
   }
