@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import L from 'leaflet';
+import PropTypes from 'prop-types';
+import { useEffect, useRef, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { useParams } from 'react-router-dom';
@@ -8,17 +8,20 @@ import { MapContainer, Marker, Polyline, Popup, TileLayer } from 'react-leaflet'
 
 import { getAssetImages } from '@utils/assetHelper';
 
+import ContentPrint from '@pages/DetailOrder/components/ContentPrint';
+import { selectHistory, selectRoutes } from '@pages/DetailOrder/selectors';
+import { getHistoryOrder, getMapsRoutes } from '@pages/DetailOrder/actions';
+
 import { selectLogin } from '@containers/Client/selectors';
-import { selectHistory, selectRoutes } from './selectors';
-import { getHistoryOrder, getMapsRoutes } from './actions';
 
 import classes from './style.module.scss';
 
 const DetailOrder = ({ historyOrder, mapRoutes, login }) => {
+  const ref = useRef();
   const dispatch = useDispatch();
   const { id } = useParams();
   const [isDataLoaded, setIsDataLoaded] = useState(false);
-
+  const [totalPrice, setTotalPrice] = useState(0);
   useEffect(() => {
     const fetchData = async () => {
       await dispatch(getHistoryOrder(id));
@@ -50,6 +53,15 @@ const DetailOrder = ({ historyOrder, mapRoutes, login }) => {
     popupAnchor: [0, -40],
   });
 
+  useEffect(() => {
+    if (historyOrder?.message?.purchaseGroup_purchase) {
+      const calculate = historyOrder?.message?.purchaseGroup_purchase?.reduce(
+        (total, purchase) => total + purchase.price * purchase.qty,
+        0
+      );
+      setTotalPrice(calculate);
+    }
+  }, [historyOrder]);
   return (
     <div className={classes.detailOrder}>
       <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" />
@@ -67,10 +79,11 @@ const DetailOrder = ({ historyOrder, mapRoutes, login }) => {
               <Popup>{routes}</Popup>
             </Marker>
 
-            {routes && <Polyline color="blue" positions={JSON.parse(routes)} />}
+            {routes && <Polyline color="blue" positions={routes} />}
           </MapContainer>
         </div>
       )}
+      <ContentPrint totalPrice={totalPrice} ref={ref} orderHistory={historyOrder?.message} />
       <div className={classes.orderDetail}>
         <div className={classes.status}>
           <div className={classes.detailTitle}>Order Status:</div>
