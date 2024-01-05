@@ -68,16 +68,7 @@ const Products = ({ products, categories }) => {
       </div>
       <div className={classes.content}>
         {filteredProducts?.map((product) => (
-          <ProductCard
-            key={product?.id}
-            name={product?.name}
-            price={product?.price}
-            description={product?.description}
-            image={product?.image}
-            qty={product?.qty}
-            id={product?.id}
-            handleClick={handleClickOpen}
-          />
+          <ProductCard key={product?.id} product={product} handleClick={handleClickOpen} />
         ))}
       </div>
       <div className={classes.pagination}>

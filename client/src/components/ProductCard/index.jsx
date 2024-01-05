@@ -19,7 +19,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 
 import classes from './style.module.scss';
 
-const ProductCard = ({ name, description, price, image, login, token, id, handleClick, qty }) => {
+const ProductCard = ({ product, login, token, handleClick }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   let decoded = null;
@@ -31,66 +31,67 @@ const ProductCard = ({ name, description, price, image, login, token, id, handle
   };
 
   const handleDisable = () => {
-    dispatch(setProductDisable(id));
+    dispatch(setProductDisable(product?.id));
   };
 
   const handleEnable = () => {
-    dispatch(setProductEnable(id));
+    dispatch(setProductEnable(product?.id));
   };
 
-  let actionButton = null;
+  const ActionButton = () => {
+    const role = login && decoded?.data?.role;
+    const button = {
+      1: (
+        <div className={`${classes.adminAction}`}>
+          {product.status ? (
+            <VisibilityIcon onClick={handleDisable} className={classes.visibilityIcon} />
+          ) : (
+            <VisibilityOffIcon onClick={handleEnable} className={classes.visibilityOffIcon} />
+          )}
+          <EditIcon
+            className={classes.editIcon}
+            onClick={() => {
+              navigate(`/edit-menu/${product?.id}`);
+            }}
+          />
+          <DeleteIcon
+            className={classes.deleteIcon}
+            onClick={() => {
+              dispatch(deleteProducts(product?.id));
+            }}
+          />
+        </div>
+      ),
+      2: (
+        <button type="button" onClick={() => handleClick(product?.id)} disabled={!product?.status}>
+          {!product?.status ? 'Sold Out' : 'Add Order'}
+        </button>
+      ),
+      default: (
+        <button type="button" onClick={handleLogin} disabled={!product?.status}>
+          {!product?.status ? 'Sold Out' : 'Add Order'}
+        </button>
+      ),
+    };
 
-  if (login && decoded?.data?.role === 2) {
-    actionButton = (
-      <button type="button" onClick={() => handleClick(id)} disabled={qty === 0}>
-        {qty === 0 ? 'Sold Out' : 'Add Order'}
-      </button>
-    );
-  } else if (decoded?.data?.role === 1) {
-    actionButton = (
-      <div className={`${classes.adminAction}`}>
-        {qty === 1 ? (
-          <VisibilityIcon onClick={handleDisable} className={classes.visibilityIcon} />
-        ) : (
-          <VisibilityOffIcon onClick={handleEnable} className={classes.visibilityOffIcon} />
-        )}
-        <EditIcon
-          className={classes.editIcon}
-          onClick={() => {
-            navigate(`/edit-menu/${id}`);
-          }}
-        />
-        <DeleteIcon
-          className={classes.deleteIcon}
-          onClick={() => {
-            dispatch(deleteProducts(id));
-          }}
-        />
-      </div>
-    );
-  } else {
-    actionButton = (
-      <button type="button" onClick={handleLogin} disabled={qty === 0}>
-        {qty === 0 ? 'Sold Out' : 'Add Order'}
-      </button>
-    );
-  }
+    return button[role] || button.default;
+  };
 
   return (
     <Card className={classes.card}>
       <div className={classes.imgContainer}>
-        <img src={image} alt="Logo" className={`${qty === 0 ? classes.imgDisable : ''}`} />
+        <img src={product?.image} alt="Logo" className={`${!product?.status && classes.imgDisable}`} />
       </div>
       <div className={classes.cardContent}>
-        <div className={classes.title}>{name}</div>
-        <div className={classes.desc}>{description}</div>
+        <div className={classes.title}>{product?.name}</div>
+        <div className={classes.desc}>{product?.description}</div>
       </div>
       <CardActions className={classes.action}>
         <div className={classes.priceContainer}>
           <div className={classes.currency}>Rp</div>
-          <div className={classes.price}>{price}</div>
+          <div className={classes.price}>{product?.price}</div>
         </div>
-        {actionButton}
+        <ActionButton />
       </CardActions>
     </Card>
   );
@@ -102,13 +103,9 @@ const mapStateToProps = createStructuredSelector({
 });
 
 ProductCard.propTypes = {
-  id: PropTypes.number,
-  name: PropTypes.string,
-  description: PropTypes.string,
-  price: PropTypes.number,
+  product: PropTypes.object,
   login: PropTypes.bool,
   token: PropTypes.string,
-  qty: PropTypes.number,
 };
 
 export default connect(mapStateToProps)(ProductCard);

@@ -1,6 +1,3 @@
-/* eslint-disable comma-dangle */
-/* eslint-disable semi */
-/* eslint-disable quotes */
 const { uploadToCloudinary, deleteFromCloudinary } = require("../config/cloudinary");
 const { extractPublicId } = require("../helpers/extractPublicId");
 const { handleServerError, handleClientError } = require("../helpers/handleError");
@@ -13,25 +10,17 @@ const redisClient = new Redis();
 
 exports.getMenu = async (req, res) => {
   try {
-    // let menus = await redisClient.get("menus");
     const page = req.query.page || 1;
     const limitPerPage = 10;
     const offset = (page - 1) * limitPerPage;
     const totalRecords = await Menus.count();
-    // if (!menus) {
     const response = await Menus.findAll({
       limit: limitPerPage,
       offset: offset,
-      order: [["qty", "DESC"]],
+      order: [["status", "DESC"]],
     });
 
     const totalPage = Math.ceil(totalRecords / limitPerPage);
-
-    // await redisClient.set("menus", JSON.stringify(response));
-    // menus = response;
-    // } else {
-    //   menus = JSON.parse(menus);
-    // }
 
     const data = {
       totalPage,
@@ -76,7 +65,7 @@ exports.createMenu = async (req, res) => {
   try {
     const newData = req.body;
 
-    newData.qty = 1;
+    newData.status = false;
 
     if (!req.files || !req.files.image) {
       return handleClientError(res, 400, "Image Required");
@@ -137,7 +126,7 @@ exports.editMenu = async (req, res) => {
     const { id } = req.params;
     const newData = req.body;
 
-    newData.qty = 1;
+    newData.status = false;
 
     const validate = validateBodyEditMenu(newData);
     if (validate) {
@@ -201,7 +190,12 @@ exports.editMenu = async (req, res) => {
       await Sugars.destroy({ where: { menu_id: menu.id } });
     }
 
-    if (newData.sizes === "true" || newData.beans === "true" || newData.milk === "true" || newData.sugars === "true") {
+    if (
+      newData.sizes === "true" ||
+      newData.beans === "true" ||
+      newData.milk === "true" ||
+      newData.sugars === "true"
+    ) {
       const addOnsData = {
         menu_id: menu.id,
         sizes: newData.sizes,
@@ -231,7 +225,7 @@ exports.disableMenu = async (req, res) => {
       return handleClientError(res, 404, `Menu with ID ${id} not found.`);
     }
 
-    await menu.update({ qty: 0 });
+    await menu.update({ status: false });
 
     await redisClient.del("categoryMenus");
     await redisClient.del("menus");
@@ -251,7 +245,7 @@ exports.enableMenu = async (req, res) => {
       return handleClientError(res, 404, `Menu with ID ${id} not found.`);
     }
 
-    await menu.update({ qty: 1 });
+    await menu.update({ status: true });
 
     await redisClient.del("categoryMenus");
     await redisClient.del("menus");
@@ -275,7 +269,11 @@ exports.deleteMenu = async (req, res) => {
     const purchase = await Purchases.findOne({ where: { menu_id: selectedMenu.id } });
 
     if (purchase) {
-      return handleClientError(res, 400, `Unable to delete the menu due to its association with existing purchase data.`);
+      return handleClientError(
+        res,
+        400,
+        `Unable to delete the menu due to its association with existing purchase data.`
+      );
     }
 
     await Promise.all([
@@ -299,7 +297,6 @@ exports.deleteMenu = async (req, res) => {
 
     return handleResponseSuccess(res, 200, "Menu Deleted", selectedMenu);
   } catch (error) {
-    console.error(error);
     return handleServerError(res);
   }
 };
