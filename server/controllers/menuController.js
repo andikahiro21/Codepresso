@@ -1,25 +1,49 @@
 /* eslint-disable comma-dangle */
 /* eslint-disable semi */
 /* eslint-disable quotes */
-const { uploadToCloudinary, deleteFromCloudinary } = require("../config/cloudinary");
+const {
+  uploadToCloudinary,
+  deleteFromCloudinary,
+} = require("../config/cloudinary");
 const { extractPublicId } = require("../helpers/extractPublicId");
-const { handleServerError, handleClientError } = require("../helpers/handleError");
+const {
+  handleServerError,
+  handleClientError,
+} = require("../helpers/handleError");
 const handleResponseSuccess = require("../helpers/responseSuccess");
-const { validateBodyMenu, validateBodyEditMenu } = require("../helpers/validationJoi");
-const { Menus, Purchases, Baskets, Sugars, Sizes, Milk, Beans } = require("../models");
+const {
+  validateBodyMenu,
+  validateBodyEditMenu,
+} = require("../helpers/validationJoi");
+const {
+  Menus,
+  Purchases,
+  Baskets,
+  Sugars,
+  Sizes,
+  Milk,
+  Beans,
+} = require("../models");
 const Redis = require("ioredis");
 const { createAddOnsForMenu } = require("./addOnsController");
+const { Op } = require("sequelize");
 const redisClient = new Redis();
 
 exports.getMenu = async (req, res) => {
   try {
     // let menus = await redisClient.get("menus");
     const page = req.query.page || 1;
+    const search = req.query.search || "";
+    const category_id = req.query.category || undefined;
     const limitPerPage = 10;
     const offset = (page - 1) * limitPerPage;
     const totalRecords = await Menus.count();
     // if (!menus) {
     const response = await Menus.findAll({
+      where: {
+        name: { [Op.like]: `%${search}%` },
+        ...(category_id && { category_id: { [Op.in]: [category_id] } }),
+      },
       limit: limitPerPage,
       offset: offset,
       order: [["qty", "DESC"]],
@@ -89,13 +113,21 @@ exports.createMenu = async (req, res) => {
 
     const existingMenu = await Menus.findOne({ where: { name: newData.name } });
     if (existingMenu) {
-      return handleClientError(res, 400, `Menu with name ${newData.name} already exists.`);
+      return handleClientError(
+        res,
+        400,
+        `Menu with name ${newData.name} already exists.`
+      );
     }
 
     let imageUploaded = false;
 
     try {
-      imageResult = await uploadToCloudinary(req.files.image[0], "image", "images");
+      imageResult = await uploadToCloudinary(
+        req.files.image[0],
+        "image",
+        "images"
+      );
       imageUploaded = true;
     } catch (uploadError) {
       if (imageUploaded) {
@@ -201,7 +233,12 @@ exports.editMenu = async (req, res) => {
       await Sugars.destroy({ where: { menu_id: menu.id } });
     }
 
-    if (newData.sizes === "true" || newData.beans === "true" || newData.milk === "true" || newData.sugars === "true") {
+    if (
+      newData.sizes === "true" ||
+      newData.beans === "true" ||
+      newData.milk === "true" ||
+      newData.sugars === "true"
+    ) {
       const addOnsData = {
         menu_id: menu.id,
         sizes: newData.sizes,
@@ -272,10 +309,16 @@ exports.deleteMenu = async (req, res) => {
       return handleClientError(res, 404, `Menu Not Found`);
     }
 
-    const purchase = await Purchases.findOne({ where: { menu_id: selectedMenu.id } });
+    const purchase = await Purchases.findOne({
+      where: { menu_id: selectedMenu.id },
+    });
 
     if (purchase) {
-      return handleClientError(res, 400, `Unable to delete the menu due to its association with existing purchase data.`);
+      return handleClientError(
+        res,
+        400,
+        `Unable to delete the menu due to its association with existing purchase data.`
+      );
     }
 
     await Promise.all([

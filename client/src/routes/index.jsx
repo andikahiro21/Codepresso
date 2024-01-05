@@ -1,10 +1,10 @@
 import MainLayout from '@layouts/MainLayout';
 import ActiveOrder from '@pages/ActiveOrder';
+import FinishedOrder from '@pages/FinishedOrder';
 import CreateDriver from '@pages/CreateDriver';
 import CreateMenu from '@pages/CreateMenu';
 import DetailOrder from '@pages/DetailOrder';
 import EditMenu from '@pages/EditMenu';
-
 import ForgotPassword from '@pages/ForgotPassword';
 import Home from '@pages/Home';
 import Login from '@pages/Login';
@@ -139,6 +139,16 @@ const routes = [
     name: 'ActiveOrder',
     protected: true,
     component: ActiveOrder,
+    layout: MainLayout,
+    adminOnly: false,
+    userOnly: false,
+    driverOnly: true,
+  },
+  {
+    path: '/finished-order',
+    name: 'FinishedOrder',
+    protected: true,
+    component: FinishedOrder,
     layout: MainLayout,
     adminOnly: false,
     userOnly: false,

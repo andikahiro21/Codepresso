@@ -114,6 +114,10 @@ export default {
   app_active_order_alert: 'Make sure the customer has received the order',
   app_active_order_no_data: 'There are no active orders yet',
 
+  app_finished_order_title: 'Finished Order',
+  app_finished_order_track: 'Location',
+  app_finished_order_no_data: 'There are no finished orders yet',
+
   app_edit_menu_title: 'Edit Menu',
   app_manage_cateogries_button: 'Add Category',
 };

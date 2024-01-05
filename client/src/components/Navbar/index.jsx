@@ -174,11 +174,18 @@ const Navbar = ({ title, locale, login, token, address }) => {
             </a>
 
             {decoded?.data?.role === 3 && (
-              <a href="/active-order">
-                <li>
-                  <FormattedMessage id="app_active_order_title" />
-                </li>
-              </a>
+              <>
+                <a href="/active-order">
+                  <li>
+                    <FormattedMessage id="app_active_order_title" />
+                  </li>
+                </a>
+                <a href="/finished-order">
+                  <li>
+                    <FormattedMessage id="app_finished_order_title" />
+                  </li>
+                </a>
+              </>
             )}
 
             {decoded?.data?.role === 2 && (
@@ -258,11 +265,18 @@ const Navbar = ({ title, locale, login, token, address }) => {
             )}
 
             {decoded?.data?.role === 3 && (
-              <a href="/active-order">
-                <li>
-                  <FormattedMessage id="app_active_order_title" />
-                </li>
-              </a>
+              <>
+                <a href="/active-order">
+                  <li>
+                    <FormattedMessage id="app_active_order_title" />
+                  </li>
+                </a>
+                <a href="/finished-order">
+                  <li>
+                    <FormattedMessage id="app_finished_order_title" />
+                  </li>
+                </a>
+              </>
             )}
 
             {decoded?.data?.role === 2 && (

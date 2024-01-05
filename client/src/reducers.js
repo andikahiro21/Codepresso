@@ -17,6 +17,7 @@ import editMenuReducer from '@pages/EditMenu/reducer';
 import manageOrderReducer from '@pages/ManageOrder/reducer';
 import activeOrderReducer from '@pages/ActiveOrder/reducer';
 import productReducer from '@pages/Products/reducer';
+import finishedOrderReducer from '@pages/FinishedOrder/reducer';
 
 import { mapWithPersistor } from './persistence';
 
@@ -39,6 +40,7 @@ const temporaryReducers = {
   registerDriver: registerDriverReducer,
   manageOrder: manageOrderReducer,
   activeOrder: activeOrderReducer,
+  finishedOrder: finishedOrderReducer,
 };
 
 const createReducer = () => {

@@ -115,6 +115,10 @@ export default {
   app_active_order_alert: 'Pastikan Customer Sudah Menerima Order',
   app_active_order_no_data: 'Belum ada order aktif',
 
+  app_finished_order_title: 'Order Selesai',
+  app_finished_order_track: 'Lokasi',
+  app_finished_order_no_data: 'Belum ada order selesai',
+
   app_edit_menu_title: 'Sunting Menu',
   app_manage_cateogries_button: 'Tambahkan Kategori',
 };
