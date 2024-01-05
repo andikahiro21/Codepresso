@@ -2,12 +2,14 @@ import PropTypes from 'prop-types';
 import { connect, useDispatch } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { useEffect, useState } from 'react';
-import Macchiato from '@static/images/macchiato.png';
 import { FormattedMessage } from 'react-intl';
 import { useNavigate } from 'react-router-dom';
 
 import { getAllOrder } from './actions';
 import { selectAllOrder } from './selectors';
+
+import { getAssetImages } from '@utils/assetHelper';
+
 import classes from './style.module.scss';
 
 const OrderHistory = ({ allOrder }) => {
@@ -49,7 +51,7 @@ const OrderHistory = ({ allOrder }) => {
           <div className={classes.order} onClick={() => handleClick(item?.id)} key={item?.id}>
             <div className={classes.left}>
               <div className={classes.imgContainer}>
-                <img src={Macchiato} alt="product" />
+                <img src={getAssetImages('macchiato', '/src/static/images/macchiato.png')} alt="product" />
               </div>
               <div className={classes.statusCont}>
                 <div className={classes.date}>{convertToDate(item?.date)}</div>

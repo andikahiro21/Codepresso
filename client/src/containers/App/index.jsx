@@ -4,7 +4,8 @@ import { connect, useDispatch } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-import { hidePopup } from '@containers/App/actions';
+import { hidePopup, getAssets } from '@containers/App/actions';
+import { getTranslations } from '@containers/Language/actions';
 import { selectTheme, selectPopup, selectLoading } from '@containers/App/selectors';
 
 import Loader from '@components/Loader';
@@ -23,6 +24,11 @@ const App = ({ theme, popup, loading }) => {
   const closePopup = () => {
     dispatch(hidePopup());
   };
+
+  useEffect(() => {
+    dispatch(getTranslations());
+    dispatch(getAssets())
+  },[])
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
