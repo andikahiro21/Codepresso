@@ -39,7 +39,7 @@ const DeleteHistory = ({ products, handleRestore }) => {
             </tr>
           </thead>
           <tbody>
-            {products.map((product, index) => (
+            {products?.map((product, index) => (
               <tr key={index}>
                 <td>{product?.name}</td>
                 <td className={classes.truncate}>{product?.description}</td>
