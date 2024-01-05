@@ -91,3 +91,8 @@ export const setOrderDelivery = (id, driverID) =>
   callAPI(`${urls.purchase}/set-delivery/${id}`, 'PUT', {}, {}, { driverID });
 export const getActivePurchase = () => callAPI(`${urls.purchase}/active-purchase`, 'GET');
 export const setFinishOrder = (id) => callAPI(`${urls.purchase}/set-finish/${id}`, 'PUT');
+
+// MenuDeletedHistory
+export const getSoftDeletedMenu = () => callAPI(`${urls.menu}/soft-deleted`, 'GET');
+export const softDeleteMenu = (id) => callAPI(`${urls.menu}/soft-delete/${id}`, 'PUT', {}, {}, {});
+export const restoreSoftDeleteMenu = (id) => callAPI(`${urls.menu}/restore/${id}`, 'PUT', {}, {}, {});

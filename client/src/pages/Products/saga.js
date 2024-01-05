@@ -8,7 +8,10 @@ import {
   getAllProducts,
   getCategories,
   getSelectedProducts,
+  getSoftDeletedMenu,
+  restoreSoftDeleteMenu,
   setBasket,
+  softDeleteMenu,
 } from '@domain/api';
 import { setLoading, showPopup } from '@containers/App/actions';
 import toast from 'react-hot-toast';
@@ -16,14 +19,17 @@ import {
   ADD_CATEGORY,
   DELETE_CATEGORY,
   DELETE_PRODUCTS,
+  DELETE_SOFT_MENU,
   GET_ALL_PRODUCTS,
   GET_CATEGORIES,
   GET_SELECTED_PRODUCTS,
+  GET_SOFT_DELETED_MENU,
+  RESTORE_DELETE_MENU,
   SET_BASKET,
   SET_PRODUCT_DISABLE,
   SET_PRODUCT_ENABLE,
 } from './constants';
-import { setCategories, setProducts, setSelectedProducts } from './actions';
+import { getSoftDeletedMenuSuccess, setCategories, setProducts, setSelectedProducts } from './actions';
 
 function* doGetAllProducts(action) {
   yield put(setLoading(true));
@@ -133,6 +139,44 @@ function* doDisableProduct(action) {
   }
 }
 
+function* doGetSoftDeleted() {
+  yield put(setLoading(true));
+  try {
+    const response = yield call(getSoftDeletedMenu);
+    yield put(getSoftDeletedMenuSuccess(response.data));
+  } catch (error) {
+    toast.error(error.response.data.message || error.message);
+  } finally {
+    yield put(setLoading(false));
+  }
+}
+
+function* doDeleteSoftMenu({ id, cbSuccess }) {
+  yield put(setLoading(true));
+  try {
+    yield call(softDeleteMenu, id);
+    cbSuccess && cbSuccess();
+    toast.success('Success delete! Please Check deleted history');
+  } catch (error) {
+    toast.error(error.response.data.message || error.message);
+  } finally {
+    yield put(setLoading(false));
+  }
+}
+
+function* doRestoreDeletedMenu({ id, cbSuccess }) {
+  yield put(setLoading(true));
+  try {
+    yield call(restoreSoftDeleteMenu, id);
+    cbSuccess && cbSuccess();
+    toast.success('Success restore!');
+  } catch (error) {
+    toast.error(error.response.data.message || error.message);
+  } finally {
+    yield put(setLoading(false));
+  }
+}
+
 export function* productSaga() {
   yield takeLatest(GET_ALL_PRODUCTS, doGetAllProducts);
   yield takeLatest(GET_CATEGORIES, doGetCategories);
@@ -143,4 +187,8 @@ export function* productSaga() {
   yield takeLatest(ADD_CATEGORY, doAddCategory);
   yield takeLatest(SET_PRODUCT_ENABLE, doEnableProduct);
   yield takeLatest(SET_PRODUCT_DISABLE, doDisableProduct);
+
+  yield takeLatest(GET_SOFT_DELETED_MENU, doGetSoftDeleted);
+  yield takeLatest(DELETE_SOFT_MENU, doDeleteSoftMenu);
+  yield takeLatest(RESTORE_DELETE_MENU, doRestoreDeletedMenu);
 }

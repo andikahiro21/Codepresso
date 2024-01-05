@@ -17,6 +17,9 @@ exports.getMenu = async (req, res) => {
     const response = await Menus.findAll({
       limit: limitPerPage,
       offset: offset,
+      where: {
+        isDeleted: false,
+      },
       order: [["status", "DESC"]],
     });
 
@@ -296,6 +299,58 @@ exports.deleteMenu = async (req, res) => {
     await redisClient.del("menus");
 
     return handleResponseSuccess(res, 200, "Menu Deleted", selectedMenu);
+  } catch (error) {
+    return handleServerError(res);
+  }
+};
+
+exports.getMenuSoftDeleted = async (req, res) => {
+  try {
+    const menus = await Menus.findAll({ where: { isDeleted: true } });
+
+    if (!menus) {
+      return handleClientError(res, 404, `Menu Not Found`);
+    }
+
+    return handleResponseSuccess(res, 200, "Success Get Menus", menus);
+  } catch (error) {
+    return handleServerError(res);
+  }
+};
+
+exports.softDeleteMenu = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const selectedMenu = await Menus.findByPk(id);
+
+    if (!selectedMenu) {
+      return handleClientError(res, 404, `Menu Not Found`);
+    }
+
+    await selectedMenu.update({ isDeleted: true });
+
+    await redisClient.del("categoryMenus");
+    await redisClient.del("menus");
+    return handleResponseSuccess(res, 200, "Menu Soft Deleted", selectedMenu);
+  } catch (error) {
+    return handleServerError(res);
+  }
+};
+
+exports.restoreSoftDeletedMenu = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const selectedMenu = await Menus.findByPk(id);
+
+    if (!selectedMenu) {
+      return handleClientError(res, 404, `Menu Not Found`);
+    }
+
+    await selectedMenu.update({ isDeleted: false });
+
+    await redisClient.del("categoryMenus");
+    await redisClient.del("menus");
+    return handleResponseSuccess(res, 200, "Menu Soft Restored", selectedMenu);
   } catch (error) {
     return handleServerError(res);
   }

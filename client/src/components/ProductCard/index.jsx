@@ -6,7 +6,13 @@ import { connect, useDispatch } from 'react-redux';
 import { jwtDecode } from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
 
-import { deleteProducts, setProductDisable, setProductEnable } from '@pages/Products/actions';
+import {
+  getAllProducts,
+  getSoftDeletedMenu,
+  setProductDisable,
+  setProductEnable,
+  softDeleteMenu,
+} from '@pages/Products/actions';
 
 import { selectLogin, selectToken } from '@containers/Client/selectors';
 
@@ -19,7 +25,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 
 import classes from './style.module.scss';
 
-const ProductCard = ({ product, login, token, handleClick }) => {
+const ProductCard = ({ product, login, token, handleClick, currentPage }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   let decoded = null;
@@ -57,7 +63,12 @@ const ProductCard = ({ product, login, token, handleClick }) => {
           <DeleteIcon
             className={classes.deleteIcon}
             onClick={() => {
-              dispatch(deleteProducts(product?.id));
+              dispatch(
+                softDeleteMenu(product?.id, () => {
+                  dispatch(getAllProducts(currentPage));
+                  dispatch(getSoftDeletedMenu());
+                })
+              );
             }}
           />
         </div>
@@ -106,6 +117,7 @@ ProductCard.propTypes = {
   product: PropTypes.object,
   login: PropTypes.bool,
   token: PropTypes.string,
+  currentPage: PropTypes.number,
 };
 
 export default connect(mapStateToProps)(ProductCard);
