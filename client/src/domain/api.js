@@ -14,6 +14,7 @@ const urls = {
   map: 'map',
   payment: 'payment',
   purchase: 'purchase',
+  web: 'web'
 };
 
 export const callAPI = async (endpoint, method, header = {}, params = {}, data = {}) => {
@@ -91,3 +92,7 @@ export const setOrderDelivery = (id, driverID) =>
   callAPI(`${urls.purchase}/set-delivery/${id}`, 'PUT', {}, {}, { driverID });
 export const getActivePurchase = () => callAPI(`${urls.purchase}/active-purchase`, 'GET');
 export const setFinishOrder = (id) => callAPI(`${urls.purchase}/set-finish/${id}`, 'PUT');
+
+// Assets
+export const getTranslations = () => callAPI(`${urls.web}/translations`, 'GET')
+export const getAssets = () => callAPI(`${urls.web}/assets`, 'GET')

@@ -6,8 +6,7 @@ import { createStructuredSelector } from 'reselect';
 import { useParams } from 'react-router-dom';
 import { MapContainer, Marker, Polyline, Popup, TileLayer } from 'react-leaflet';
 
-import MapMarker from '@static/images/map-marker.png';
-import CafeMarker from '@static/images/cafeLocation.png';
+import { getAssetImages } from '@utils/assetHelper';
 
 import ContentPrint from '@pages/DetailOrder/components/ContentPrint';
 import { selectHistory, selectRoutes } from '@pages/DetailOrder/selectors';
@@ -42,13 +41,13 @@ const DetailOrder = ({ historyOrder, mapRoutes, login }) => {
     routes = mapRoutes?.routes;
   }
   const userMarker = L.icon({
-    iconUrl: MapMarker,
+    iconUrl: getAssetImages('map-maker', '/src/static/images/map-marker.png'),
     iconSize: [40, 40],
     iconAnchor: [20, 40],
     popupAnchor: [0, -40],
   });
   const cafeMarker = L.icon({
-    iconUrl: CafeMarker,
+    iconUrl: getAssetImages('cafe-location', '/src/static/images/cafeLocation.png'),
     iconSize: [40, 40],
     iconAnchor: [20, 40],
     popupAnchor: [0, -40],

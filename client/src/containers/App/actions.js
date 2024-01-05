@@ -1,4 +1,20 @@
-import { SET_LOCAL, SET_THEME, SET_POPUP, SET_LOADING } from '@containers/App/constants';
+import {
+  SET_LOCAL,
+  SET_THEME,
+  SET_POPUP,
+  SET_LOADING,
+  GET_ASSETS,
+  SET_ASSETS
+} from '@containers/App/constants';
+
+export const getAssets = () => ({
+  type: GET_ASSETS,
+});
+
+export const setAsset = (assets) => ({
+  type: SET_ASSETS,
+  assets,
+});
 
 export const setLocale = (locale) => ({
   type: SET_LOCAL,
