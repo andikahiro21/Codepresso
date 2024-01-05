@@ -1,3 +1,4 @@
+import { appSaga } from '@containers/App/saga';
 import { clientSaga } from '@containers/Client/saga';
 import { activeOrderSaga } from '@pages/ActiveOrder/saga';
 import { registerDriverSaga } from '@pages/CreateDriver/saga';
@@ -15,6 +16,7 @@ import { all } from 'redux-saga/effects';
 
 export default function* rootSaga() {
   yield all([
+    appSaga(),
     loginSaga(),
     registerSaga(),
     forgotSaga(),

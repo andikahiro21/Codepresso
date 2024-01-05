@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
-import aboutImg from '@static/images/about-img.png';
+import { getAssetImages } from '@utils/assetHelper';
 import classes from './style.module.scss';
 
 const AboutUs = () => {
@@ -27,7 +27,7 @@ const AboutUs = () => {
         </div>
 
         <div className={classes.right}>
-          <img src={aboutImg} alt="" />
+          <img src={getAssetImages('about-img', '/src/static/images/about-img.png')} alt="" />
         </div>
       </div>
     </div>
