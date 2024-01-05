@@ -5,10 +5,10 @@ import { FormattedMessage } from 'react-intl';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import Macchiato from '@static/images/delivery.png';
-
 import { selectActiveOrder } from './selectors';
 import { getActivePurchase } from './actions';
+
+import { getAssetImages } from '@utils/assetHelper';
 
 import PopupAlert from './component/PopupAlert';
 
@@ -46,7 +46,7 @@ const ActiveOrder = ({ activePurchase }) => {
           <div className={classes.order}>
             <div className={classes.left}>
               <div className={classes.imgContainer}>
-                <img src={Macchiato} alt="product" />
+                <img src={getAssetImages('delivery', '/src/static/images/delivery.png')} alt="product" />
               </div>
               <div className={classes.statusCont}>
                 <div className={classes.reveiverName}>{activePurchase?.data?.note}</div>
