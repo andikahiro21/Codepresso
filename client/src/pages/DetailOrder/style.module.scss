@@ -1,6 +1,8 @@
 @import '@styles/base';
 
 .detailOrder {
+  width: 100%;
+  overflow: hidden;
   .map {
     position: relative;
   }
