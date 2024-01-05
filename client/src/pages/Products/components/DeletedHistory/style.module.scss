@@ -1,0 +1,51 @@
+@import '@styles/base';
+
+.deletedHistory {
+  padding-bottom: 1.5rem;
+  @include apply-at-lg-size {
+    @media (min-width: $screen-lg-limit) {
+      padding: 1rem 2rem;
+    }
+  }
+  .title {
+    font-weight: bold;
+    font-size: 1.4rem;
+  }
+  .tableContainer {
+    overflow-x: auto;
+  }
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    th,
+    td {
+      text-align: center;
+    }
+    th {
+      background-color: transparent;
+      border-bottom: 2px solid $color-yellow;
+    }
+    td {
+      padding: 0.5rem;
+      font-size: 0.8rem;
+      color: var(--color-text);
+    }
+    .truncate {
+      padding: 0.5rem;
+      font-size: 0.8rem;
+      color: var(--color-text);
+      max-width: 10rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .icon {
+      color: green;
+      cursor: pointer;
+      &:hover {
+        color: greenyellow;
+      }
+    }
+  }
+}

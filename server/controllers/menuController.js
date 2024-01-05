@@ -31,31 +31,24 @@ const redisClient = new Redis();
 
 exports.getMenu = async (req, res) => {
   try {
-    // let menus = await redisClient.get("menus");
     const page = req.query.page || 1;
     const search = req.query.search || "";
     const category_id = req.query.category || undefined;
     const limitPerPage = 10;
     const offset = (page - 1) * limitPerPage;
     const totalRecords = await Menus.count();
-    // if (!menus) {
     const response = await Menus.findAll({
       where: {
+        isDeleted: false,
         name: { [Op.like]: `%${search}%` },
-        ...(category_id && { category_id: { [Op.in]: [category_id] } }),
+        ...(category_id && { category_id: category_id }),
       },
       limit: limitPerPage,
       offset: offset,
-      order: [["qty", "DESC"]],
+      order: [["status", "DESC"]],
     });
 
     const totalPage = Math.ceil(totalRecords / limitPerPage);
-
-    // await redisClient.set("menus", JSON.stringify(response));
-    // menus = response;
-    // } else {
-    //   menus = JSON.parse(menus);
-    // }
 
     const data = {
       totalPage,
@@ -100,7 +93,7 @@ exports.createMenu = async (req, res) => {
   try {
     const newData = req.body;
 
-    newData.qty = 1;
+    newData.status = false;
 
     if (!req.files || !req.files.image) {
       return handleClientError(res, 400, "Image Required");
@@ -169,7 +162,7 @@ exports.editMenu = async (req, res) => {
     const { id } = req.params;
     const newData = req.body;
 
-    newData.qty = 1;
+    newData.status = false;
 
     const validate = validateBodyEditMenu(newData);
     if (validate) {
@@ -268,7 +261,7 @@ exports.disableMenu = async (req, res) => {
       return handleClientError(res, 404, `Menu with ID ${id} not found.`);
     }
 
-    await menu.update({ qty: 0 });
+    await menu.update({ status: false });
 
     await redisClient.del("categoryMenus");
     await redisClient.del("menus");
@@ -288,7 +281,7 @@ exports.enableMenu = async (req, res) => {
       return handleClientError(res, 404, `Menu with ID ${id} not found.`);
     }
 
-    await menu.update({ qty: 1 });
+    await menu.update({ status: true });
 
     await redisClient.del("categoryMenus");
     await redisClient.del("menus");
@@ -342,7 +335,58 @@ exports.deleteMenu = async (req, res) => {
 
     return handleResponseSuccess(res, 200, "Menu Deleted", selectedMenu);
   } catch (error) {
-    console.error(error);
+    return handleServerError(res);
+  }
+};
+
+exports.getMenuSoftDeleted = async (req, res) => {
+  try {
+    const menus = await Menus.findAll({ where: { isDeleted: true } });
+
+    if (!menus) {
+      return handleClientError(res, 404, `Menu Not Found`);
+    }
+
+    return handleResponseSuccess(res, 200, "Success Get Menus", menus);
+  } catch (error) {
+    return handleServerError(res);
+  }
+};
+
+exports.softDeleteMenu = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const selectedMenu = await Menus.findByPk(id);
+
+    if (!selectedMenu) {
+      return handleClientError(res, 404, `Menu Not Found`);
+    }
+
+    await selectedMenu.update({ isDeleted: true });
+
+    await redisClient.del("categoryMenus");
+    await redisClient.del("menus");
+    return handleResponseSuccess(res, 200, "Menu Soft Deleted", selectedMenu);
+  } catch (error) {
+    return handleServerError(res);
+  }
+};
+
+exports.restoreSoftDeletedMenu = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const selectedMenu = await Menus.findByPk(id);
+
+    if (!selectedMenu) {
+      return handleClientError(res, 404, `Menu Not Found`);
+    }
+
+    await selectedMenu.update({ isDeleted: false });
+
+    await redisClient.del("categoryMenus");
+    await redisClient.del("menus");
+    return handleResponseSuccess(res, 200, "Menu Soft Restored", selectedMenu);
+  } catch (error) {
     return handleServerError(res);
   }
 };

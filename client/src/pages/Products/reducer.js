@@ -1,10 +1,11 @@
 import { produce } from 'immer';
-import { SET_CATEGORIES, SET_PRODUCTS, SET_SELECTED_PRODUCTS } from './constants';
+import { GET_SOFT_DELETED_MENU_SUCCESS, SET_CATEGORIES, SET_PRODUCTS, SET_SELECTED_PRODUCTS } from './constants';
 
 export const initialState = {
   products: [],
   categories: [],
   selectedProducts: [],
+  softDelete: [],
 };
 
 const productReducer = (state = initialState, action) =>
@@ -18,6 +19,9 @@ const productReducer = (state = initialState, action) =>
         break;
       case SET_SELECTED_PRODUCTS:
         draft.selectedProducts = action.payload;
+        break;
+      case GET_SOFT_DELETED_MENU_SUCCESS:
+        draft.softDelete = action.data;
         break;
     }
   });

@@ -14,6 +14,7 @@ const urls = {
   map: 'map',
   payment: 'payment',
   purchase: 'purchase',
+  web: 'web',
 };
 
 export const callAPI = async (endpoint, method, header = {}, params = {}, data = {}) => {
@@ -46,10 +47,11 @@ export const resetPassword = (token, data) => callAPI(`/auth/reset-password/${to
 export const registerDriver = (data) =>
   callAPI(`${urls.auth}/register-driver`, 'POST', { 'Content-Type': 'multipart/form-data' }, {}, data);
 export const driverList = () => callAPI(`${urls.auth}/check-driver`, 'GET');
+export const googleLogin = (data) => callAPI('/auth/google-login', 'POST', {}, {}, data);
 
 // Products
 export const getAllProducts = (data, search, categoryId) =>
-  callAPI(`${urls.menu}/?page=${data}&search=${search}${categoryId ? `&category=${categoryId}` : ''}`, 'GET');
+  callAPI(`${urls.menu}?page=${data}&search=${search}${categoryId ? `&category=${categoryId}` : ''}`, 'GET');
 export const getSelectedProducts = (id) => callAPI(`${urls.addons}/${id}`, 'GET');
 export const createProducts = (data) =>
   callAPI(`${urls.menu}`, 'POST', { 'Content-Type': 'multipart/form-data' }, {}, data);
@@ -93,3 +95,11 @@ export const setOrderDelivery = (id, driverID) =>
 export const getActivePurchase = () => callAPI(`${urls.purchase}/active-purchase`, 'GET');
 export const getFinishedPurchase = () => callAPI(`${urls.purchase}/finished-purchase`, 'GET');
 export const setFinishOrder = (id) => callAPI(`${urls.purchase}/set-finish/${id}`, 'PUT');
+
+// MenuDeletedHistory
+export const getSoftDeletedMenu = () => callAPI(`${urls.menu}/soft-deleted`, 'GET');
+export const softDeleteMenu = (id) => callAPI(`${urls.menu}/soft-delete/${id}`, 'PUT', {}, {}, {});
+export const restoreSoftDeleteMenu = (id) => callAPI(`${urls.menu}/restore/${id}`, 'PUT', {}, {}, {});
+// Assets
+export const getTranslations = () => callAPI(`${urls.web}/translations`, 'GET');
+export const getAssets = () => callAPI(`${urls.web}/assets`, 'GET');

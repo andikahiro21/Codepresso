@@ -5,11 +5,12 @@ import { connect, useDispatch } from 'react-redux';
 import { Dialog } from '@mui/material';
 import { useEffect, useState } from 'react';
 
-import size from '@static/images/size.png';
+import { getAssetImages } from '@utils/assetHelper';
 
-import classes from './style.module.scss';
 import { selectSelectedProducts } from '../selectors';
 import { setBasket } from '../actions';
+
+import classes from './style.module.scss';
 
 const PopupOrder = ({ open, handleClose, product }) => {
   const dispatch = useDispatch();
@@ -37,7 +38,7 @@ const PopupOrder = ({ open, handleClose, product }) => {
                 key={sizeData.id}
                 onClick={() => setActiveSizeId(sizeData.id)}
               >
-                <img src={size} alt="logo" />
+                <img src={getAssetImages('size', '/src/static/images/size.png')} alt="logo" />
                 <div className={classes.sizeTitle}>{sizeData.name}</div>
               </div>
             ))}

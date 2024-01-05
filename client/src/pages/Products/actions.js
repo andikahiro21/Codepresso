@@ -2,9 +2,13 @@ import {
   ADD_CATEGORY,
   DELETE_CATEGORY,
   DELETE_PRODUCTS,
+  DELETE_SOFT_MENU,
   GET_ALL_PRODUCTS,
   GET_CATEGORIES,
   GET_SELECTED_PRODUCTS,
+  GET_SOFT_DELETED_MENU,
+  GET_SOFT_DELETED_MENU_SUCCESS,
+  RESTORE_DELETE_MENU,
   SET_BASKET,
   SET_CATEGORIES,
   SET_PRODUCTS,
@@ -70,4 +74,25 @@ export const setBasket = (basket) => ({
 export const deleteProducts = (id) => ({
   type: DELETE_PRODUCTS,
   payload: id,
+});
+
+export const getSoftDeletedMenu = () => ({
+  type: GET_SOFT_DELETED_MENU,
+});
+
+export const getSoftDeletedMenuSuccess = (data) => ({
+  type: GET_SOFT_DELETED_MENU_SUCCESS,
+  data,
+});
+
+export const softDeleteMenu = (id, cbSuccess) => ({
+  type: DELETE_SOFT_MENU,
+  id,
+  cbSuccess,
+});
+
+export const restoreSoftDeleteMenu = (id, cbSuccess) => ({
+  type: RESTORE_DELETE_MENU,
+  id,
+  cbSuccess,
 });

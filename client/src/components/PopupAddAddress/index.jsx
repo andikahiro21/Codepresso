@@ -5,11 +5,13 @@ import { connect, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Dialog } from '@mui/material';
 import { createStructuredSelector } from 'reselect';
-import MapMarker from '@static/images/map-marker.png';
 import { addAddress } from '@containers/Client/actions';
 import { MapContainer, Marker, TileLayer, useMapEvents } from 'react-leaflet';
 
 import { selectDistance } from '@containers/Client/selectors';
+
+import { getAssetImages } from '@utils/assetHelper';
+
 import classes from './style.module.scss';
 
 const Markers = ({ selectedPosition, setSelectedPosition }) => {
@@ -19,7 +21,7 @@ const Markers = ({ selectedPosition, setSelectedPosition }) => {
     },
   });
   const customMarkerIcon = L.icon({
-    iconUrl: MapMarker,
+    iconUrl: getAssetImages('map-marker', '/src/static/images/map-marker.png'),
     iconSize: [40, 40],
     iconAnchor: [20, 40],
     popupAnchor: [0, -40],

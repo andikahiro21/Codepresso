@@ -30,6 +30,9 @@ import PopupConfirmPayment from '@components/PopupConfirmPayment';
 import PopupManageCategories from '@components/PopupManageCategories';
 import PopupAddress from '@components/PopupAddress';
 import { jwtDecode } from 'jwt-decode';
+
+import { getAssetImages } from '@utils/assetHelper';
+
 import classes from './style.module.scss';
 
 const Navbar = ({ title, locale, login, token, address }) => {
@@ -245,7 +248,7 @@ const Navbar = ({ title, locale, login, token, address }) => {
       )}
       <div className={classes.contentWrapper}>
         <div className={classes.logoImage} onClick={goHome}>
-          <img src={logoNav} alt="logo" className={classes.logo} />
+          <img src={getAssetImages('logo-nav', '/src/static/images/logoNav.png')} alt="logo" className={classes.logo} />
           <div className={classes.title}>{title}</div>
         </div>
 

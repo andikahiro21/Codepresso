@@ -1,8 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
-import deliveryLogo from '@static/images/delivery.png';
-import workshopLogo from '@static/images/workshop.png';
-import storeLogo from '@static/images/store.png';
+
+import { getAssetImages } from '@utils/assetHelper';
 
 import classes from './style.module.scss';
 
@@ -21,7 +20,8 @@ const Service = () => {
       <div className={classes.cardContainer}>
         <div className={classes.card}>
           <div className={classes.logo}>
-            <img src={deliveryLogo} alt="logo" />
+            <img src={getAssetImages('delivery', '/src/static/images/delivery.png')} alt="logo" />
+
           </div>
           <div className={classes.name}>
             <FormattedMessage id="app_service_delivery" />
@@ -32,7 +32,7 @@ const Service = () => {
         </div>
         <div className={classes.card}>
           <div className={classes.logo}>
-            <img src={storeLogo} alt="logo" />
+            <img src={getAssetImages('store', '/src/static/images/store.png')} alt="logo" />
           </div>
           <div className={classes.name}>
             <FormattedMessage id="app_service_store" />
@@ -43,7 +43,7 @@ const Service = () => {
         </div>
         <div className={classes.card}>
           <div className={classes.logo}>
-            <img src={workshopLogo} alt="logo" />
+            <img src={getAssetImages('workshop', '/src/static/images/workshop.png')} alt="logo" />
           </div>
           <div className={classes.name}>
             <FormattedMessage id="app_service_workshop" />

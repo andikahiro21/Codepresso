@@ -331,7 +331,7 @@ exports.getFinishedPurchaseGroups = async (req, res) => {
   try {
     const authID = req.user.id;
 
-    const selectedPurchase = await PurchaseGroups.findOne({
+    const selectedPurchase = await PurchaseGroups.findAll({
       where: { driver_id: authID, status: "Order Finished" },
       include: [
         {

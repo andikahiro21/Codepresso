@@ -1,23 +1,41 @@
-import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { FormattedMessage } from 'react-intl';
 
-import ProductCard from '@components/ProductCard';
+import decryptToken from '@utils/decryptToken';
+import { selectToken } from '@containers/Client/selectors';
+import {
+  getAllProducts,
+  getCategories,
+  getSelectedProducts,
+  getSoftDeletedMenu,
+  restoreSoftDeleteMenu,
+} from './actions';
+import { selectCategories, selectProducts, selectSoftDeletedProducts } from './selectors';
 
-import { getAllProducts, getCategories, getSelectedProducts } from './actions';
-import { selectCategories, selectProducts } from './selectors';
+import ManageProducts from './components/ManageProducts';
+import DeleteHistory from './components/DeletedHistory';
 import PopupOrder from './PopupOrder';
-
 import classes from './style.module.scss';
 
-const Products = ({ products, categories }) => {
+const Products = ({ products, categories, token, productsDeleted }) => {
   const dispatch = useDispatch();
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [search, setSearch] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [open, setOpen] = useState(false);
+  const decode = token ? decryptToken(token) : null;
+  const isAdmin = decode?.data?.role === 1;
+
+  useEffect(() => {
+    dispatch(getAllProducts(currentPage, search, selectedCategory.id));
+    dispatch(getCategories());
+    if (isAdmin) {
+      dispatch(getSoftDeletedMenu());
+    }
+  }, [dispatch, currentPage, search, selectedCategory]);
 
   const handleClickOpen = (id) => {
     setOpen(true);
@@ -27,10 +45,6 @@ const Products = ({ products, categories }) => {
   const handleClose = () => {
     setOpen(false);
   };
-  useEffect(() => {
-    dispatch(getAllProducts(currentPage, search, selectedCategory.id));
-    dispatch(getCategories());
-  }, [dispatch, currentPage, search, selectedCategory]);
 
   const handleCategoryClick = (category) => {
     setSelectedCategory(category);
@@ -39,6 +53,16 @@ const Products = ({ products, categories }) => {
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
+
+  const handleRestoreMenu = (id) => {
+    dispatch(
+      restoreSoftDeleteMenu(id, () => {
+        dispatch(getAllProducts(currentPage));
+        dispatch(getSoftDeletedMenu());
+      })
+    );
+  };
+
   return (
     <div className={classes.products}>
       <PopupOrder open={open} handleClose={handleClose} />
@@ -65,49 +89,51 @@ const Products = ({ products, categories }) => {
         {categories?.map((category) => (
           <div
             onClick={() => handleCategoryClick(category)}
-            className={`${selectedCategory === category ? classes.active : classes.categoryName}`}
+            className={`${selectedCategory.id === category.id ? classes.active : classes.categoryName}`}
             key={category.id}
           >
             {category.name}
           </div>
         ))}
-      </div>
-      <div className={classes.content}>
-        {products?.data?.map((product) => (
-          <ProductCard
-            key={product?.id}
-            name={product?.name}
-            price={product?.price}
-            description={product?.description}
-            image={product?.image}
-            qty={product?.qty}
-            id={product?.id}
-            handleClick={handleClickOpen}
-          />
-        ))}
-      </div>
-      <div className={classes.pagination}>
-        {Array.from({ length: products?.totalPage }, (_, index) => index + 1).map((page) => (
-          <span
-            key={page}
-            className={page === currentPage ? classes.currentPage : ''}
-            onClick={() => handlePageChange(page)}
+        {isAdmin && (
+          <div
+            className={`${selectedCategory === 'HistoryDeleted' ? classes.active : classes.categoryName}`}
+            onClick={() => handleCategoryClick('HistoryDeleted')}
           >
-            {page}
-          </span>
-        ))}
+            History Menu Deleted
+          </div>
+        )}
       </div>
+      {selectedCategory === 'HistoryDeleted' && isAdmin ? (
+        <DeleteHistory products={productsDeleted} handleRestore={handleRestoreMenu} />
+      ) : (
+        <ManageProducts
+          products={products?.data}
+          categories={categories}
+          currentPage={currentPage}
+          handleClose={handleClose}
+          selectedCategory={selectedCategory}
+          handleCategoryClick={handleCategoryClick}
+          handlePageChange={handlePageChange}
+          handleClickOpen={handleClickOpen}
+          open={open}
+        />
+      )}
     </div>
   );
 };
 const mapStateToProps = createStructuredSelector({
   products: selectProducts,
   categories: selectCategories,
+  token: selectToken,
+  productsDeleted: selectSoftDeletedProducts,
 });
 
 Products.propTypes = {
   products: PropTypes.array,
   categories: PropTypes.array,
+  token: PropTypes.string,
+  productsDeleted: PropTypes.array,
 };
 
 export default connect(mapStateToProps)(Products);

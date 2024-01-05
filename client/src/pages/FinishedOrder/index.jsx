@@ -30,16 +30,16 @@ const FinishedOrder = ({ finishedOrder }) => {
         <FormattedMessage id="app_finished_order_title" />
       </div>
       <div className={classes.orderCont}>
-        {finishedOrder.data !== null ? (
-          <div className={classes.order}>
+        {finishedOrder?.data?.map((order, key) => (
+          <div className={classes.order} key={key}>
             <div className={classes.left}>
               <div className={classes.imgContainer}>
                 <AssignmentTurnedIn />
               </div>
               <div className={classes.statusCont}>
-                <div className={classes.note}>{finishedOrder?.data?.user_receiver?.full_name}</div>
-                <div className={classes.reveiverName}>{finishedOrder?.data?.status}</div>
-                <div className={classes.reveiverName}>{new Date(finishedOrder?.data?.updatedAt).toLocaleString()}</div>
+                <div className={classes.note}>{order.user_receiver?.full_name}</div>
+                <div className={classes.reveiverName}>{order.status}</div>
+                <div className={classes.reveiverName}>{new Date(order.updatedAt).toLocaleString()}</div>
               </div>
             </div>
             <div className={classes.buttonContainer}>
@@ -48,7 +48,8 @@ const FinishedOrder = ({ finishedOrder }) => {
               </button>
             </div>
           </div>
-        ) : (
+        ))}
+        {finishedOrder?.data?.length === 0 && (
           <div className={classes.noFound}>
             <FormattedMessage id="app_finished_order_no_data" />
           </div>

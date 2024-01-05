@@ -27,8 +27,11 @@ module.exports = {
       price: {
         type: Sequelize.INTEGER,
       },
-      qty: {
-        type: Sequelize.INTEGER,
+      status: {
+        type: Sequelize.BOOLEAN,
+      },
+      isDeleted: {
+        type: Sequelize.BOOLEAN,
       },
       createdAt: {
         allowNull: false,

@@ -4,14 +4,14 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import YouTubeIcon from '@mui/icons-material/YouTube';
 
-// import logoNav from './logoNav.png';
+import { getAssetImages } from '@utils/assetHelper';
 
 import classes from './style.module.scss';
 
 const Footer = () => (
   <div className={classes.footer} data-testid="footer">
     <div className={classes.company}>
-      <img src="/logoNav.png" alt="logo" className={classes.logo} />
+      <img src={getAssetImages('logo-nav', '/src/static/images/logoNav.png')} alt="logo" className={classes.logo} />
       <div className={classes.title}>
         <FormattedMessage id="app_title_header" />
       </div>
