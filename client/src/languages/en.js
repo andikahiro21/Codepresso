@@ -116,4 +116,12 @@ export default {
 
   app_edit_menu_title: 'Edit Menu',
   app_manage_cateogries_button: 'Add Category',
+
+  // Products
+  app_no_data: 'Sorry Data not found',
+  app_table_deleted: 'Product Name',
+  app_table_description: 'Product Description',
+  app_table_price: 'Product Price',
+  app_table_type: 'Product Type',
+  app_table_action: 'Action',
 };

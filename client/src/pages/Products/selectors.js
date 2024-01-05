@@ -6,3 +6,4 @@ const selectProductState = (state) => state.products || initialState;
 export const selectProducts = createSelector(selectProductState, (state) => state.products.data);
 export const selectCategories = createSelector(selectProductState, (state) => state.categories.data);
 export const selectSelectedProducts = createSelector(selectProductState, (state) => state.selectedProducts);
+export const selectSoftDeletedProducts = createSelector(selectProductState, (state) => state.softDelete);

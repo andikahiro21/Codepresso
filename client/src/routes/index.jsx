@@ -144,7 +144,6 @@ const routes = [
     userOnly: false,
     driverOnly: true,
   },
-
   { path: '*', name: 'Not Found', component: NotFound, layout: MainLayout, protected: false },
 ];
 

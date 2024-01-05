@@ -20,8 +20,7 @@
   "app_login_button": "Masuk",
   "app_login_google_button": "Lanjutkan Dengan Akun Google",
   "app_login_moto": "Cek Produk Kami",
-  "app_login_moto_desc":
-    " Semua produk kami disiapkan dengan penuh kasih, langkah demi langkah. Pilihan terbaik biji kopi dan sepenuhnya alami.",
+  "app_login_moto_desc": " Semua produk kami disiapkan dengan penuh kasih, langkah demi langkah. Pilihan terbaik biji kopi dan sepenuhnya alami.",
   "app_login_register_title": "Baru disini?",
   "app_login_register_button": "Buat Akun",
 
@@ -77,21 +76,17 @@
   "app_create_menu_button": "Buat Menu",
 
   "app_home_title": "Menginginkan sentuhan kopi yang luar biasa? Campuran kami sungguh menggugah selera.",
-  "app_home_desc":
-    "Dengan Layanan Pengiriman Kopi kami, Anda dapat memiliki kopi Anda diantarkan ke mana pun Anda berada, kapan saja.",
+  "app_home_desc": "Dengan Layanan Pengiriman Kopi kami, Anda dapat memiliki kopi Anda diantarkan ke mana pun Anda berada, kapan saja.",
   "app_about_title": "Alami dan Penuh Cinta",
-  "app_about_desc":
-    "Di perusahaan kami, kami berusaha untuk membuat pengalamanan mengopi Anda lebih menyenangkan. Sejak tahun 2020, kami telah menyediakan kopi berkualitas tinggi dan pelayanan yang sangat baik.",
+  "app_about_desc": "Di perusahaan kami, kami berusaha untuk membuat pengalamanan mengopi Anda lebih menyenangkan. Sejak tahun 2020, kami telah menyediakan kopi berkualitas tinggi dan pelayanan yang sangat baik.",
   "app_about_btn": "ARAHKAN LOKASI",
   "app_service_title": "Layanan Kami",
   "app_service_delivery": "Pengiriman",
-  "app_service_delivery_desc":
-    "Dengan platform kami, kami dapat mengantarkan kopi langsung kepada Anda, dalam jarak 5 km.",
+  "app_service_delivery_desc": "Dengan platform kami, kami dapat mengantarkan kopi langsung kepada Anda, dalam jarak 5 km.",
   "app_service_store": "Store",
   "app_service_store_desc": "Temukan kami dan datang coba pengalaman dan rasa yang baru untuk diri Anda sendiri.",
   "app_service_workshop": "Workshop",
-  "app_service_workshop_desc":
-    "Bergabunglah dengan workshop kopi kami untuk belajar seni menyeduh kopi dan merasakan dunia kopi seperti belum pernah sebelumnya.",
+  "app_service_workshop_desc": "Bergabunglah dengan workshop kopi kami untuk belajar seni menyeduh kopi dan merasakan dunia kopi seperti belum pernah sebelumnya.",
 
   "app_products_title": "Produk Kami",
   "app_nav_active_address": "Alamat",
@@ -116,5 +111,12 @@
   "app_active_order_no_data": "Belum ada order aktif",
 
   "app_edit_menu_title": "Sunting Menu",
-  "app_manage_cateogries_button": "Tambahkan Kategori"
+  "app_manage_cateogries_button": "Tambahkan Kategori",
+
+  "app_no_data": "Maaf Data tidak ada",
+  "app_table_deleted": "Nama Produk",
+  "app_table_description": "Deskripsi Produk",
+  "app_table_price": "Harga Produk",
+  "app_table_type": "Tipe Produk",
+  "app_table_action": "Aksi"
 }

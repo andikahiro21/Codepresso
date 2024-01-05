@@ -20,8 +20,7 @@
   "app_login_button": "Login",
   "app_login_google_button": "Continue with Google",
   "app_login_moto": "Check Our Products",
-  "app_login_moto_desc":
-    "All our products are prepared with love step by step. The best choice of coffee beans and totally natural.",
+  "app_login_moto_desc": "All our products are prepared with love step by step. The best choice of coffee beans and totally natural.",
   "app_login_register_title": "New here?",
   "app_login_register_button": "Create an Account",
 
@@ -80,8 +79,7 @@
   "app_home_title": "Craving the perfect cup of coffee? Our blends are lovely and delicious.",
   "app_home_desc": "With Coffe Delivery, you can have your coffee delivered to you wherever you are, at any time.",
   "app_about_title": "Nature & Love",
-  "app_about_desc":
-    "At our company, we strive to make your coffee time more enjoyable. Since 2020, we have been providing high-quality coffee and excellent service.",
+  "app_about_desc": "At our company, we strive to make your coffee time more enjoyable. Since 2020, we have been providing high-quality coffee and excellent service.",
   "app_about_btn": "FIND US",
   "app_service_title": "Our Service",
   "app_service_delivery": "Delivery",
@@ -89,8 +87,7 @@
   "app_service_store": "Store",
   "app_service_store_desc": "Find us and come try a new experience and taste for yourself.",
   "app_service_workshop": "Workshop",
-  "app_service_workshop_desc":
-    "Join our coffee workshops to learn the art of brewing and experience the world of coffee like never before",
+  "app_service_workshop_desc": "Join our coffee workshops to learn the art of brewing and experience the world of coffee like never before",
 
   "app_products_title": "Our Products",
   "app_nav_active_address": "Address",
@@ -115,5 +112,12 @@
   "app_active_order_no_data": "There are no active orders yet",
 
   "app_edit_menu_title": "Edit Menu",
-  "app_manage_cateogries_button": "Add Category"
+  "app_manage_cateogries_button": "Add Category",
+
+  "app_no_data": "Sorry Data not found",
+  "app_table_deleted": "Product Name",
+  "app_table_description": "Product Description",
+  "app_table_price": "Product Price",
+  "app_table_type": "Product Type",
+  "app_table_action": "Action"
 }

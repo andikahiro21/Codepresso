@@ -1,7 +1,5 @@
 "use strict";
 
-const { hashPassword } = require("../utils/bcryptPassword");
-
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   up: async (queryInterface, Sequelize) => {
@@ -12,9 +10,11 @@ module.exports = {
         description:
           "Americano is a classic coffee beverage made by diluting a shot of espresso with hot water, resulting in a milder flavor and larger volume compared to a regular espresso. Its simple preparation and bold taste have made it a popular choice among coffee enthusiasts worldwide.",
         type: "Beverage",
-        image: "https://res.cloudinary.com/dem9rzjbs/image/upload/v1702277612/images/odp4hmxzrqyyulprlijj.png",
+        image:
+          "https://res.cloudinary.com/dem9rzjbs/image/upload/v1702277612/images/odp4hmxzrqyyulprlijj.png",
         price: 22000,
-        qty: 1,
+        status: true,
+        isDeleted: false,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -24,9 +24,11 @@ module.exports = {
         description:
           "Caffe latte, often referred to as simply is a creamy and comforting coffee beverage made by combining a shot of espresso with steamed milk. It offers a perfect balance between the rich flavors of espresso and the smoothness of milk, making it a popular choice among coffee enthusiasts worldwide.",
         type: "Beverage",
-        image: "https://res.cloudinary.com/dem9rzjbs/image/upload/v1701961102/images/bysgz0k8huekxhmogoaj.png",
+        image:
+          "https://res.cloudinary.com/dem9rzjbs/image/upload/v1701961102/images/bysgz0k8huekxhmogoaj.png",
         price: 24000,
-        qty: 1,
+        status: true,
+        isDeleted: false,
         createdAt: new Date(),
         updatedAt: new Date(),
       },

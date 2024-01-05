@@ -117,4 +117,12 @@ export default {
 
   app_edit_menu_title: 'Sunting Menu',
   app_manage_cateogries_button: 'Tambahkan Kategori',
+
+  // Products
+  app_no_data: 'Maaf Data tidak ada',
+  app_table_deleted: 'Nama Produk',
+  app_table_description: 'Deskripsi Produk',
+  app_table_price: 'Harga Produk',
+  app_table_type: 'Tipe Produk',
+  app_table_action: 'Aksi',
 };
