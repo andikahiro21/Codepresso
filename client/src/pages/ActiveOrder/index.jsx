@@ -5,10 +5,10 @@ import { FormattedMessage } from 'react-intl';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { getAssetImages } from '@utils/assetHelper';
+
 import { selectActiveOrder } from './selectors';
 import { getActivePurchase } from './actions';
-
-import { getAssetImages } from '@utils/assetHelper';
 
 import PopupAlert from './component/PopupAlert';
 

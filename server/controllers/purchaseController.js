@@ -2,9 +2,21 @@
 /* eslint-disable semi */
 /* eslint-disable quotes */
 const { Op } = require("sequelize");
-const { handleServerError, handleClientError } = require("../helpers/handleError");
+const {
+  handleServerError,
+  handleClientError,
+} = require("../helpers/handleError");
 const handleResponseSuccess = require("../helpers/responseSuccess");
-const { Users, PurchaseGroups, Menus, Purchases, Sugars, Sizes, Beans, Milk } = require("../models");
+const {
+  Users,
+  PurchaseGroups,
+  Menus,
+  Purchases,
+  Sugars,
+  Sizes,
+  Beans,
+  Milk,
+} = require("../models");
 const sequelize = require("sequelize");
 
 exports.setDelivery = async (req, res) => {
@@ -35,14 +47,21 @@ exports.setDelivery = async (req, res) => {
     });
 
     if (existingDelivery) {
-      return handleClientError(res, 400, "Driver is already assigned to a purchase group with status On-Delivery");
+      return handleClientError(
+        res,
+        400,
+        "Driver is already assigned to a purchase group with status On-Delivery"
+      );
     }
 
     if (selectedPurchase.status !== "Order Receive") {
       return handleClientError(res, 400, "Finish Payment to deliver");
     }
 
-    await selectedPurchase.update({ driver_id: driverID, status: "On-Delivery" });
+    await selectedPurchase.update({
+      driver_id: driverID,
+      status: "On-Delivery",
+    });
 
     return handleResponseSuccess(res, 200, {
       message: `Purchase group set to On-Delivery.`,
@@ -88,8 +107,17 @@ exports.getSelectedPurchaseGroups = async (req, res) => {
       return handleClientError(res, 404, "Purchase Not Found");
     }
 
-    if (!(selectedPurchase.user_id === authID || selectedPurchase.driver_id === authID)) {
-      return handleClientError(res, 403, "You are not authorized to view this purchase group");
+    if (
+      !(
+        selectedPurchase.user_id === authID ||
+        selectedPurchase.driver_id === authID
+      )
+    ) {
+      return handleClientError(
+        res,
+        403,
+        "You are not authorized to view this purchase group"
+      );
     }
 
     return handleResponseSuccess(res, 200, selectedPurchase);
@@ -173,14 +201,25 @@ exports.setOrderFinish = async (req, res) => {
     }
 
     if (selectedPurchase.status !== "On-Delivery") {
-      return handleClientError(res, 400, "Cannot finish order. Delivery not in progress.");
+      return handleClientError(
+        res,
+        400,
+        "Cannot finish order. Delivery not in progress."
+      );
     }
 
     if (authID !== selectedPurchase.driver_id) {
-      return handleClientError(res, 403, "You are not authorized to finish this order");
+      return handleClientError(
+        res,
+        403,
+        "You are not authorized to finish this order"
+      );
     }
 
-    await selectedPurchase.update({ status: "Order Finished", date: new Date() });
+    await selectedPurchase.update({
+      status: "Order Finished",
+      date: new Date(),
+    });
 
     return handleResponseSuccess(res, 200, {
       message: `Order finished successfully.`,
@@ -236,7 +275,14 @@ exports.getPurchaseGroupsAdmin = async (req, res) => {
           attributes: ["full_name"],
         },
       ],
-      order: [[sequelize.literal(`FIELD(status, 'Order Receive', 'On-Delivery', 'Order Finished')`)], ["createdAt", "ASC"]],
+      order: [
+        [
+          sequelize.literal(
+            `FIELD(status, 'Order Receive', 'On-Delivery', 'Order Finished')`
+          ),
+        ],
+        ["createdAt", "ASC"],
+      ],
       limit: limitPerPage,
       offset,
     });
@@ -261,6 +307,32 @@ exports.getActivePurchaseGroups = async (req, res) => {
 
     const selectedPurchase = await PurchaseGroups.findOne({
       where: { driver_id: authID, status: "On-Delivery" },
+      include: [
+        {
+          model: Users,
+          as: "user_driver",
+          attributes: ["full_name"],
+        },
+        {
+          model: Users,
+          as: "user_receiver",
+          attributes: ["full_name"],
+        },
+      ],
+    });
+
+    return handleResponseSuccess(res, 200, "success", selectedPurchase);
+  } catch (error) {
+    return handleServerError(res);
+  }
+};
+
+exports.getFinishedPurchaseGroups = async (req, res) => {
+  try {
+    const authID = req.user.id;
+
+    const selectedPurchase = await PurchaseGroups.findAll({
+      where: { driver_id: authID, status: "Order Finished" },
       include: [
         {
           model: Users,

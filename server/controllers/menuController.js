@@ -1,25 +1,50 @@
-const { uploadToCloudinary, deleteFromCloudinary } = require("../config/cloudinary");
+/* eslint-disable comma-dangle */
+/* eslint-disable semi */
+/* eslint-disable quotes */
+const {
+  uploadToCloudinary,
+  deleteFromCloudinary,
+} = require("../config/cloudinary");
 const { extractPublicId } = require("../helpers/extractPublicId");
-const { handleServerError, handleClientError } = require("../helpers/handleError");
+const {
+  handleServerError,
+  handleClientError,
+} = require("../helpers/handleError");
 const handleResponseSuccess = require("../helpers/responseSuccess");
-const { validateBodyMenu, validateBodyEditMenu } = require("../helpers/validationJoi");
-const { Menus, Purchases, Baskets, Sugars, Sizes, Milk, Beans } = require("../models");
+const {
+  validateBodyMenu,
+  validateBodyEditMenu,
+} = require("../helpers/validationJoi");
+const {
+  Menus,
+  Purchases,
+  Baskets,
+  Sugars,
+  Sizes,
+  Milk,
+  Beans,
+} = require("../models");
 const Redis = require("ioredis");
 const { createAddOnsForMenu } = require("./addOnsController");
+const { Op } = require("sequelize");
 const redisClient = new Redis();
 
 exports.getMenu = async (req, res) => {
   try {
     const page = req.query.page || 1;
+    const search = req.query.search || "";
+    const category_id = req.query.category || undefined;
     const limitPerPage = 10;
     const offset = (page - 1) * limitPerPage;
     const totalRecords = await Menus.count();
     const response = await Menus.findAll({
-      limit: limitPerPage,
-      offset: offset,
       where: {
         isDeleted: false,
+        name: { [Op.like]: `%${search}%` },
+        ...(category_id && { category_id: category_id }),
       },
+      limit: limitPerPage,
+      offset: offset,
       order: [["status", "DESC"]],
     });
 
@@ -81,13 +106,21 @@ exports.createMenu = async (req, res) => {
 
     const existingMenu = await Menus.findOne({ where: { name: newData.name } });
     if (existingMenu) {
-      return handleClientError(res, 400, `Menu with name ${newData.name} already exists.`);
+      return handleClientError(
+        res,
+        400,
+        `Menu with name ${newData.name} already exists.`
+      );
     }
 
     let imageUploaded = false;
 
     try {
-      imageResult = await uploadToCloudinary(req.files.image[0], "image", "images");
+      imageResult = await uploadToCloudinary(
+        req.files.image[0],
+        "image",
+        "images"
+      );
       imageUploaded = true;
     } catch (uploadError) {
       if (imageUploaded) {
@@ -269,7 +302,9 @@ exports.deleteMenu = async (req, res) => {
       return handleClientError(res, 404, `Menu Not Found`);
     }
 
-    const purchase = await Purchases.findOne({ where: { menu_id: selectedMenu.id } });
+    const purchase = await Purchases.findOne({
+      where: { menu_id: selectedMenu.id },
+    });
 
     if (purchase) {
       return handleClientError(

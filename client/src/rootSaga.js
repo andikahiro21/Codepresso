@@ -5,6 +5,7 @@ import { registerDriverSaga } from '@pages/CreateDriver/saga';
 import { menuSaga } from '@pages/CreateMenu/saga';
 import { purchaseSaga } from '@pages/DetailOrder/saga';
 import { editMenuSaga } from '@pages/EditMenu/saga';
+import { finishedOrderSaga } from '@pages/FinishedOrder/saga';
 import { forgotSaga } from '@pages/ForgotPassword/saga';
 import { loginSaga } from '@pages/Login/saga';
 import { manageOrderSaga } from '@pages/ManageOrder/saga';
@@ -30,5 +31,6 @@ export default function* rootSaga() {
     registerDriverSaga(),
     manageOrderSaga(),
     activeOrderSaga(),
+    finishedOrderSaga(),
   ]);
 }

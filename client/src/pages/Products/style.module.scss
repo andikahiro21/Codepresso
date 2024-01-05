@@ -8,7 +8,21 @@
   @include apply-at-xl-size {
     padding-left: 3rem;
   }
-
+  .searchInput {
+    width: 70%;
+    height: 40px;
+    border-radius: 5px;
+    border: 0.5px solid $color-dark-blue;
+    outline: none;
+    padding-left: 3%;
+    margin: 0.5rem 0;
+    @include apply-at-xl-size {
+      width: 40%;
+    }
+    &:focus {
+      border: 2px solid $color-dark-blue;
+    }
+  }
   .title {
     font-size: 1.5rem;
     font-weight: 600;

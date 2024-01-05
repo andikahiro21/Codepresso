@@ -50,7 +50,8 @@ export const driverList = () => callAPI(`${urls.auth}/check-driver`, 'GET');
 export const googleLogin = (data) => callAPI('/auth/google-login', 'POST', {}, {}, data);
 
 // Products
-export const getAllProducts = (data) => callAPI(`${urls.menu}/?page=${data}`, 'GET');
+export const getAllProducts = (data, search, categoryId) =>
+  callAPI(`${urls.menu}?page=${data}&search=${search}${categoryId ? `&category=${categoryId}` : ''}`, 'GET');
 export const getSelectedProducts = (id) => callAPI(`${urls.addons}/${id}`, 'GET');
 export const createProducts = (data) =>
   callAPI(`${urls.menu}`, 'POST', { 'Content-Type': 'multipart/form-data' }, {}, data);
@@ -92,6 +93,7 @@ export const getAllOrderAdmin = (page) => callAPI(`${urls.purchase}/admin/?page=
 export const setOrderDelivery = (id, driverID) =>
   callAPI(`${urls.purchase}/set-delivery/${id}`, 'PUT', {}, {}, { driverID });
 export const getActivePurchase = () => callAPI(`${urls.purchase}/active-purchase`, 'GET');
+export const getFinishedPurchase = () => callAPI(`${urls.purchase}/finished-purchase`, 'GET');
 export const setFinishOrder = (id) => callAPI(`${urls.purchase}/set-finish/${id}`, 'PUT');
 
 // MenuDeletedHistory

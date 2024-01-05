@@ -23,18 +23,19 @@ import classes from './style.module.scss';
 const Products = ({ products, categories, token, productsDeleted }) => {
   const dispatch = useDispatch();
   const [selectedCategory, setSelectedCategory] = useState('All');
+  const [search, setSearch] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [open, setOpen] = useState(false);
   const decode = token ? decryptToken(token) : null;
   const isAdmin = decode?.data?.role === 1;
 
   useEffect(() => {
-    dispatch(getAllProducts(currentPage));
+    dispatch(getAllProducts(currentPage, search, selectedCategory.id));
     dispatch(getCategories());
     if (isAdmin) {
       dispatch(getSoftDeletedMenu());
     }
-  }, [dispatch, currentPage]);
+  }, [dispatch, currentPage, search, selectedCategory]);
 
   const handleClickOpen = (id) => {
     setOpen(true);
@@ -62,17 +63,22 @@ const Products = ({ products, categories, token, productsDeleted }) => {
     );
   };
 
-  const filteredProducts =
-    selectedCategory === 'All'
-      ? products?.data
-      : products?.data?.filter((product) => product.category_id === selectedCategory.id);
-
   return (
     <div className={classes.products}>
       <PopupOrder open={open} handleClose={handleClose} />
       <div className={classes.title}>
         <FormattedMessage id="app_products_title" />
       </div>
+      <input
+        type="text"
+        placeholder="Search"
+        className={classes.searchInput}
+        onChange={(e) =>
+          setTimeout(() => {
+            setSearch(e.target.value);
+          }, 1000)
+        }
+      />
       <div className={classes.category}>
         <div
           className={`${selectedCategory === 'All' ? classes.active : classes.categoryName}`}
@@ -83,7 +89,7 @@ const Products = ({ products, categories, token, productsDeleted }) => {
         {categories?.map((category) => (
           <div
             onClick={() => handleCategoryClick(category)}
-            className={`${selectedCategory === category ? classes.active : classes.categoryName}`}
+            className={`${selectedCategory.id === category.id ? classes.active : classes.categoryName}`}
             key={category.id}
           >
             {category.name}
@@ -102,7 +108,7 @@ const Products = ({ products, categories, token, productsDeleted }) => {
         <DeleteHistory products={productsDeleted} handleRestore={handleRestoreMenu} />
       ) : (
         <ManageProducts
-          products={filteredProducts}
+          products={products?.data}
           categories={categories}
           currentPage={currentPage}
           handleClose={handleClose}

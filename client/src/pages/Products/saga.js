@@ -34,7 +34,12 @@ import { getSoftDeletedMenuSuccess, setCategories, setProducts, setSelectedProdu
 function* doGetAllProducts(action) {
   yield put(setLoading(true));
   try {
-    const response = yield call(getAllProducts, action.payload);
+    const response = yield call(
+      getAllProducts,
+      action.payload?.data,
+      action.payload?.search,
+      action.payload?.categoryId
+    );
     yield put(setProducts(response));
   } catch (e) {
     yield put(showPopup());
