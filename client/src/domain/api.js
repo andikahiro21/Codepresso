@@ -47,6 +47,7 @@ export const resetPassword = (token, data) => callAPI(`/auth/reset-password/${to
 export const registerDriver = (data) =>
   callAPI(`${urls.auth}/register-driver`, 'POST', { 'Content-Type': 'multipart/form-data' }, {}, data);
 export const driverList = () => callAPI(`${urls.auth}/check-driver`, 'GET');
+export const googleLogin = (data) => callAPI('/auth/google-login', 'POST', {}, {}, data);
 
 // Products
 export const getAllProducts = (data) => callAPI(`${urls.menu}/?page=${data}`, 'GET');

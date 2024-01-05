@@ -15,6 +15,7 @@ import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { Google } from '@mui/icons-material';
 
 import { selectLocale } from '@containers/App/selectors';
 
@@ -22,7 +23,7 @@ import { setLocale } from '@containers/App/actions';
 
 import { createStructuredSelector } from 'reselect';
 import encryptPayload from '@utils/encryptPayload';
-import { loginRequest } from './actions';
+import { googleLogin, loginRequest } from './actions';
 
 import { selectLoginError } from './selectors';
 
@@ -84,6 +85,10 @@ const Login = ({ locale }) => {
       dispatch(setLocale(lang));
     }
     handleClose();
+  };
+
+  const handleGoogleLogin = () => {
+    dispatch(googleLogin());
   };
 
   return (
@@ -170,6 +175,21 @@ const Login = ({ locale }) => {
             <div className={classes.loginButtonContainer}>
               <button type="submit">
                 <FormattedMessage id="app_login_button" />
+              </button>
+            </div>
+
+            <div className={classes.dividerContainer}>
+              <hr className={classes.leftDivider} />
+              <span className={classes.dividerText}>or</span>
+              <hr className={classes.rightDivider} />
+            </div>
+
+            <div className={classes.googleSignInButtonContainer}>
+              <button type="button" className={classes.googleSignInButton} onClick={handleGoogleLogin}>
+                <Google />
+                <span className={classes.googleSignInText}>
+                  <FormattedMessage id="app_login_google_button" />
+                </span>
               </button>
             </div>
 

@@ -1,6 +1,6 @@
-'use strict'
+'use strict';
 
-const { hashPassword } = require('../utils/bcryptPassword')
+const { hashPassword } = require('../utils/bcryptPassword');
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
@@ -39,10 +39,10 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
-    ])
+    ]);
   },
 
   down: (queryInterface, Sequelize) => {
-    return queryInterface.bulkDelete('Users', null, {})
+    return queryInterface.bulkDelete('Users', null, {});
   },
-}
+};
