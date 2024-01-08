@@ -15,6 +15,7 @@ const urls = {
   payment: 'payment',
   purchase: 'purchase',
   web: 'web',
+  chat: 'chat',
 };
 
 export const callAPI = async (endpoint, method, header = {}, params = {}, data = {}) => {
@@ -103,3 +104,7 @@ export const restoreSoftDeleteMenu = (id) => callAPI(`${urls.menu}/restore/${id}
 // Assets
 export const getTranslations = () => callAPI(`${urls.web}/translations`, 'GET');
 export const getAssets = () => callAPI(`${urls.web}/assets`, 'GET');
+//chat
+export const getToken = () => callAPI(`${urls.chat}/token`, 'GET');
+export const setChannel = (data) => callAPI(`${urls.chat}/create-channel`, 'POST', {}, {}, data);
+export const deleteChannel = (data) => callAPI(`${urls.chat}/delete-channel`, 'DELETE', {}, {}, data);

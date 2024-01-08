@@ -6,7 +6,7 @@ import { connect, useDispatch } from 'react-redux';
 import { Dialog } from '@mui/material';
 
 import { selectDriverList } from '@pages/ManageOrder/selectors';
-import { getDriverList, setOrderDelivery } from '@pages/ManageOrder/actions';
+import { getDriverList, setChannel, setOrderDelivery } from '@pages/ManageOrder/actions';
 
 import { createStructuredSelector } from 'reselect';
 import classes from './style.module.scss';
@@ -23,8 +23,14 @@ const PopupDriverList = ({ open, handleClose, items, driverList }) => {
       id: items.id,
       driverID: id,
     };
+    const chat = {
+      userId : items.user_id,
+      driverId: id,
+    }
     dispatch(setOrderDelivery(data));
+    dispatch(setChannel(chat))
   };
+ 
 
   return (
     <Dialog

@@ -48,23 +48,48 @@
           }
         }
       }
-      .priceContainer {
-        @include directionY;
-        justify-content: center;
-        gap: 0.1rem;
-        padding-right: 2rem;
-        text-align: center;
-        .priceTotal {
-          font-size: 0.7rem;
-          font-weight: 600;
-          color: $color-dark-green;
-          @include apply-at-xl-size {
-            font-size: 1.4rem;
+      .right {
+        @include directionX;
+        gap: 1rem;
+        align-items: center;
+        height: 100%;
+
+        .chat {
+          @include directionX;
+          height: 100%;
+          align-items: center;
+          button {
+            width: 4rem;
+            background-color: $color-dark-green;
+            color: $color-white;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 0.5rem;
+            cursor: pointer;
+            @include apply-at-xl-size {
+              height: 20%;
+              width: 7rem;
+              font-size: 0.8rem;
+            }
           }
         }
-        .itemsCount {
-          font-weight: 500;
-          color: $color-dark-grey;
+        .priceContainer {
+          @include directionY;
+          gap: 0.1rem;
+          padding-right: 2rem;
+          text-align: center;
+          .priceTotal {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: $color-dark-green;
+            @include apply-at-xl-size {
+              font-size: 1.4rem;
+            }
+          }
+          .itemsCount {
+            font-weight: 500;
+            color: $color-dark-grey;
+          }
         }
       }
     }
