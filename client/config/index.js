@@ -17,6 +17,9 @@ const config = {
     clientKey: env.MIDTRANS_CLIENT_KEY,
     serverKey: env.MIDTRANS_SERVER_KEY,
   },
+  stream:{
+    streamKey: env.STREAM_KEY,
+  },
 };
 
 export default config;

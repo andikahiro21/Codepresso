@@ -2,6 +2,7 @@ import {
   GET_ALL_PURCHASE_ADMIN,
   GET_DRIVER_LIST,
   SET_ALL_PURCHASE_ADMIN,
+  SET_CHANNEL,
   SET_DRIVER_LIST,
   SET_ORDER_DELIVERY,
 } from './constants';
@@ -26,5 +27,10 @@ export const getDriverList = () => ({
 
 export const setDriverList = (data) => ({
   type: SET_DRIVER_LIST,
+  payload: data,
+});
+
+export const setChannel = (data) => ({
+  type: SET_CHANNEL,
   payload: data,
 });

@@ -1,0 +1,15 @@
+.chatWrapper {
+  height: 90vh;
+  padding-bottom: 2rem;
+  position: relative;
+
+  .listWrapper {
+    padding-bottom: 3rem;
+    overflow-y: scroll;
+  }
+  .inputWrapper {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+  }
+}

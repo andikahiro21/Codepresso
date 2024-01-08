@@ -11,6 +11,8 @@ const basketRoute = require("./basketRoutes");
 const mapRoute = require("./mapRoutes");
 const paymentRoute = require("./paymentRoutes");
 const purchaseRoute = require("./purchaseRoutes");
+const chatRoute = require("./chatRoutes");
+
 
 const router = Router();
 
@@ -23,5 +25,7 @@ router.use(basketRoute);
 router.use(mapRoute);
 router.use(paymentRoute);
 router.use(purchaseRoute);
+router.use(chatRoute);
+
 
 module.exports = router;

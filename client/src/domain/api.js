@@ -14,6 +14,7 @@ const urls = {
   map: 'map',
   payment: 'payment',
   purchase: 'purchase',
+  chat: 'chat',
 };
 
 export const callAPI = async (endpoint, method, header = {}, params = {}, data = {}) => {
@@ -91,3 +92,8 @@ export const setOrderDelivery = (id, driverID) =>
   callAPI(`${urls.purchase}/set-delivery/${id}`, 'PUT', {}, {}, { driverID });
 export const getActivePurchase = () => callAPI(`${urls.purchase}/active-purchase`, 'GET');
 export const setFinishOrder = (id) => callAPI(`${urls.purchase}/set-finish/${id}`, 'PUT');
+
+//chat
+export const getToken = () => callAPI(`${urls.chat}/token`, 'GET');
+export const setChannel = (data) => callAPI(`${urls.chat}/create-channel`, 'POST', {}, {}, data);
+export const deleteChannel = (data) => callAPI(`${urls.chat}/delete-channel`, 'DELETE', {}, {}, data);
