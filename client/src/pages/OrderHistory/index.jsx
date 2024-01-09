@@ -5,13 +5,12 @@ import { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useNavigate } from 'react-router-dom';
 
+import { getAssetImages } from '@utils/assetHelper';
+import ChatDialog from '@components/ChatDialog';
 import { getAllOrder } from './actions';
 import { selectAllOrder } from './selectors';
 
-import { getAssetImages } from '@utils/assetHelper';
-
 import classes from './style.module.scss';
-import ChatDialog from '@components/ChatDialog';
 
 const OrderHistory = ({ allOrder }) => {
   const dispatch = useDispatch();
@@ -20,7 +19,8 @@ const OrderHistory = ({ allOrder }) => {
   const [itemChat, setItemChat] = useState(false);
   const [chatDialog, setChatDialog] = useState(false);
 
-  const handleOpenChat = (item) => {
+  const handleOpenChat = (e, item) => {
+    e.stopPropagation();
     setItemChat(item);
     setChatDialog(true);
   };
@@ -42,8 +42,7 @@ const OrderHistory = ({ allOrder }) => {
     return date.toLocaleDateString();
   };
 
-  const handleClick = (e, id) => {
-    e.stopPropagation();
+  const handleClick = (id) => {
     navigate(`/detail-order/${id}`);
   };
 
@@ -64,7 +63,7 @@ const OrderHistory = ({ allOrder }) => {
       </div>
       <div className={classes.orderCont}>
         {allOrder?.data?.selectedPurchase?.map((item) => (
-          <div className={classes.order} onClick={(e) => handleClick(e, item?.id)} key={item?.id}>
+          <div className={classes.order} onClick={() => handleClick(item?.id)} key={item?.id}>
             <div className={classes.left}>
               <div className={classes.imgContainer}>
                 <img src={getAssetImages('macchiato', '/src/static/images/macchiato.png')} alt="product" />
@@ -77,7 +76,7 @@ const OrderHistory = ({ allOrder }) => {
             <div className={classes.right}>
               {item?.status === 'On-Delivery' && (
                 <div className={classes.chat}>
-                  <button type="button" onClick={() => handleOpenChat(item)}>
+                  <button type="button" onClick={(e) => handleOpenChat(e, item)}>
                     Chat
                   </button>
                 </div>

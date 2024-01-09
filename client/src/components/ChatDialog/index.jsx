@@ -9,8 +9,8 @@ import { getTokenChat } from '@pages/ActiveOrder/actions';
 import config from '@config/index';
 import { selectToken } from '@containers/Client/selectors';
 import { jwtDecode } from 'jwt-decode';
-import classes from './style.module.scss';
 import { StreamChat } from 'stream-chat';
+import classes from './style.module.scss';
 import 'stream-chat-react/dist/css/v2/index.css';
 
 // ... (imports remain unchanged)
@@ -50,9 +50,8 @@ const ChatDialog = ({ open, onClose, tokenChat, token, items }) => {
           setChannel(newChannel);
           setDecoded(decodedToken);
         }
-      } catch (error) {
-        console.error('Error setting up Stream Chat:', error);
-        setError(error.message || 'An error occurred while setting up Stream Chat.');
+      } catch (err) {
+        setError(err.message || 'An error occurred while setting up Stream Chat.');
       }
     };
 
@@ -64,7 +63,7 @@ const ChatDialog = ({ open, onClose, tokenChat, token, items }) => {
         client.disconnectUser();
       }
     };
-  }, [dispatch, tokenChat, token, items]);
+  }, [dispatch, tokenChat, token, items, client]);
 
   return (
     <Dialog
@@ -73,7 +72,7 @@ const ChatDialog = ({ open, onClose, tokenChat, token, items }) => {
       maxWidth="md"
       keepMounted
       onClose={() => {
-        setError(null); // Clear any previous errors when the dialog is closed
+        setError(null);
         onClose();
       }}
       aria-describedby="alert-dialog-slide-description"
@@ -104,8 +103,9 @@ ChatDialog.propTypes = {
   open: PropTypes.bool,
   onClose: PropTypes.func,
   tokenChat: PropTypes.string,
+  token: PropTypes.string,
   items: PropTypes.object,
-  decoded: PropTypes.object, // Pass decoded as a prop
+  decoded: PropTypes.object,
 };
 
 const mapStateToProps = createStructuredSelector({

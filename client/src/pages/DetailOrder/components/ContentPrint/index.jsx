@@ -7,6 +7,7 @@ import ButtonPrint from '@pages/DetailOrder/components/ButtonPrint';
 import classes from './style.module.scss';
 
 const ContentPrint = React.forwardRef(({ orderHistory, totalPrice }, ref) => {
+  console.log(orderHistory, '<<<<order');
   const formatOrderDate = () => {
     const options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
     const formattedDate = new Date(orderHistory?.date).toLocaleDateString('en-US', options);
@@ -29,7 +30,7 @@ const ContentPrint = React.forwardRef(({ orderHistory, totalPrice }, ref) => {
         </div>
         <div className={classes.box}>
           <div className={classes.subTitle}>Driver Name</div>
-          <div className={classes.subDesc}>{orderHistory?.user_driver}</div>
+          <div className={classes.subDesc}>{orderHistory?.user_driver?.full_name}</div>
         </div>
         <div className={classes.box}>
           <div className={classes.subTitle}>Customer Name</div>
