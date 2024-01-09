@@ -2,8 +2,8 @@ import { call, put, takeLatest } from 'redux-saga/effects';
 
 import { logoutUser } from '@containers/Client/actions';
 import { setLoading, showPopup } from '@containers/App/actions';
-import { driverList, getAllOrderAdmin, setOrderDelivery } from '@domain/api';
-import { GET_ALL_PURCHASE_ADMIN, GET_DRIVER_LIST, SET_ORDER_DELIVERY } from './constants';
+import { driverList, getAllOrderAdmin, setChannel, setOrderDelivery } from '@domain/api';
+import { GET_ALL_PURCHASE_ADMIN, GET_DRIVER_LIST, SET_CHANNEL, SET_ORDER_DELIVERY } from './constants';
 import { setAllOrderAdmin, setDriverList } from './actions';
 
 function* doGetAllOrderAdmin(action) {
@@ -54,8 +54,24 @@ function* doGetDriverList() {
     yield put(setLoading(false));
   }
 }
+
+function* doSetChannel(action) {
+  yield put(setLoading(true));
+  try {
+    yield call(setChannel, action.payload);
+  } catch (error) {
+    if (error.response && error.response.data && error.response.data.message === 'Token invalid, please login again') {
+      yield put(logoutUser());
+    } else {
+      yield put(showPopup());
+    }
+  } finally {
+    yield put(setLoading(false));
+  }
+}
 export function* manageOrderSaga() {
   yield takeLatest(GET_ALL_PURCHASE_ADMIN, doGetAllOrderAdmin);
   yield takeLatest(SET_ORDER_DELIVERY, doSetOrderDelivery);
   yield takeLatest(GET_DRIVER_LIST, doGetDriverList);
+  yield takeLatest(SET_CHANNEL, doSetChannel);
 }

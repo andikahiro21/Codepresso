@@ -32,10 +32,8 @@ const DetailOrder = ({ historyOrder, mapRoutes, login }) => {
     fetchData();
   }, [dispatch, id]);
 
-  const position = historyOrder?.message ? [historyOrder.message.lat_end, historyOrder.message.long_end] : null;
-  const cafePosisiton = historyOrder?.message
-    ? [historyOrder.message.lat_start, historyOrder.message.long_start]
-    : null;
+  const position = historyOrder?.data ? [historyOrder.data.lat_end, historyOrder?.data?.long_end] : null;
+  const cafePosisiton = historyOrder?.data ? [historyOrder?.data?.lat_start, historyOrder?.data?.long_start] : null;
   let routes = null;
   if (login) {
     routes = mapRoutes?.routes;
@@ -52,10 +50,11 @@ const DetailOrder = ({ historyOrder, mapRoutes, login }) => {
     iconAnchor: [20, 40],
     popupAnchor: [0, -40],
   });
+  console.log(historyOrder);
 
   useEffect(() => {
-    if (historyOrder?.message?.purchaseGroup_purchase) {
-      const calculate = historyOrder?.message?.purchaseGroup_purchase?.reduce(
+    if (historyOrder?.data?.purchaseGroup_purchase) {
+      const calculate = historyOrder?.data?.purchaseGroup_purchase?.reduce(
         (total, purchase) => total + purchase.price * purchase.qty,
         0
       );
@@ -79,32 +78,32 @@ const DetailOrder = ({ historyOrder, mapRoutes, login }) => {
               <Popup>{routes}</Popup>
             </Marker>
 
-            {routes && <Polyline color="blue" positions={routes} />}
+            {routes && <Polyline color="blue" positions={JSON.parse(routes)} />}
           </MapContainer>
         </div>
       )}
-      <ContentPrint totalPrice={totalPrice} ref={ref} orderHistory={historyOrder?.message} />
+      <ContentPrint totalPrice={totalPrice} ref={ref} orderHistory={historyOrder?.data} />
       <div className={classes.orderDetail}>
         <div className={classes.status}>
           <div className={classes.detailTitle}>Order Status:</div>
-          <div className={classes.detailStatus}>{historyOrder?.message?.status}</div>
+          <div className={classes.detailStatus}>{historyOrder?.data?.status}</div>
         </div>
         <div className={classes.status}>
           <div className={classes.detailTitle}>Receiver Name:</div>
-          <div className={classes.detailStatus}>{historyOrder?.message?.user_receiver.full_name}</div>
+          <div className={classes.detailStatus}>{historyOrder?.data?.user_receiver?.full_name}</div>
         </div>
         <div className={classes.status}>
           <div className={classes.detailTitle}>Driver Name:</div>
           <div className={classes.detailStatus}>
-            {historyOrder?.message?.user_driver
-              ? historyOrder?.message?.user_driver?.full_name
+            {historyOrder?.data?.user_driver
+              ? historyOrder?.data?.user_driver?.full_name
               : 'Driver Menunggu Pesanan Untuk Diantar'}
           </div>
         </div>
 
         <div className={classes.status}>
           <div className={classes.detailTitle}>Note:</div>
-          <div className={classes.detailStatus}>{historyOrder?.message?.note}</div>
+          <div className={classes.detailStatus}>{historyOrder?.data?.note}</div>
         </div>
       </div>
     </div>

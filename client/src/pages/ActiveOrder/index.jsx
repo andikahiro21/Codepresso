@@ -10,6 +10,7 @@ import { getAssetImages } from '@utils/assetHelper';
 import { selectActiveOrder } from './selectors';
 import { getActivePurchase } from './actions';
 
+import ChatDialog from '@components/ChatDialog';
 import PopupAlert from './component/PopupAlert';
 
 import classes from './style.module.scss';
@@ -18,9 +19,18 @@ const ActiveOrder = ({ activePurchase }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
+  const [chatDialog, setChatDialog] = useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
+  };
+
+  const handleOpenChat = () => {
+    setChatDialog(true);
+  };
+
+  const handleCloseChat = () => {
+    setChatDialog(false);
   };
 
   const handleClose = () => {
@@ -37,7 +47,8 @@ const ActiveOrder = ({ activePurchase }) => {
 
   return (
     <div className={classes.orderHistory}>
-      <PopupAlert open={open} handleClose={handleClose} id={activePurchase?.data?.id} />
+      <ChatDialog open={chatDialog} onClose={handleCloseChat} items={activePurchase?.data} />
+      <PopupAlert open={open} handleClose={handleClose} id={activePurchase?.data?.id} items={activePurchase?.data} />
       <div className={classes.orderTitle}>
         <FormattedMessage id="app_active_order_title" />
       </div>
@@ -53,6 +64,12 @@ const ActiveOrder = ({ activePurchase }) => {
                 <div className={classes.note}>{activePurchase?.data?.user_receiver?.full_name}</div>
               </div>
             </div>
+            <div className={classes.btnChat}>
+              <button type="button" onClick={handleOpenChat}>
+                Chat
+              </button>
+            </div>
+
             <div className={classes.buttonContainer}>
               <button type="button" onClick={handleClick}>
                 <FormattedMessage id="app_active_order_track" />

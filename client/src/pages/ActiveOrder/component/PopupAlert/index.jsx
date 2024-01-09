@@ -11,14 +11,21 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
 import { createStructuredSelector } from 'reselect';
-import { setFinishOrder } from '@pages/ActiveOrder/actions';
+import { deleteChannel, setFinishOrder } from '@pages/ActiveOrder/actions';
 
-const PopupAlert = ({ open, handleClose, id }) => {
+const PopupAlert = ({ open, handleClose, id, items }) => {
   const dispatch = useDispatch();
 
   const handleFinishOrder = () => {
+    const data = {
+      driverId: items?.driver_id,
+      userId: items?.user_id,
+    };
+    dispatch(deleteChannel(data));
     dispatch(setFinishOrder(id));
   };
+
+  console.log(items?.driver_id);
 
   return (
     <Dialog
@@ -49,6 +56,7 @@ PopupAlert.propTypes = {
   handleClose: PropTypes.func,
   open: PropTypes.bool,
   id: PropTypes.number,
+  items: PropTypes.object,
 };
 
 const mapStateToProps = createStructuredSelector({});

@@ -26,6 +26,9 @@ const config = {
     app_id: env.FIREBASE_APP_ID,
     measurement_id: env.FIREBASE_MEASUREMENT_ID,
   },
+  stream: {
+    streamKey: env.STREAM_KEY,
+  },
 };
 
 export default config;
