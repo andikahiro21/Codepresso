@@ -32,9 +32,9 @@ const DetailOrder = ({ historyOrder, mapRoutes, login }) => {
     fetchData();
   }, [dispatch, id]);
 
-  const position = historyOrder?.message ? [historyOrder.message.lat_end, historyOrder.message.long_end] : null;
+  const position = historyOrder?.message ? [historyOrder.message.lat_end, historyOrder?.message?.long_end] : null;
   const cafePosisiton = historyOrder?.message
-    ? [historyOrder.message.lat_start, historyOrder.message.long_start]
+    ? [historyOrder?.message?.lat_start, historyOrder?.message?.long_start]
     : null;
   let routes = null;
   if (login) {
@@ -52,6 +52,7 @@ const DetailOrder = ({ historyOrder, mapRoutes, login }) => {
     iconAnchor: [20, 40],
     popupAnchor: [0, -40],
   });
+  console.log(historyOrder);
 
   useEffect(() => {
     if (historyOrder?.message?.purchaseGroup_purchase) {
@@ -91,15 +92,15 @@ const DetailOrder = ({ historyOrder, mapRoutes, login }) => {
         </div>
         <div className={classes.status}>
           <div className={classes.detailTitle}>Receiver Name:</div>
-          <div className={classes.detailStatus}>{historyOrder?.message?.user_receiver.full_name}</div>
+          {/* <div className={classes.detailStatus}>{historyOrder?.message?.user_receiver?.full_name}</div> */}
         </div>
         <div className={classes.status}>
           <div className={classes.detailTitle}>Driver Name:</div>
-          <div className={classes.detailStatus}>
+          {/* <div className={classes.detailStatus}>
             {historyOrder?.message?.user_driver
               ? historyOrder?.message?.user_driver?.full_name
               : 'Driver Menunggu Pesanan Untuk Diantar'}
-          </div>
+          </div> */}
         </div>
 
         <div className={classes.status}>

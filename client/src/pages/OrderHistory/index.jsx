@@ -64,7 +64,7 @@ const OrderHistory = ({ allOrder }) => {
       </div>
       <div className={classes.orderCont}>
         {allOrder?.data?.selectedPurchase?.map((item) => (
-          <div className={classes.order} onClick={() => handleClick(item?.id)} key={item?.id}>
+          <div className={classes.order} onClick={(e) => handleClick(e, item?.id)} key={item?.id}>
             <div className={classes.left}>
               <div className={classes.imgContainer}>
                 <img src={getAssetImages('macchiato', '/src/static/images/macchiato.png')} alt="product" />

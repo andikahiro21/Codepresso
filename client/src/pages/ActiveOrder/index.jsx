@@ -44,7 +44,6 @@ const ActiveOrder = ({ activePurchase }) => {
   const handleClick = () => {
     navigate(`/detail-order/${activePurchase?.data?.id}`);
   };
-  console.log(activePurchase?.data);
 
   return (
     <div className={classes.orderHistory}>

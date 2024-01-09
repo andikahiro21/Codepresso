@@ -25,9 +25,9 @@ const config = {
     message_id: env.FIREBASE_MESSAGE_ID,
     app_id: env.FIREBASE_APP_ID,
     measurement_id: env.FIREBASE_MEASUREMENT_ID,
-    stream: {
-      streamKey: env.STREAM_KEY,
-    },
+  },
+  stream: {
+    streamKey: env.STREAM_KEY,
   },
 };
 
