@@ -84,6 +84,8 @@ const EditMenu = ({ categories, editError, selectedProduct }) => {
     }
   }, [selectedProduct]);
 
+  console.log(categories);
+
   return (
     <div className={classes.createMenu}>
       <div className={classes.createTitle}>
