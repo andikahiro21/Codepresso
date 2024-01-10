@@ -8,6 +8,7 @@ import { createStructuredSelector } from 'reselect';
 import { jwtDecode } from 'jwt-decode';
 import { getDistance, initiatePayment } from '@containers/Client/actions';
 import { selectDistance, selectLogin, selectToken } from '@containers/Client/selectors';
+import toast from 'react-hot-toast';
 import classes from './style.module.scss';
 
 const PopupConfirmPayment = ({ open, handleClose, distance, login, token }) => {
@@ -35,6 +36,9 @@ const PopupConfirmPayment = ({ open, handleClose, distance, login, token }) => {
 
   const handlePaymentButtonClick = async () => {
     const note = document.getElementById('note').value;
+    if (!note) {
+      toast.error('Data Must be Filled');
+    }
     const data = {
       note,
       distance: distanceRange,
